@@ -72,7 +72,9 @@ def test_collect_daily_uses_design_options_and_excludes_stale_symbol():
             "AAA.NS": price_frame(end="2026-08-11"),
             "BBB.NS": price_frame(end="2026-08-10"),
         }
-        return pd.concat({ticker: frames[ticker] for ticker in tickers}, axis=1)
+        return pd.concat(
+            {ticker: frames[ticker] for ticker in tickers}, axis=1, sort=False
+        )
 
     histories, exclusions = collect_daily_histories(
         universe,
