@@ -30,7 +30,7 @@ def validate_history(frame: pd.DataFrame, minimum_sessions: int = 273) -> None:
     if len(frame) < minimum_sessions:
         raise ValueError(f"history must contain at least {minimum_sessions} sessions")
     if not isinstance(frame.index, pd.DatetimeIndex):
-        raise ValueError("index must be a DatetimeIndex")
+        raise TypeError("index must be a DatetimeIndex")
     if not frame.index.is_monotonic_increasing or frame.index.has_duplicates:
         raise ValueError("dates must be unique and increasing")
     numeric = frame.loc[:, REQUIRED_OHLCV].apply(pd.to_numeric, errors="coerce")
@@ -102,7 +102,7 @@ def _download_with_isolation(
                 )
                 found.update(retry_frames)
                 return found, errors
-        except Exception as exc:  # provider boundary
+        except Exception as exc:  # noqa: BLE001 - isolate arbitrary provider failures
             last_error = str(exc) or type(exc).__name__
         if attempt + 1 < config.max_retries:
             sleep((2**attempt) + max(0.0, jitter()))
