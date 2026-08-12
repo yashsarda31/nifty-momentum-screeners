@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nifty-total-market-vcp"
+version = "0.1.0"
+description = "Nifty Total Market momentum, breakout, and VCP scanner"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=2.0",
+  "pandas>=2.2",
+  "plotly>=6.0",
+  "requests>=2.32",
+  "streamlit>=1.45",
+  "yfinance>=0.2.65",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "ruff>=0.12"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "."]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
