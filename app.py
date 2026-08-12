@@ -110,6 +110,16 @@ def build_price_figure(frame: pd.DataFrame, pivot: float) -> go.Figure:
     return figure
 
 
+def build_vcp_evidence(setup: pd.Series) -> pd.DataFrame:
+    component_columns = [column for column in setup.index if column.startswith("vcp_")]
+    return pd.DataFrame(
+        {
+            "criterion": component_columns,
+            "value": [str(setup[column]) for column in component_columns],
+        }
+    )
+
+
 def _metric_cards(manifest: dict) -> None:
     columns = st.columns(4)
     columns[0].metric(
@@ -146,11 +156,7 @@ def _stock_detail(bundle: dict) -> None:
         width="stretch",
         config={"displaylogo": False},
     )
-    component_columns = [column for column in setup.index if column.startswith("vcp_")]
-    evidence = pd.DataFrame(
-        {"criterion": component_columns, "value": [setup[column] for column in component_columns]}
-    )
-    st.dataframe(evidence, width="stretch", hide_index=True)
+    st.dataframe(build_vcp_evidence(setup), width="stretch", hide_index=True)
 
 
 def main() -> None:

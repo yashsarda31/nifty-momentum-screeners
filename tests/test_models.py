@@ -1,3 +1,6 @@
+import tomllib
+from pathlib import Path
+
 import pytest
 
 from nifty_vcp.models import ScanConfig
@@ -17,3 +20,9 @@ def test_scan_config_defaults_match_approved_design():
     assert config.coverage_threshold == 0.90
     assert config.momentum_sessions == (63, 126, 189, 252)
     assert config.momentum_weights == (0.40, 0.20, 0.20, 0.20)
+
+
+def test_runtime_dependencies_include_scipy_for_yfinance_repair():
+    project = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+    dependencies = project["project"]["dependencies"]
+    assert any(dependency.startswith("scipy") for dependency in dependencies)

@@ -2,7 +2,13 @@ import json
 
 import pandas as pd
 
-from app import build_price_figure, load_latest_run, render_vcp_stars, status_badge
+from app import (
+    build_price_figure,
+    build_vcp_evidence,
+    load_latest_run,
+    render_vcp_stars,
+    status_badge,
+)
 
 
 def test_missing_latest_returns_none(tmp_path):
@@ -57,3 +63,10 @@ def test_price_figure_contains_candlestick_volume_mas_and_pivot():
     names = {trace.name for trace in figure.data}
     assert {"Price", "Volume", "SMA 50", "SMA 150", "SMA 200"} <= names
     assert any(shape.type == "line" for shape in figure.layout.shapes)
+
+
+def test_vcp_evidence_values_are_arrow_safe_strings():
+    evidence = build_vcp_evidence(
+        pd.Series({"vcp_stars": 4, "vcp_trend_template": True})
+    )
+    assert evidence["value"].map(type).eq(str).all()
