@@ -150,6 +150,7 @@ Each run will write a timestamped directory containing:
 - `high_rs_setups.csv`
 - `live_breakouts.csv`
 - `exclusions.csv`
+- `chart_history.csv.gz` containing completed daily OHLCV for high-RS stocks
 - `run_manifest.json`
 
 The manifest will include start and finish times, data-source URLs, requested and valid counts, quote coverage, market-state label, thresholds, and overall status. A `latest.json` pointer will be replaced atomically only after the run finishes.
