@@ -1,0 +1,8 @@
+pyproject.toml
+src/nifty_total_market_vcp.egg-info/PKG-INFO
+src/nifty_total_market_vcp.egg-info/SOURCES.txt
+src/nifty_total_market_vcp.egg-info/dependency_links.txt
+src/nifty_total_market_vcp.egg-info/requires.txt
+src/nifty_total_market_vcp.egg-info/top_level.txt
+src/nifty_vcp/__init__.py
+tests/test_models.py

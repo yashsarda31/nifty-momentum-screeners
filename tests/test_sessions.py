@@ -1,11 +1,10 @@
-from datetime import datetime
+from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 import pandas as pd
 
 from nifty_vcp.models import MarketState
 from nifty_vcp.sessions import drop_unfinished_daily_bar, market_state
-
 
 TZ = ZoneInfo("Asia/Kolkata")
 
@@ -29,7 +28,7 @@ def test_drop_unfinished_bar_before_close_and_keep_after_close():
     after = drop_unfinished_daily_bar(
         original, datetime(2026, 8, 12, 16, 0, tzinfo=TZ)
     )
-    assert list(before.index.date) == [datetime(2026, 8, 11).date()]
+    assert list(before.index.date) == [date(2026, 8, 11)]
     assert len(after) == 2
     assert len(original) == 2
 

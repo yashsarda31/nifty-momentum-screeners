@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: nifty-total-market-vcp
+Version: 0.1.0
+Summary: Nifty Total Market momentum, breakout, and VCP scanner
+Requires-Python: >=3.11
+Requires-Dist: numpy>=2.0
+Requires-Dist: pandas>=2.2
+Requires-Dist: plotly>=6.0
+Requires-Dist: requests>=2.32
+Requires-Dist: streamlit>=1.45
+Requires-Dist: yfinance>=0.2.65
+Provides-Extra: dev
+Requires-Dist: pytest>=8.3; extra == "dev"
+Requires-Dist: ruff>=0.12; extra == "dev"

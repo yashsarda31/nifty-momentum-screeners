@@ -9,7 +9,6 @@ import pandas as pd
 
 from nifty_vcp.models import MarketState
 
-
 INDIA_TZ = ZoneInfo("Asia/Kolkata")
 
 

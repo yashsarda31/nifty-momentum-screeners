@@ -7,7 +7,6 @@ from io import BytesIO
 import pandas as pd
 import requests
 
-
 UNIVERSE_URL = (
     "https://www.niftyindices.com/IndexConstituent/"
     "ind_niftytotalmarket_list.csv"
