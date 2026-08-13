@@ -13,6 +13,7 @@ from plotly.subplots import make_subplots
 
 from nifty_vcp.models import ScanConfig
 from nifty_vcp.pipeline import run_scan
+from screener_ui import render_screeners
 
 OUTPUT_ROOT = Path("outputs")
 
@@ -26,7 +27,7 @@ def load_latest_run(output_root: str | Path = OUTPUT_ROOT) -> dict | None:
     run_path = root / latest["run_directory"]
     manifest = json.loads((run_path / "run_manifest.json").read_text(encoding="utf-8"))
     chart_history = pd.read_csv(run_path / "chart_history.csv.gz", parse_dates=["date"])
-    return {
+    bundle = {
         "path": run_path,
         "manifest": manifest,
         "rankings": pd.read_csv(run_path / "all_rankings.csv"),
@@ -34,7 +35,26 @@ def load_latest_run(output_root: str | Path = OUTPUT_ROOT) -> dict | None:
         "breakouts": pd.read_csv(run_path / "live_breakouts.csv"),
         "exclusions": pd.read_csv(run_path / "exclusions.csv"),
         "chart_history": chart_history,
+        "screeners_available": False,
     }
+    screener_files = {
+        "selected_universe": "selected_universe.csv",
+        "features": "screener_features.csv",
+        "matches": "screener_matches.csv",
+        "earnings": "earnings_events.csv",
+    }
+    if manifest.get("schema_version", 1) >= 2 and all(
+        (run_path / filename).exists() for filename in screener_files.values()
+    ):
+        for key, filename in screener_files.items():
+            bundle[key] = pd.read_csv(run_path / filename)
+        earnings = bundle["earnings"]
+        for column in ("event_date", "broadcast_at"):
+            if column in earnings:
+                earnings[column] = pd.to_datetime(earnings[column], errors="coerce")
+        earnings.attrs["status"] = manifest.get("earnings_status", "COMPLETE")
+        bundle["screeners_available"] = True
+    return bundle
 
 
 def render_vcp_stars(value: float) -> str:
@@ -197,7 +217,16 @@ def main() -> None:
     )
     _metric_cards(manifest)
     tabs = st.tabs(
-        ["Live Breakouts", "RS Leaders", "All Stocks", "Scan Health", "Methodology"]
+        [
+            "Live Breakouts",
+            "RS Leaders",
+            "All Stocks",
+            "Scan Health",
+            "Methodology",
+            "Screeners",
+        ],
+        key="main_tabs",
+        on_change="rerun",
     )
     with tabs[0]:
         if bundle["breakouts"].empty:
@@ -235,6 +264,8 @@ def main() -> None:
             transparent Minervini-inspired approximation, not an official proprietary score.
             """
         )
+    with tabs[5]:
+        render_screeners(bundle)
 
 
 if __name__ == "__main__":
