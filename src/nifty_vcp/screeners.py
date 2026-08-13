@@ -254,6 +254,12 @@ SCREENER_CATALOG = {
 }
 
 EARNINGS_SCREENERS = {"results_due", "fresh_results", "post_results_gap_up"}
+DISPLAY_QUOTE_FIELDS = (
+    "latest_price",
+    "price_change_pct",
+    "quote_status",
+    "quote_timestamp",
+)
 
 
 def default_thresholds(slug: str) -> dict[str, float | int | bool]:
@@ -412,6 +418,7 @@ def evaluate_screener(
         "listing_date",
         "liquidity_rank",
         "price_date",
+        *DISPLAY_QUOTE_FIELDS,
         "screener",
         "label",
         "state",
@@ -463,6 +470,7 @@ def evaluate_screener(
                 "listing_date": feature.get("listing_date"),
                 "liquidity_rank": feature.get("liquidity_rank"),
                 "price_date": feature.get("price_date"),
+                **{name: feature.get(name) for name in DISPLAY_QUOTE_FIELDS},
                 "screener": slug,
                 "label": definition.label,
                 "state": state.value,
@@ -497,6 +505,7 @@ def multiple_scan_matches(
         "listing_date",
         "liquidity_rank",
         "price_date",
+        *DISPLAY_QUOTE_FIELDS,
         "match_count",
         "matched_screeners",
     ]
@@ -520,6 +529,7 @@ def multiple_scan_matches(
                 "listing_date": first.get("listing_date"),
                 "liquidity_rank": first.get("liquidity_rank"),
                 "price_date": first.get("price_date"),
+                **{name: first.get(name) for name in DISPLAY_QUOTE_FIELDS},
                 "match_count": len(slugs),
                 "matched_screeners": " | ".join(label_order[slug][1] for slug in slugs),
             }

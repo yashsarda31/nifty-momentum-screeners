@@ -140,6 +140,39 @@ def apply_startup_prices(
     return updated
 
 
+def startup_price_summary(snapshot: StartupPriceSnapshot) -> dict:
+    """Summarize usable startup quote coverage for display."""
+    table = snapshot.table
+    total_count = len(table)
+    latest = pd.to_numeric(table.get("latest_price"), errors="coerce")
+    status = table.get("quote_status", pd.Series(index=table.index, dtype=str))
+    usable_count = int(
+        (latest.notna() & status.ne("UNAVAILABLE")).sum()
+    )
+    return {
+        "fetched_at": snapshot.fetched_at.isoformat(),
+        "usable_count": usable_count,
+        "total_count": total_count,
+        "coverage": usable_count / total_count if total_count else 0.0,
+    }
+
+
+def _startup_price_status(snapshot: StartupPriceSnapshot) -> None:
+    summary = startup_price_summary(snapshot)
+    st.caption(
+        "Yahoo price snapshot "
+        f"{summary['fetched_at']} · {summary['usable_count']} / "
+        f"{summary['total_count']} symbols available · "
+        "manual page refresh fetches again"
+    )
+    missing = summary["total_count"] - summary["usable_count"]
+    if missing:
+        st.warning(
+            f"Latest Yahoo price unavailable for {missing} symbols. "
+            "Their completed daily close remains visible separately."
+        )
+
+
 def render_vcp_stars(value: float) -> str:
     stars = max(0, min(5, int(value)))
     return f"{'★' * stars}{'☆' * (5 - stars)} ({stars} of 5)"
@@ -306,6 +339,8 @@ def main() -> None:
         + f"Market {html.escape(str(manifest.get('market_state', 'unknown')))}</span>",
         unsafe_allow_html=True,
     )
+    if "startup_prices" in bundle:
+        _startup_price_status(bundle["startup_prices"])
     _metric_cards(manifest)
     tabs = st.tabs(
         [

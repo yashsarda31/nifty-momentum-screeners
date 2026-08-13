@@ -12,6 +12,7 @@ from app import (
     get_session_startup_prices,
     load_latest_run,
     render_vcp_stars,
+    startup_price_summary,
     status_badge,
 )
 from nifty_vcp.models import QuoteRecord, QuoteStatus
@@ -255,3 +256,31 @@ def test_apply_startup_prices_does_not_confirm_delayed_breakout():
 
     assert not bool(updated["setups"].iloc[0]["is_breakout"])
     assert updated["breakouts"].empty
+
+
+def test_startup_price_summary_reports_fetched_coverage():
+    snapshot = startup_snapshot()
+    unavailable = pd.DataFrame(
+        {
+            "symbol": ["MISS"],
+            "latest_price": [None],
+            "quote_timestamp": [""],
+            "quote_status": ["UNAVAILABLE"],
+            "quote_age_minutes": [None],
+            "quote_reason": ["provider failure"],
+        }
+    )
+    snapshot = StartupPriceSnapshot(
+        snapshot.fetched_at,
+        snapshot.quotes,
+        pd.concat([snapshot.table, unavailable], ignore_index=True),
+    )
+
+    summary = startup_price_summary(snapshot)
+
+    assert summary == {
+        "fetched_at": NOW.isoformat(),
+        "usable_count": 1,
+        "total_count": 2,
+        "coverage": 0.5,
+    }

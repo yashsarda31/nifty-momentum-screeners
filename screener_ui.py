@@ -80,6 +80,28 @@ def selected_result_symbol(event: Mapping, frame: pd.DataFrame) -> str | None:
     return str(frame.iloc[rows[0]]["symbol"])
 
 
+def result_display_columns(results: pd.DataFrame) -> list[str]:
+    """Return a stable, user-facing order for screener result columns."""
+    return [
+        name
+        for name in (
+            "symbol",
+            "company_name",
+            "state",
+            "reason",
+            "price_date",
+            "latest_price",
+            "price_change_pct",
+            "quote_status",
+            "quote_timestamp",
+            "liquidity_rank",
+            "matched_screeners",
+            "match_count",
+        )
+        if name in results
+    ]
+
+
 def _threshold_form(slug: str) -> dict[str, Any]:
     defaults = default_thresholds(slug)
     values: dict[str, Any] = {}
@@ -147,20 +169,7 @@ def _render_results(results: pd.DataFrame, bundle: dict) -> None:
         st.info("No eligible symbols are stored in this scan.")
         return
     _result_metrics(results)
-    display_columns = [
-        name
-        for name in (
-            "symbol",
-            "company_name",
-            "state",
-            "reason",
-            "price_date",
-            "liquidity_rank",
-            "matched_screeners",
-            "match_count",
-        )
-        if name in results
-    ]
+    display_columns = result_display_columns(results)
     display = results.loc[:, display_columns].copy()
     event = st.dataframe(
         display,
@@ -169,6 +178,17 @@ def _render_results(results: pd.DataFrame, bundle: dict) -> None:
         selection_mode="single-row",
         hide_index=True,
         width="stretch",
+        column_config={
+            "latest_price": st.column_config.NumberColumn(
+                "Latest price", format="₹ %.2f"
+            ),
+            "price_change_pct": st.column_config.NumberColumn(
+                "Change", format="%.2f%%"
+            ),
+            "quote_timestamp": st.column_config.DatetimeColumn(
+                "Quote time", format="DD MMM, HH:mm:ss"
+            ),
+        },
     )
     symbol = selected_result_symbol(event, display)
     if symbol:

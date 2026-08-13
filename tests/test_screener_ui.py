@@ -1,7 +1,11 @@
 import pandas as pd
 from streamlit.testing.v1 import AppTest
 
-from screener_ui import filter_preset_results, selected_result_symbol
+from screener_ui import (
+    filter_preset_results,
+    result_display_columns,
+    selected_result_symbol,
+)
 
 
 def test_all_reference_categories_render():
@@ -55,3 +59,27 @@ def test_selected_result_symbol_handles_streamlit_event_shape():
     frame = pd.DataFrame({"symbol": ["AAA", "BBB"]})
     assert selected_result_symbol({"selection": {"rows": [1]}}, frame) == "BBB"
     assert selected_result_symbol({"selection": {"rows": []}}, frame) is None
+
+
+def test_result_display_columns_include_startup_prices_when_present():
+    results = pd.DataFrame(
+        {
+            "symbol": ["AAA"],
+            "price_date": ["2026-08-13"],
+            "latest_price": [105.0],
+            "price_change_pct": [5.0],
+            "quote_status": ["LIVE"],
+            "quote_timestamp": ["2026-08-14T10:00:00+05:30"],
+            "state": ["MATCH"],
+        }
+    )
+
+    assert result_display_columns(results) == [
+        "symbol",
+        "state",
+        "price_date",
+        "latest_price",
+        "price_change_pct",
+        "quote_status",
+        "quote_timestamp",
+    ]

@@ -55,6 +55,10 @@ def matching_features():
             "recent_ipo_overlay": [True],
             "ipo_base_depth_pct": [20.0],
             "latest_close": [110.0],
+            "latest_price": [115.5],
+            "price_change_pct": [5.0],
+            "quote_status": ["LIVE"],
+            "quote_timestamp": ["2026-08-13T12:15:00+05:30"],
             "sma20": [100.0],
             "return_20d": [10.0],
             "prior_20_high": [109.0],
@@ -177,3 +181,17 @@ def test_multiple_scans_lists_reasons_and_count():
     result = multiple_scan_matches(matches, ["nr7", "gap_up"], 2)
     assert result.iloc[0]["match_count"] == 2
     assert result.iloc[0]["matched_screeners"] == "NR7 | Gap up"
+    assert result.iloc[0]["latest_price"] == 115.5
+    assert result.iloc[0]["price_change_pct"] == 5.0
+    assert result.iloc[0]["quote_status"] == "LIVE"
+
+
+def test_preset_results_preserve_startup_quote_display_fields():
+    result = evaluate_screener(
+        "gap_up", matching_features().iloc[:1], matching_events(), {}
+    )
+
+    assert result.iloc[0]["latest_price"] == 115.5
+    assert result.iloc[0]["price_change_pct"] == 5.0
+    assert result.iloc[0]["quote_status"] == "LIVE"
+    assert result.iloc[0]["quote_timestamp"] == "2026-08-13T12:15:00+05:30"
