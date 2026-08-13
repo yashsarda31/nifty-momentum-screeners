@@ -1,0 +1,51 @@
+{
+  "benchmark_status": "COMPLETE",
+  "breakout_count": 12,
+  "earnings_status": "COMPLETE",
+  "excluded_history_count": 43,
+  "exclusion_reason_counts": {
+    "High must cover Open and Close": 12,
+    "Low must cover Open and Close": 16,
+    "history must contain at least 15 sessions": 11,
+    "quote has no finite close": 16,
+    "stale latest bar: expected 2026-08-12, got 2026-08-11": 4
+  },
+  "finished_at": "2026-08-13T12:20:49.618825+05:30",
+  "high_rs_count": 194,
+  "historical_coverage": 0.979765,
+  "market_state": "OPEN",
+  "outcome": "BREAKOUTS FOUND",
+  "price_source": "https://finance.yahoo.com/",
+  "quote_coverage": 0.917526,
+  "recent_ipo_count": 388,
+  "schema_version": 2,
+  "screener_result_count": 28451,
+  "selected_universe_count": 1237,
+  "source_universe_count": 2125,
+  "started_at": "2026-08-13T11:58:53.373304+05:30",
+  "status": "COMPLETE",
+  "thresholds": {
+    "coverage": 0.9,
+    "high_rs": 80,
+    "liquidity_count": 1000,
+    "liquidity_sessions": 60,
+    "momentum_sessions": [
+      63,
+      126,
+      189,
+      252
+    ],
+    "momentum_weights": [
+      0.4,
+      0.2,
+      0.2,
+      0.2
+    ],
+    "pivot_sessions": 55,
+    "recent_ipo_days": 730
+  },
+  "universe_count": 2125,
+  "universe_source": "https://archives.nseindia.com/content/equities/EQUITY_L.csv",
+  "valid_history_count": 2082,
+  "valid_quote_count": 178
+}

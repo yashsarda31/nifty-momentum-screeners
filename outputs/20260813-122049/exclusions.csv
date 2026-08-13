@@ -1,0 +1,60 @@
+symbol,stage,reason
+ABCOTS,history,Low must cover Open and Close
+ARDEE,history,history must contain at least 15 sessions
+ATLASCYCLE,history,Low must cover Open and Close
+AUSOMENT,history,Low must cover Open and Close
+BIL,history,High must cover Open and Close
+BOHRAIND,history,Low must cover Open and Close
+CMLL,history,history must contain at least 15 sessions
+CURAA,history,High must cover Open and Close
+DCMFINSERV,history,High must cover Open and Close
+DHRUV,history,High must cover Open and Close
+EMKAY,history,High must cover Open and Close
+GCSL,history,Low must cover Open and Close
+GKWLIMITED,history,Low must cover Open and Close
+GODAVARIB,history,Low must cover Open and Close
+INDOMIM,history,history must contain at least 15 sessions
+JITFINFRA,history,Low must cover Open and Close
+JNPR,history,history must contain at least 15 sessions
+KALYANIFRG,history,High must cover Open and Close
+LCL,history,history must contain at least 15 sessions
+LGHL,history,Low must cover Open and Close
+LORDSCHLO,history,Low must cover Open and Close
+LOYALTEX,history,Low must cover Open and Close
+MANIPALHOS,history,history must contain at least 15 sessions
+MVELECTRO,history,history must contain at least 15 sessions
+NORBTEAEXP,history,High must cover Open and Close
+PANSARI,history,Low must cover Open and Close
+ROSSTECH,history,Low must cover Open and Close
+SHREERAMA,history,High must cover Open and Close
+SHUKRAPHAR,history,history must contain at least 15 sessions
+SOLEX,history,High must cover Open and Close
+SUPREMEINF,history,Low must cover Open and Close
+SURAJLTD,history,Low must cover Open and Close
+TECILCHEM,history,High must cover Open and Close
+UNIINFO,history,High must cover Open and Close
+VGL,history,High must cover Open and Close
+VINEETLAB,history,Low must cover Open and Close
+XTRANET,history,history must contain at least 15 sessions
+YESBANK,history,history must contain at least 15 sessions
+ZUARIIND,history,history must contain at least 15 sessions
+MASKINVEST,history,"stale latest bar: expected 2026-08-12, got 2026-08-11"
+NIRAJISPAT,history,"stale latest bar: expected 2026-08-12, got 2026-08-11"
+SWARAJ,history,"stale latest bar: expected 2026-08-12, got 2026-08-11"
+THAKDEV,history,"stale latest bar: expected 2026-08-12, got 2026-08-11"
+ASTRAMICRO,quote,quote has no finite close
+TATATECH,quote,quote has no finite close
+SANSERA,quote,quote has no finite close
+UJJIVANSFB,quote,quote has no finite close
+GRANULES,quote,quote has no finite close
+AEROFLEX,quote,quote has no finite close
+FCL,quote,quote has no finite close
+SHILPAMED,quote,quote has no finite close
+BALAMINES,quote,quote has no finite close
+KERNEX,quote,quote has no finite close
+SCHNEIDER,quote,quote has no finite close
+SPARC,quote,quote has no finite close
+HONASA,quote,quote has no finite close
+MARKSANS,quote,quote has no finite close
+GRWRHITECH,quote,quote has no finite close
+SBC,quote,quote has no finite close

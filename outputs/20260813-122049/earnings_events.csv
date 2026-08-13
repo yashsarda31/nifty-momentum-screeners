@@ -1,0 +1,672 @@
+symbol,event_type,event_date,broadcast_at,source_url
+AEROPLANE,RESULT_FILED,2026-08-03,2026-08-03 23:12:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+ATHERENERG,RESULT_FILED,2026-08-03,2026-08-03 16:06:25+05:30,https://www.nseindia.com/api/integrated-filing-results
+BLUEJET,RESULT_FILED,2026-08-03,2026-08-03 13:24:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+CAMS,RESULT_FILED,2026-08-03,2026-08-03 14:41:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+CRIZAC,RESULT_FILED,2026-08-03,2026-08-03 14:01:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+DLF,RESULT_FILED,2026-08-03,2026-08-03 17:13:03+05:30,https://www.nseindia.com/api/integrated-filing-results
+DOMS,RESULT_FILED,2026-08-03,2026-08-03 19:13:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+ESCORTS,RESULT_FILED,2026-08-03,2026-08-03 18:36:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+GANECOS,RESULT_FILED,2026-08-03,2026-08-03 20:13:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+GESHIP,RESULT_FILED,2026-08-03,2026-08-03 18:38:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+GLAXO,RESULT_FILED,2026-08-03,2026-08-03 20:36:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+GULFOILLUB,RESULT_FILED,2026-08-03,2026-08-03 18:28:50+05:30,https://www.nseindia.com/api/integrated-filing-results
+HUBTOWN,RESULT_FILED,2026-08-03,2026-08-03 18:30:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+INOXINDIA,RESULT_FILED,2026-08-03,2026-08-03 18:51:31+05:30,https://www.nseindia.com/api/integrated-filing-results
+IREDA,RESULT_FILED,2026-08-03,2026-08-03 20:05:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+JAINREC,RESULT_FILED,2026-08-03,2026-08-03 20:11:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+JMFINANCIL,RESULT_FILED,2026-08-03,2026-08-03 20:51:20+05:30,https://www.nseindia.com/api/integrated-filing-results
+JSL,RESULT_FILED,2026-08-03,2026-08-03 16:34:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+KALPATARU,RESULT_FILED,2026-08-03,2026-08-03 20:49:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+KANSAINER,RESULT_FILED,2026-08-03,2026-08-03 18:28:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+KEI,RESULT_FILED,2026-08-03,2026-08-03 20:52:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+KIMS,RESULT_FILED,2026-08-03,2026-08-03 19:01:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+MOBIKWIK,RESULT_FILED,2026-08-03,2026-08-03 12:35:49+05:30,https://www.nseindia.com/api/integrated-filing-results
+NAZARA,RESULT_FILED,2026-08-03,2026-08-03 22:49:26+05:30,https://www.nseindia.com/api/integrated-filing-results
+NOCIL,RESULT_FILED,2026-08-03,2026-08-03 15:22:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+PARKHOSPS,RESULT_FILED,2026-08-03,2026-08-03 11:28:33+05:30,https://www.nseindia.com/api/integrated-filing-results
+RBA,RESULT_FILED,2026-08-03,2026-08-03 18:34:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+SAMBHV,RESULT_FILED,2026-08-03,2026-08-03 20:17:26+05:30,https://www.nseindia.com/api/integrated-filing-results
+SAMHI,RESULT_FILED,2026-08-03,2026-08-03 21:23:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+SANATHAN,RESULT_FILED,2026-08-03,2026-08-03 18:24:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+SBIFUNDS,RESULT_FILED,2026-08-03,2026-08-03 21:33:45+05:30,https://www.nseindia.com/api/integrated-filing-results
+STOVEKRAFT,RESULT_FILED,2026-08-03,2026-08-03 16:54:59+05:30,https://www.nseindia.com/api/integrated-filing-results
+SUNDARMFIN,RESULT_FILED,2026-08-03,2026-08-03 15:15:54+05:30,https://www.nseindia.com/api/integrated-filing-results
+TEXRAIL,RESULT_FILED,2026-08-03,2026-08-03 19:08:01+05:30,https://www.nseindia.com/api/integrated-filing-results
+THOMASCOOK,RESULT_FILED,2026-08-03,2026-08-03 18:21:36+05:30,https://www.nseindia.com/api/integrated-filing-results
+TORNTPOWER,RESULT_FILED,2026-08-03,2026-08-03 18:40:30+05:30,https://www.nseindia.com/api/integrated-filing-results
+UNIMECH,RESULT_FILED,2026-08-03,2026-08-03 19:18:27+05:30,https://www.nseindia.com/api/integrated-filing-results
+UPL,RESULT_FILED,2026-08-03,2026-08-03 17:03:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+AGARWALEYE,RESULT_FILED,2026-08-04,2026-08-04 17:20:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+AJMERA,RESULT_FILED,2026-08-04,2026-08-04 18:11:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+ALKYLAMINE,RESULT_FILED,2026-08-04,2026-08-04 18:36:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+APLLTD,RESULT_FILED,2026-08-04,2026-08-04 16:22:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+ASKAUTOLTD,RESULT_FILED,2026-08-04,2026-08-04 18:39:02+05:30,https://www.nseindia.com/api/integrated-filing-results
+AVALON,RESULT_FILED,2026-08-04,2026-08-04 22:48:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+BASF,RESULT_FILED,2026-08-04,2026-08-04 15:55:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+BBL,RESULT_FILED,2026-08-04,2026-08-04 16:01:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+BHARATSE,RESULT_FILED,2026-08-04,2026-08-04 15:11:36+05:30,https://www.nseindia.com/api/integrated-filing-results
+BHARTIARTL,RESULT_FILED,2026-08-04,2026-08-04 20:21:35+05:30,https://www.nseindia.com/api/integrated-filing-results
+BHARTIHEXA,RESULT_FILED,2026-08-04,2026-08-04 18:20:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+BSE,RESULT_FILED,2026-08-04,2026-08-04 19:01:27+05:30,https://www.nseindia.com/api/integrated-filing-results
+CAPILLARY,RESULT_FILED,2026-08-04,2026-08-04 17:20:32+05:30,https://www.nseindia.com/api/integrated-filing-results
+CASTROLIND,RESULT_FILED,2026-08-04,2026-08-04 22:54:27+05:30,https://www.nseindia.com/api/integrated-filing-results
+DEEDEV,RESULT_FILED,2026-08-04,2026-08-04 14:56:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+DEEPAKNTR,RESULT_FILED,2026-08-04,2026-08-04 18:36:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+DREDGECORP,RESULT_FILED,2026-08-04,2026-08-04 18:36:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+EMAMILTD,RESULT_FILED,2026-08-04,2026-08-04 16:12:22+05:30,https://www.nseindia.com/api/integrated-filing-results
+GANESHCP,RESULT_FILED,2026-08-04,2026-08-04 19:35:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+GODREJPROP,RESULT_FILED,2026-08-04,2026-08-04 12:50:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+GRAPHITE,RESULT_FILED,2026-08-04,2026-08-04 14:35:58+05:30,https://www.nseindia.com/api/integrated-filing-results
+GREAVESCOT,RESULT_FILED,2026-08-04,2026-08-04 23:41:37+05:30,https://www.nseindia.com/api/integrated-filing-results
+HAPPYFORGE,RESULT_FILED,2026-08-04,2026-08-04 16:22:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+IMFA,RESULT_FILED,2026-08-04,2026-08-04 17:59:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+JAYBARMARU,RESULT_FILED,2026-08-04,2026-08-04 20:19:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+JYOTISTRUC,RESULT_FILED,2026-08-04,2026-08-04 16:44:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+KALYANKJIL,RESULT_FILED,2026-08-04,2026-08-04 16:54:22+05:30,https://www.nseindia.com/api/integrated-filing-results
+KDDL,RESULT_FILED,2026-08-04,2026-08-04 21:36:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+KSB,RESULT_FILED,2026-08-04,2026-08-04 23:06:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+MAPMYINDIA,RESULT_FILED,2026-08-04,2026-08-04 19:28:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+MARICO,RESULT_FILED,2026-08-04,2026-08-04 19:09:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+MASTERTR,RESULT_FILED,2026-08-04,2026-08-04 18:12:29+05:30,https://www.nseindia.com/api/integrated-filing-results
+METROPOLIS,RESULT_FILED,2026-08-04,2026-08-04 19:15:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+MOREPENLAB,RESULT_FILED,2026-08-04,2026-08-04 16:20:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+MSUMI,RESULT_FILED,2026-08-04,2026-08-04 11:29:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+NHPC,RESULT_FILED,2026-08-04,2026-08-04 20:58:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+NYKAA,RESULT_FILED,2026-08-04,2026-08-04 18:02:51+05:30,https://www.nseindia.com/api/integrated-filing-results
+ODIGMA,RESULT_FILED,2026-08-04,2026-08-04 13:11:23+05:30,https://www.nseindia.com/api/integrated-filing-results
+ONGC,RESULT_FILED,2026-08-04,2026-08-04 20:19:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+OPTIEMUS,RESULT_FILED,2026-08-04,2026-08-04 17:22:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+ORKLAINDIA,RESULT_FILED,2026-08-04,2026-08-04 17:40:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+PIDILITIND,RESULT_FILED,2026-08-04,2026-08-04 17:30:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+PNBHOUSING,RESULT_FILED,2026-08-04,2026-08-04 18:51:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+POCL,RESULT_FILED,2026-08-04,2026-08-04 20:35:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+PRINCEPIPE,RESULT_FILED,2026-08-04,2026-08-04 15:50:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+PROTEAN,RESULT_FILED,2026-08-04,2026-08-04 16:30:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+PTC,RESULT_FILED,2026-08-04,2026-08-04 19:45:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+RITES,RESULT_FILED,2026-08-04,2026-08-04 15:20:36+05:30,https://www.nseindia.com/api/integrated-filing-results
+RPTECH,RESULT_FILED,2026-08-04,2026-08-04 19:09:22+05:30,https://www.nseindia.com/api/integrated-filing-results
+RSYSTEMS,RESULT_FILED,2026-08-04,2026-08-04 21:26:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+SAFARI,RESULT_FILED,2026-08-04,2026-08-04 16:37:40+05:30,https://www.nseindia.com/api/integrated-filing-results
+SANOFI,RESULT_FILED,2026-08-04,2026-08-04 20:26:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+SAREGAMA,RESULT_FILED,2026-08-04,2026-08-04 17:37:56+05:30,https://www.nseindia.com/api/integrated-filing-results
+SFL,RESULT_FILED,2026-08-04,2026-08-04 17:04:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+SHRIPISTON,RESULT_FILED,2026-08-04,2026-08-04 19:38:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+STYRENIX,RESULT_FILED,2026-08-04,2026-08-04 19:46:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+SUDEEPPHRM,RESULT_FILED,2026-08-04,2026-08-04 18:31:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+SUNDRMFAST,RESULT_FILED,2026-08-04,2026-08-04 18:59:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+TATAINVEST,RESULT_FILED,2026-08-04,2026-08-04 18:57:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+TIMKEN,RESULT_FILED,2026-08-04,2026-08-04 20:16:01+05:30,https://www.nseindia.com/api/integrated-filing-results
+TIRUMALCHM,RESULT_FILED,2026-08-04,2026-08-04 17:34:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+UBL,RESULT_FILED,2026-08-04,2026-08-04 20:57:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+UNIPARTS,RESULT_FILED,2026-08-04,2026-08-04 19:19:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+UNOMINDA,RESULT_FILED,2026-08-04,2026-08-04 17:15:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+VENTIVE,RESULT_FILED,2026-08-04,2026-08-04 21:00:21+05:30,https://www.nseindia.com/api/integrated-filing-results
+WELENT,RESULT_FILED,2026-08-04,2026-08-04 19:48:53+05:30,https://www.nseindia.com/api/integrated-filing-results
+ZYDUSWELL,RESULT_FILED,2026-08-04,2026-08-04 18:05:57+05:30,https://www.nseindia.com/api/integrated-filing-results
+AEGISVOPAK,RESULT_FILED,2026-08-05,2026-08-05 16:39:24+05:30,https://www.nseindia.com/api/integrated-filing-results
+AJAXENGG,RESULT_FILED,2026-08-05,2026-08-05 19:34:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+ALLTIME,RESULT_FILED,2026-08-05,2026-08-05 20:46:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+ARIS,RESULT_FILED,2026-08-05,2026-08-05 20:32:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+ASAHIINDIA,RESULT_FILED,2026-08-05,2026-08-05 15:57:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+ASTERDM,RESULT_FILED,2026-08-05,2026-08-05 19:11:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+AUROPHARMA,RESULT_FILED,2026-08-05,2026-08-05 21:13:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+BERGEPAINT,RESULT_FILED,2026-08-05,2026-08-05 16:36:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+BIKAJI,RESULT_FILED,2026-08-05,2026-08-05 20:31:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+BIOCON,RESULT_FILED,2026-08-05,2026-08-05 17:21:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+BRIGHOTEL,RESULT_FILED,2026-08-05,2026-08-05 20:28:44+05:30,https://www.nseindia.com/api/integrated-filing-results
+COHANCE,RESULT_FILED,2026-08-05,2026-08-05 20:15:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+CUMMINSIND,RESULT_FILED,2026-08-05,2026-08-05 19:53:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+DATAMATICS,RESULT_FILED,2026-08-05,2026-08-05 18:39:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+ECLERX,RESULT_FILED,2026-08-05,2026-08-05 18:24:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+FDC,RESULT_FILED,2026-08-05,2026-08-05 17:35:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+GMMPFAUDLR,RESULT_FILED,2026-08-05,2026-08-05 17:51:35+05:30,https://www.nseindia.com/api/integrated-filing-results
+GNFC,RESULT_FILED,2026-08-05,2026-08-05 17:01:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+GODAVARIB,RESULT_FILED,2026-08-05,2026-08-05 22:23:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+GVT&D,RESULT_FILED,2026-08-05,2026-08-05 22:09:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+IKS,RESULT_FILED,2026-08-05,2026-08-05 22:49:24+05:30,https://www.nseindia.com/api/integrated-filing-results
+IONEXCHANG,RESULT_FILED,2026-08-05,2026-08-05 20:22:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+JKLAKSHMI,RESULT_FILED,2026-08-05,2026-08-05 17:16:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+JTLIND,RESULT_FILED,2026-08-05,2026-08-05 13:40:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+KSR,RESULT_FILED,2026-08-05,2026-08-05 19:11:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+MAYURUNIQ,RESULT_FILED,2026-08-05,2026-08-05 21:57:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+NAVINFLUOR,RESULT_FILED,2026-08-05,2026-08-05 17:11:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+NEULANDLAB,RESULT_FILED,2026-08-05,2026-08-05 18:05:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+OMNI,RESULT_FILED,2026-08-05,2026-08-05 16:05:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+PACEDIGITK,RESULT_FILED,2026-08-05,2026-08-05 18:10:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+PAISALO,RESULT_FILED,2026-08-05,2026-08-05 16:02:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+PASHUPATI,RESULT_FILED,2026-08-05,2026-08-05 19:49:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+PGIL,RESULT_FILED,2026-08-05,2026-08-05 21:05:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+POLICYBZR,RESULT_FILED,2026-08-05,2026-08-05 19:19:52+05:30,https://www.nseindia.com/api/integrated-filing-results
+POWERGRID,RESULT_FILED,2026-08-05,2026-08-05 23:00:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+RENUKA,RESULT_FILED,2026-08-05,2026-08-05 17:29:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+ROLEXRINGS,RESULT_FILED,2026-08-05,2026-08-05 14:29:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+RTNINDIA,RESULT_FILED,2026-08-05,2026-08-05 18:19:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+SHILPAMED,RESULT_FILED,2026-08-05,2026-08-05 14:50:58+05:30,https://www.nseindia.com/api/integrated-filing-results
+SOTL,RESULT_FILED,2026-08-05,2026-08-05 19:27:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+TENNIND,RESULT_FILED,2026-08-05,2026-08-05 22:27:02+05:30,https://www.nseindia.com/api/integrated-filing-results
+TIMETECHNO,RESULT_FILED,2026-08-05,2026-08-05 21:44:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+VAIBHAVGBL,RESULT_FILED,2026-08-05,2026-08-05 15:44:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+WHIRLPOOL,RESULT_FILED,2026-08-05,2026-08-05 14:57:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+ADVANCE,RESULT_FILED,2026-08-06,2026-08-06 19:33:02+05:30,https://www.nseindia.com/api/integrated-filing-results
+ADVENTHTL,RESULT_FILED,2026-08-06,2026-08-06 19:18:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+AEGISLOG,RESULT_FILED,2026-08-06,2026-08-06 12:36:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+ANUP,RESULT_FILED,2026-08-06,2026-08-06 14:18:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+APOLLOTYRE,RESULT_FILED,2026-08-06,2026-08-06 18:27:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+BLSE,RESULT_FILED,2026-08-06,2026-08-06 21:08:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+BLUESTARCO,RESULT_FILED,2026-08-06,2026-08-06 19:46:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+BRITANNIA,RESULT_FILED,2026-08-06,2026-08-06 21:08:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+BUILDPRO,RESULT_FILED,2026-08-06,2026-08-06 15:06:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+CAMPUS,RESULT_FILED,2026-08-06,2026-08-06 15:26:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+CARRARO,RESULT_FILED,2026-08-06,2026-08-06 18:38:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+CHEMPLASTS,RESULT_FILED,2026-08-06,2026-08-06 18:39:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+COSMOFIRST,RESULT_FILED,2026-08-06,2026-08-06 18:35:47+05:30,https://www.nseindia.com/api/integrated-filing-results
+CROMPTON,RESULT_FILED,2026-08-06,2026-08-06 17:16:40+05:30,https://www.nseindia.com/api/integrated-filing-results
+EDELWEISS,RESULT_FILED,2026-08-06,2026-08-06 17:18:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+EMCURE,RESULT_FILED,2026-08-06,2026-08-06 14:58:03+05:30,https://www.nseindia.com/api/integrated-filing-results
+ENRIN,RESULT_FILED,2026-08-06,2026-08-06 21:04:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+FINPIPE,RESULT_FILED,2026-08-06,2026-08-06 21:02:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+FORTIS,RESULT_FILED,2026-08-06,2026-08-06 20:08:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+FSL,RESULT_FILED,2026-08-06,2026-08-06 16:04:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+GALAPREC,RESULT_FILED,2026-08-06,2026-08-06 19:36:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+GOODLUCK,RESULT_FILED,2026-08-06,2026-08-06 13:23:40+05:30,https://www.nseindia.com/api/integrated-filing-results
+GRWRHITECH,RESULT_FILED,2026-08-06,2026-08-06 15:28:46+05:30,https://www.nseindia.com/api/integrated-filing-results
+GTLINFRA,RESULT_FILED,2026-08-06,2026-08-06 16:38:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+HCC,RESULT_FILED,2026-08-06,2026-08-06 16:41:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+HCG,RESULT_FILED,2026-08-06,2026-08-06 19:34:00+05:30,https://www.nseindia.com/api/integrated-filing-results
+HEROMOTOCO,RESULT_FILED,2026-08-06,2026-08-06 23:12:38+05:30,https://www.nseindia.com/api/integrated-filing-results
+HIKAL,RESULT_FILED,2026-08-06,2026-08-06 17:19:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+IFBIND,RESULT_FILED,2026-08-06,2026-08-06 20:44:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+INDIASHLTR,RESULT_FILED,2026-08-06,2026-08-06 15:37:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+INDRAMEDCO,RESULT_FILED,2026-08-06,2026-08-06 18:04:02+05:30,https://www.nseindia.com/api/integrated-filing-results
+INTERARCH,RESULT_FILED,2026-08-06,2026-08-06 19:07:58+05:30,https://www.nseindia.com/api/integrated-filing-results
+IXIGO,RESULT_FILED,2026-08-06,2026-08-06 21:34:36+05:30,https://www.nseindia.com/api/integrated-filing-results
+KIRLOSENG,RESULT_FILED,2026-08-06,2026-08-06 17:37:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+LICI,RESULT_FILED,2026-08-06,2026-08-06 17:35:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+LLOYDSENGG,RESULT_FILED,2026-08-06,2026-08-06 18:06:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+LUPIN,RESULT_FILED,2026-08-06,2026-08-06 22:26:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+MANCREDIT,RESULT_FILED,2026-08-06,2026-08-06 20:01:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+MOTHERSON,RESULT_FILED,2026-08-06,2026-08-06 16:46:02+05:30,https://www.nseindia.com/api/integrated-filing-results
+MUTHOOTMF,RESULT_FILED,2026-08-06,2026-08-06 19:03:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+NCC,RESULT_FILED,2026-08-06,2026-08-06 18:34:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+PARAGMILK,RESULT_FILED,2026-08-06,2026-08-06 22:41:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+PFOCUS,RESULT_FILED,2026-08-06,2026-08-06 23:56:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+PGEL,RESULT_FILED,2026-08-06,2026-08-06 21:36:22+05:30,https://www.nseindia.com/api/integrated-filing-results
+PGHL,RESULT_FILED,2026-08-06,2026-08-06 18:15:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+PREMIERENE,RESULT_FILED,2026-08-06,2026-08-06 20:40:47+05:30,https://www.nseindia.com/api/integrated-filing-results
+RAIN,RESULT_FILED,2026-08-06,2026-08-06 20:55:53+05:30,https://www.nseindia.com/api/integrated-filing-results
+RATEGAIN,RESULT_FILED,2026-08-06,2026-08-06 13:55:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+RPOWER,RESULT_FILED,2026-08-06,2026-08-06 20:11:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+SAILIFE,RESULT_FILED,2026-08-06,2026-08-06 23:47:31+05:30,https://www.nseindia.com/api/integrated-filing-results
+SANDUMA,RESULT_FILED,2026-08-06,2026-08-06 19:08:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+SBCL,RESULT_FILED,2026-08-06,2026-08-06 18:37:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+SCI,RESULT_FILED,2026-08-06,2026-08-06 19:39:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+SETL,RESULT_FILED,2026-08-06,2026-08-06 17:17:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+SIGNATURE,RESULT_FILED,2026-08-06,2026-08-06 20:04:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+SJS,RESULT_FILED,2026-08-06,2026-08-06 15:32:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+SONATSOFTW,RESULT_FILED,2026-08-06,2026-08-06 21:39:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+SUPRAJIT,RESULT_FILED,2026-08-06,2026-08-06 17:56:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+SUVEN,RESULT_FILED,2026-08-06,2026-08-06 14:28:24+05:30,https://www.nseindia.com/api/integrated-filing-results
+TRANSRAILL,RESULT_FILED,2026-08-06,2026-08-06 19:36:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+TRENT,RESULT_FILED,2026-08-06,2026-08-06 17:07:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+VARROC,RESULT_FILED,2026-08-06,2026-08-06 17:06:03+05:30,https://www.nseindia.com/api/integrated-filing-results
+VIJAYA,RESULT_FILED,2026-08-06,2026-08-06 20:48:02+05:30,https://www.nseindia.com/api/integrated-filing-results
+VIKRAMSOLR,RESULT_FILED,2026-08-06,2026-08-06 21:20:34+05:30,https://www.nseindia.com/api/integrated-filing-results
+WAKEFIT,RESULT_FILED,2026-08-06,2026-08-06 20:01:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+AARTIPHARM,RESULT_FILED,2026-08-07,2026-08-07 20:08:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+ADVAIT,RESULT_FILED,2026-08-07,2026-08-07 17:28:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+AFCONS,RESULT_FILED,2026-08-07,2026-08-07 17:58:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+ANUHPHR,RESULT_FILED,2026-08-07,2026-08-07 18:22:45+05:30,https://www.nseindia.com/api/integrated-filing-results
+AQYLON,RESULT_FILED,2026-08-07,2026-08-07 22:34:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+ASHAPURMIN,RESULT_FILED,2026-08-07,2026-08-07 19:12:24+05:30,https://www.nseindia.com/api/integrated-filing-results
+AZAD,RESULT_FILED,2026-08-07,2026-08-07 17:42:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+BECTORFOOD,RESULT_FILED,2026-08-07,2026-08-07 14:02:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+BEML,RESULT_FILED,2026-08-07,2026-08-07 13:34:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+BLS,RESULT_FILED,2026-08-07,2026-08-07 20:34:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+CAPACITE,RESULT_FILED,2026-08-07,2026-08-07 13:52:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+CARBORUNIV,RESULT_FILED,2026-08-07,2026-08-07 17:35:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+CARERATING,RESULT_FILED,2026-08-07,2026-08-07 18:29:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+CELLO,RESULT_FILED,2026-08-07,2026-08-07 20:57:21+05:30,https://www.nseindia.com/api/integrated-filing-results
+CUPID,RESULT_FILED,2026-08-07,2026-08-07 18:59:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+DYNAMATECH,RESULT_FILED,2026-08-07,2026-08-07 22:00:25+05:30,https://www.nseindia.com/api/integrated-filing-results
+ELECTCAST,RESULT_FILED,2026-08-07,2026-08-07 16:46:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+ELLEN,RESULT_FILED,2026-08-07,2026-08-07 19:07:42+05:30,https://www.nseindia.com/api/integrated-filing-results
+EMIL,RESULT_FILED,2026-08-07,2026-08-07 18:24:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+ENTERO,RESULT_FILED,2026-08-07,2026-08-07 18:40:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+EXCELSOFT,RESULT_FILED,2026-08-07,2026-08-07 23:00:20+05:30,https://www.nseindia.com/api/integrated-filing-results
+FINEORG,RESULT_FILED,2026-08-07,2026-08-07 15:59:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+GKENERGY,RESULT_FILED,2026-08-07,2026-08-07 19:09:25+05:30,https://www.nseindia.com/api/integrated-filing-results
+GODREJCP,RESULT_FILED,2026-08-07,2026-08-07 16:07:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+GOLDIAM,RESULT_FILED,2026-08-07,2026-08-07 15:32:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+GPIL,RESULT_FILED,2026-08-07,2026-08-07 18:44:51+05:30,https://www.nseindia.com/api/integrated-filing-results
+GUJTHEM,RESULT_FILED,2026-08-07,2026-08-07 17:38:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+HINDALCO,RESULT_FILED,2026-08-07,2026-08-07 17:24:55+05:30,https://www.nseindia.com/api/integrated-filing-results
+INOXWIND,RESULT_FILED,2026-08-07,2026-08-07 20:43:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+JAMNAAUTO,RESULT_FILED,2026-08-07,2026-08-07 16:41:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+JINDRILL,RESULT_FILED,2026-08-07,2026-08-07 18:27:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+JKTYRE,RESULT_FILED,2026-08-07,2026-08-07 16:03:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+JSLL,RESULT_FILED,2026-08-07,2026-08-07 20:03:42+05:30,https://www.nseindia.com/api/integrated-filing-results
+JYOTICNC,RESULT_FILED,2026-08-07,2026-08-07 16:03:20+05:30,https://www.nseindia.com/api/integrated-filing-results
+KAYNES,RESULT_FILED,2026-08-07,2026-08-07 19:02:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+LEMONTREE,RESULT_FILED,2026-08-07,2026-08-07 21:33:33+05:30,https://www.nseindia.com/api/integrated-filing-results
+MAHSEAMLES,RESULT_FILED,2026-08-07,2026-08-07 18:29:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+MODIS,RESULT_FILED,2026-08-07,2026-08-07 13:28:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+NLCINDIA,RESULT_FILED,2026-08-07,2026-08-07 18:04:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+NRBBEARING,RESULT_FILED,2026-08-07,2026-08-07 21:49:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+OIL,RESULT_FILED,2026-08-07,2026-08-07 19:54:29+05:30,https://www.nseindia.com/api/integrated-filing-results
+PARAS,RESULT_FILED,2026-08-07,2026-08-07 16:28:29+05:30,https://www.nseindia.com/api/integrated-filing-results
+PFC,RESULT_FILED,2026-08-07,2026-08-07 20:20:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+POKARNA,RESULT_FILED,2026-08-07,2026-08-07 16:28:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+POLYMED,RESULT_FILED,2026-08-07,2026-08-07 16:54:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+POWERICA,RESULT_FILED,2026-08-07,2026-08-07 22:51:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+POWERINDIA,RESULT_FILED,2026-08-07,2026-08-07 18:38:30+05:30,https://www.nseindia.com/api/integrated-filing-results
+RACLGEAR,RESULT_FILED,2026-08-07,2026-08-07 18:04:46+05:30,https://www.nseindia.com/api/integrated-filing-results
+RAMCOCEM,RESULT_FILED,2026-08-07,2026-08-07 18:15:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+RATNAMANI,RESULT_FILED,2026-08-07,2026-08-07 16:02:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+RAYMOND,RESULT_FILED,2026-08-07,2026-08-07 17:42:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+RAYMONDREL,RESULT_FILED,2026-08-07,2026-08-07 19:12:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+SAKSOFT,RESULT_FILED,2026-08-07,2026-08-07 17:34:20+05:30,https://www.nseindia.com/api/integrated-filing-results
+SBIN,RESULT_FILED,2026-08-07,2026-08-07 15:47:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+SWARAJ,RESULT_FILED,2026-08-07,2026-08-07 23:40:34+05:30,https://www.nseindia.com/api/integrated-filing-results
+TITAN,RESULT_FILED,2026-08-07,2026-08-07 18:43:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+UNIVCABLES,RESULT_FILED,2026-08-07,2026-08-07 22:23:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+VINDHYATEL,RESULT_FILED,2026-08-07,2026-08-07 21:39:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+ABFRL,RESULT_FILED,2026-08-08,2026-08-08 16:25:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+ADVENZYMES,RESULT_FILED,2026-08-08,2026-08-08 17:39:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+AFFLE,RESULT_FILED,2026-08-08,2026-08-08 17:51:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+AKUMS,RESULT_FILED,2026-08-08,2026-08-08 18:02:59+05:30,https://www.nseindia.com/api/integrated-filing-results
+ANANTRAJ,RESULT_FILED,2026-08-08,2026-08-08 18:49:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+APOLLO,RESULT_FILED,2026-08-08,2026-08-08 17:54:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+ATULAUTO,RESULT_FILED,2026-08-08,2026-08-08 17:35:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+BANCOINDIA,RESULT_FILED,2026-08-08,2026-08-08 17:54:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+CEIGALL,RESULT_FILED,2026-08-08,2026-08-08 16:20:57+05:30,https://www.nseindia.com/api/integrated-filing-results
+CPL,RESULT_FILED,2026-08-08,2026-08-08 18:20:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+DELHIVERY,RESULT_FILED,2026-08-08,2026-08-08 18:14:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+HBLENGINE,RESULT_FILED,2026-08-08,2026-08-08 16:24:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+INDOFARM,RESULT_FILED,2026-08-08,2026-08-08 18:30:35+05:30,https://www.nseindia.com/api/integrated-filing-results
+JARO,RESULT_FILED,2026-08-08,2026-08-08 19:58:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+LUMAXIND,RESULT_FILED,2026-08-08,2026-08-08 16:56:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+NITINSPIN,RESULT_FILED,2026-08-08,2026-08-08 16:03:28+05:30,https://www.nseindia.com/api/integrated-filing-results
+OLAELEC,RESULT_FILED,2026-08-08,2026-08-08 15:45:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+OSWALPUMPS,RESULT_FILED,2026-08-08,2026-08-08 20:43:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+PNCINFRA,RESULT_FILED,2026-08-08,2026-08-08 18:40:22+05:30,https://www.nseindia.com/api/integrated-filing-results
+POWERMECH,RESULT_FILED,2026-08-08,2026-08-08 19:07:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+SHAILY,RESULT_FILED,2026-08-08,2026-08-08 19:56:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+STUDDS,RESULT_FILED,2026-08-08,2026-08-08 21:18:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+QPOWER,RESULT_FILED,2026-08-09,2026-08-09 13:06:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+SKYGOLD,RESULT_FILED,2026-08-09,2026-08-09 13:15:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+ARE&M,RESULT_FILED,2026-08-10,2026-08-10 19:39:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+ASTRAMICRO,RESULT_FILED,2026-08-10,2026-08-10 17:23:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+BHARATFORG,RESULT_FILED,2026-08-10,2026-08-10 18:31:59+05:30,https://www.nseindia.com/api/integrated-filing-results
+BOMDYEING,RESULT_FILED,2026-08-10,2026-08-10 19:38:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+BOSCHLTD,RESULT_FILED,2026-08-10,2026-08-10 18:41:00+05:30,https://www.nseindia.com/api/integrated-filing-results
+CARYSIL,RESULT_FILED,2026-08-10,2026-08-10 17:52:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+CHOICEIN,RESULT_FILED,2026-08-10,2026-08-10 20:45:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+CMRGREEN,RESULT_FILED,2026-08-10,2026-08-10 16:29:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+CMSINFO,RESULT_FILED,2026-08-10,2026-08-10 20:24:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+DBL,RESULT_FILED,2026-08-10,2026-08-10 19:33:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+DDEVPLSTIK,RESULT_FILED,2026-08-10,2026-08-10 18:55:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+EMBDL,RESULT_FILED,2026-08-10,2026-08-10 21:29:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+EUROPRATIK,RESULT_FILED,2026-08-10,2026-08-10 19:59:51+05:30,https://www.nseindia.com/api/integrated-filing-results
+EXICOM,RESULT_FILED,2026-08-10,2026-08-10 17:32:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+GARUDA,RESULT_FILED,2026-08-10,2026-08-10 13:35:23+05:30,https://www.nseindia.com/api/integrated-filing-results
+GLAND,RESULT_FILED,2026-08-10,2026-08-10 17:16:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+HINDCOPPER,RESULT_FILED,2026-08-10,2026-08-10 13:53:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+HLEGLAS,RESULT_FILED,2026-08-10,2026-08-10 18:23:01+05:30,https://www.nseindia.com/api/integrated-filing-results
+IDEA,RESULT_FILED,2026-08-10,2026-08-10 19:54:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+IDEAFORGE,RESULT_FILED,2026-08-10,2026-08-10 19:51:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+INDOBORAX,RESULT_FILED,2026-08-10,2026-08-10 17:55:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+INDSWFTLAB,RESULT_FILED,2026-08-10,2026-08-10 19:52:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+IOLCP,RESULT_FILED,2026-08-10,2026-08-10 14:58:40+05:30,https://www.nseindia.com/api/integrated-filing-results
+ITDC,RESULT_FILED,2026-08-10,2026-08-10 19:08:00+05:30,https://www.nseindia.com/api/integrated-filing-results
+JISLJALEQS,RESULT_FILED,2026-08-10,2026-08-10 16:28:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+JUBLPHARMA,RESULT_FILED,2026-08-10,2026-08-10 19:32:37+05:30,https://www.nseindia.com/api/integrated-filing-results
+KEC,RESULT_FILED,2026-08-10,2026-08-10 19:02:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+KNACK,RESULT_FILED,2026-08-10,2026-08-10 16:15:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+KPRMILL,RESULT_FILED,2026-08-10,2026-08-10 16:02:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+KSHINTL,RESULT_FILED,2026-08-10,2026-08-10 21:19:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+LASERPOWER,RESULT_FILED,2026-08-10,2026-08-10 18:24:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+LLOYDSME,RESULT_FILED,2026-08-10,2026-08-10 19:43:22+05:30,https://www.nseindia.com/api/integrated-filing-results
+LUMAXTECH,RESULT_FILED,2026-08-10,2026-08-10 18:22:34+05:30,https://www.nseindia.com/api/integrated-filing-results
+MBEL,RESULT_FILED,2026-08-10,2026-08-10 16:01:45+05:30,https://www.nseindia.com/api/integrated-filing-results
+NAUKRI,RESULT_FILED,2026-08-10,2026-08-10 16:15:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+PATELENG,RESULT_FILED,2026-08-10,2026-08-10 15:36:21+05:30,https://www.nseindia.com/api/integrated-filing-results
+PCJEWELLER,RESULT_FILED,2026-08-10,2026-08-10 19:15:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+PRECWIRE,RESULT_FILED,2026-08-10,2026-08-10 17:23:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+RAMBHAJO,RESULT_FILED,2026-08-10,2026-08-10 18:59:29+05:30,https://www.nseindia.com/api/integrated-filing-results
+RAMCOIND,RESULT_FILED,2026-08-10,2026-08-10 16:01:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+RIR,RESULT_FILED,2026-08-10,2026-08-10 22:47:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+SPARC,RESULT_FILED,2026-08-10,2026-08-10 14:53:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+TALBROAUTO,RESULT_FILED,2026-08-10,2026-08-10 16:53:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+TRITURBINE,RESULT_FILED,2026-08-10,2026-08-10 19:43:21+05:30,https://www.nseindia.com/api/integrated-filing-results
+TVSSCS,RESULT_FILED,2026-08-10,2026-08-10 20:25:28+05:30,https://www.nseindia.com/api/integrated-filing-results
+VENUSPIPES,RESULT_FILED,2026-08-10,2026-08-10 14:14:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+WEBELSOLAR,RESULT_FILED,2026-08-10,2026-08-10 20:21:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+WOCKPHARMA,RESULT_FILED,2026-08-10,2026-08-10 17:31:28+05:30,https://www.nseindia.com/api/integrated-filing-results
+YATHARTH,RESULT_FILED,2026-08-10,2026-08-10 20:50:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+ZEEL,RESULT_FILED,2026-08-10,2026-08-10 20:05:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+AEROENTER,RESULT_FILED,2026-08-11,2026-08-11 17:52:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+ARFIN,RESULT_FILED,2026-08-11,2026-08-11 14:07:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+ARKADE,RESULT_FILED,2026-08-11,2026-08-11 19:05:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+ASHOKA,RESULT_FILED,2026-08-11,2026-08-11 21:33:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+ASIANTILES,RESULT_FILED,2026-08-11,2026-08-11 18:41:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+BALRAMCHIN,RESULT_FILED,2026-08-11,2026-08-11 19:24:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+BATAINDIA,RESULT_FILED,2026-08-11,2026-08-11 21:32:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+BORANA,RESULT_FILED,2026-08-11,2026-08-11 17:04:02+05:30,https://www.nseindia.com/api/integrated-filing-results
+CAMLINFINE,RESULT_FILED,2026-08-11,2026-08-11 18:27:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+CCAVENUE,RESULT_FILED,2026-08-11,2026-08-11 17:05:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+CEINSYS,RESULT_FILED,2026-08-11,2026-08-11 17:14:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+CEWATER,RESULT_FILED,2026-08-11,2026-08-11 21:37:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+CMLL,RESULT_FILED,2026-08-11,2026-08-11 20:09:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+CONFIPET,RESULT_FILED,2026-08-11,2026-08-11 20:55:44+05:30,https://www.nseindia.com/api/integrated-filing-results
+DAMCAPITAL,RESULT_FILED,2026-08-11,2026-08-11 20:32:44+05:30,https://www.nseindia.com/api/integrated-filing-results
+DELTACORP,RESULT_FILED,2026-08-11,2026-08-11 20:35:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+DIFFNKG,RESULT_FILED,2026-08-11,2026-08-11 15:12:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+EIEL,RESULT_FILED,2026-08-11,2026-08-11 19:09:44+05:30,https://www.nseindia.com/api/integrated-filing-results
+EPACK,RESULT_FILED,2026-08-11,2026-08-11 18:29:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+EPL,RESULT_FILED,2026-08-11,2026-08-11 17:33:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+FERMENTA,RESULT_FILED,2026-08-11,2026-08-11 22:17:21+05:30,https://www.nseindia.com/api/integrated-filing-results
+FINCABLES,RESULT_FILED,2026-08-11,2026-08-11 18:32:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+FUSION,RESULT_FILED,2026-08-11,2026-08-11 15:26:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+GOKEX,RESULT_FILED,2026-08-11,2026-08-11 21:27:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+GSPCROP,RESULT_FILED,2026-08-11,2026-08-11 20:27:03+05:30,https://www.nseindia.com/api/integrated-filing-results
+GUJENERGY,RESULT_FILED,2026-08-11,2026-08-11 17:46:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+HARSHA,RESULT_FILED,2026-08-11,2026-08-11 14:28:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+HILINFRA,RESULT_FILED,2026-08-11,2026-08-11 17:21:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+HIRECT,RESULT_FILED,2026-08-11,2026-08-11 17:48:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+IFCI,RESULT_FILED,2026-08-11,2026-08-11 18:04:51+05:30,https://www.nseindia.com/api/integrated-filing-results
+INDOTECH,RESULT_FILED,2026-08-11,2026-08-11 20:36:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+JASH,RESULT_FILED,2026-08-11,2026-08-11 16:05:30+05:30,https://www.nseindia.com/api/integrated-filing-results
+JNKINDIA,RESULT_FILED,2026-08-11,2026-08-11 22:04:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+JSWDULUX,RESULT_FILED,2026-08-11,2026-08-11 20:06:03+05:30,https://www.nseindia.com/api/integrated-filing-results
+JUBLCPL,RESULT_FILED,2026-08-11,2026-08-11 17:30:30+05:30,https://www.nseindia.com/api/integrated-filing-results
+KPEL,RESULT_FILED,2026-08-11,2026-08-11 16:53:44+05:30,https://www.nseindia.com/api/integrated-filing-results
+KPIGREEN,RESULT_FILED,2026-08-11,2026-08-11 19:26:47+05:30,https://www.nseindia.com/api/integrated-filing-results
+KPIL,RESULT_FILED,2026-08-11,2026-08-11 16:47:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+KRISHIVAL,RESULT_FILED,2026-08-11,2026-08-11 17:33:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+KUSUMGAR,RESULT_FILED,2026-08-11,2026-08-11 17:41:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+LANDMARK,RESULT_FILED,2026-08-11,2026-08-11 19:30:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+LAXMIDENTL,RESULT_FILED,2026-08-11,2026-08-11 20:04:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+LINDEINDIA,RESULT_FILED,2026-08-11,2026-08-11 19:37:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+LLOYDSENT,RESULT_FILED,2026-08-11,2026-08-11 14:49:36+05:30,https://www.nseindia.com/api/integrated-filing-results
+MANAPPURAM,RESULT_FILED,2026-08-11,2026-08-11 18:02:02+05:30,https://www.nseindia.com/api/integrated-filing-results
+MANINDS,RESULT_FILED,2026-08-11,2026-08-11 20:07:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+MMTC,RESULT_FILED,2026-08-11,2026-08-11 19:06:22+05:30,https://www.nseindia.com/api/integrated-filing-results
+MRF,RESULT_FILED,2026-08-11,2026-08-11 15:49:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+MUFIN,RESULT_FILED,2026-08-11,2026-08-11 19:32:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+NBCC,RESULT_FILED,2026-08-11,2026-08-11 16:13:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+NEPHROPLUS,RESULT_FILED,2026-08-11,2026-08-11 20:26:02+05:30,https://www.nseindia.com/api/integrated-filing-results
+NPST,RESULT_FILED,2026-08-11,2026-08-11 19:44:46+05:30,https://www.nseindia.com/api/integrated-filing-results
+OMPOWER,RESULT_FILED,2026-08-11,2026-08-11 19:28:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+ORCHASP,RESULT_FILED,2026-08-11,2026-08-11 16:31:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+PICCADIL,RESULT_FILED,2026-08-11,2026-08-11 16:19:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+PIIND,RESULT_FILED,2026-08-11,2026-08-11 19:51:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+POLYPLEX,RESULT_FILED,2026-08-11,2026-08-11 19:15:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+QUADFUTURE,RESULT_FILED,2026-08-11,2026-08-11 18:28:03+05:30,https://www.nseindia.com/api/integrated-filing-results
+RHIM,RESULT_FILED,2026-08-11,2026-08-11 17:34:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+RVNL,RESULT_FILED,2026-08-11,2026-08-11 17:19:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+RVTH,RESULT_FILED,2026-08-11,2026-08-11 12:45:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+SAIPARENT,RESULT_FILED,2026-08-11,2026-08-11 18:19:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+SANDHAR,RESULT_FILED,2026-08-11,2026-08-11 16:47:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+SENCO,RESULT_FILED,2026-08-11,2026-08-11 20:01:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+SEPC,RESULT_FILED,2026-08-11,2026-08-11 21:28:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+SHILCTECH,RESULT_FILED,2026-08-11,2026-08-11 17:18:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+SHIVAUM,RESULT_FILED,2026-08-11,2026-08-11 20:27:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+SIEMENS,RESULT_FILED,2026-08-11,2026-08-11 14:30:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+SKFINDUS,RESULT_FILED,2026-08-11,2026-08-11 21:42:03+05:30,https://www.nseindia.com/api/integrated-filing-results
+SKIPPER,RESULT_FILED,2026-08-11,2026-08-11 17:41:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+SPAL,RESULT_FILED,2026-08-11,2026-08-11 20:02:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+SUNFLAG,RESULT_FILED,2026-08-11,2026-08-11 17:10:04+05:30,https://www.nseindia.com/api/integrated-filing-results
+SUPREME,RESULT_FILED,2026-08-11,2026-08-11 17:55:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+SURYAROSNI,RESULT_FILED,2026-08-11,2026-08-11 17:20:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+SUYOG,RESULT_FILED,2026-08-11,2026-08-11 17:56:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+TBZ,RESULT_FILED,2026-08-11,2026-08-11 18:46:00+05:30,https://www.nseindia.com/api/integrated-filing-results
+TDPOWERSYS,RESULT_FILED,2026-08-11,2026-08-11 17:28:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+TECHNOE,RESULT_FILED,2026-08-11,2026-08-11 19:09:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+TEMBO,RESULT_FILED,2026-08-11,2026-08-11 16:44:35+05:30,https://www.nseindia.com/api/integrated-filing-results
+VIDYAWIRES,RESULT_FILED,2026-08-11,2026-08-11 19:45:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+VIKRAN,RESULT_FILED,2026-08-11,2026-08-11 19:13:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+VIYASH,RESULT_FILED,2026-08-11,2026-08-11 17:56:20+05:30,https://www.nseindia.com/api/integrated-filing-results
+WALCHANNAG,RESULT_FILED,2026-08-11,2026-08-11 20:29:03+05:30,https://www.nseindia.com/api/integrated-filing-results
+WANBURY,RESULT_FILED,2026-08-11,2026-08-11 20:52:45+05:30,https://www.nseindia.com/api/integrated-filing-results
+ZYDUSLIFE,RESULT_FILED,2026-08-11,2026-08-11 19:25:00+05:30,https://www.nseindia.com/api/integrated-filing-results
+63MOONS,RESULT_FILED,2026-08-12,2026-08-12 17:19:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+ABANSENT,RESULT_FILED,2026-08-12,2026-08-12 11:28:10+05:30,https://www.nseindia.com/api/integrated-filing-results
+ABCOTS,RESULT_FILED,2026-08-12,2026-08-12 17:11:24+05:30,https://www.nseindia.com/api/integrated-filing-results
+AIAENG,RESULT_FILED,2026-08-12,2026-08-12 17:45:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+APOLLOHOSP,RESULT_FILED,2026-08-12,2026-08-12 20:20:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+ARMANFIN,RESULT_FILED,2026-08-12,2026-08-12 19:27:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+ARVIND,RESULT_FILED,2026-08-12,2026-08-12 18:01:20+05:30,https://www.nseindia.com/api/integrated-filing-results
+ASTRAL,RESULT_FILED,2026-08-12,2026-08-12 19:08:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+ATALREAL,RESULT_FILED,2026-08-12,2026-08-12 21:00:22+05:30,https://www.nseindia.com/api/integrated-filing-results
+BAJAJINDEF,RESULT_FILED,2026-08-12,2026-08-12 18:30:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+BALAJEE,RESULT_FILED,2026-08-12,2026-08-12 20:25:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+BALUFORGE,RESULT_FILED,2026-08-12,2026-08-12 21:24:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+BBOX,RESULT_FILED,2026-08-12,2026-08-12 22:27:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+CAPLIPOINT,RESULT_FILED,2026-08-12,2026-08-12 17:11:54+05:30,https://www.nseindia.com/api/integrated-filing-results
+CPEDU,RESULT_FILED,2026-08-12,2026-08-12 18:10:21+05:30,https://www.nseindia.com/api/integrated-filing-results
+CPPLUS,RESULT_FILED,2026-08-12,2026-08-12 18:54:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+DCXINDIA,RESULT_FILED,2026-08-12,2026-08-12 18:21:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+DEVX,RESULT_FILED,2026-08-12,2026-08-12 19:12:34+05:30,https://www.nseindia.com/api/integrated-filing-results
+EIDPARRY,RESULT_FILED,2026-08-12,2026-08-12 18:26:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+EMSLIMITED,RESULT_FILED,2026-08-12,2026-08-12 17:30:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+EUREKAFORB,RESULT_FILED,2026-08-12,2026-08-12 15:18:05+05:30,https://www.nseindia.com/api/integrated-filing-results
+FIEMIND,RESULT_FILED,2026-08-12,2026-08-12 16:15:25+05:30,https://www.nseindia.com/api/integrated-filing-results
+FLUOROCHEM,RESULT_FILED,2026-08-12,2026-08-12 17:49:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+GLOBECIVIL,RESULT_FILED,2026-08-12,2026-08-12 19:50:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+GMRAIRPORT,RESULT_FILED,2026-08-12,2026-08-12 20:24:32+05:30,https://www.nseindia.com/api/integrated-filing-results
+GPPL,RESULT_FILED,2026-08-12,2026-08-12 17:54:49+05:30,https://www.nseindia.com/api/integrated-filing-results
+GRASIM,RESULT_FILED,2026-08-12,2026-08-12 14:44:41+05:30,https://www.nseindia.com/api/integrated-filing-results
+GRMOVER,RESULT_FILED,2026-08-12,2026-08-12 18:58:45+05:30,https://www.nseindia.com/api/integrated-filing-results
+GSFC,RESULT_FILED,2026-08-12,2026-08-12 17:12:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+HAL,RESULT_FILED,2026-08-12,2026-08-12 14:19:46+05:30,https://www.nseindia.com/api/integrated-filing-results
+HARIOMPIPE,RESULT_FILED,2026-08-12,2026-08-12 19:33:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+HINDOILEXP,RESULT_FILED,2026-08-12,2026-08-12 18:05:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+HITECH,RESULT_FILED,2026-08-12,2026-08-12 17:54:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+ICIL,RESULT_FILED,2026-08-12,2026-08-12 17:42:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+IGCL,RESULT_FILED,2026-08-12,2026-08-12 12:31:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+INA,RESULT_FILED,2026-08-12,2026-08-12 19:27:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+INDIAGLYCO,RESULT_FILED,2026-08-12,2026-08-12 19:43:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+INDIQUBE,RESULT_FILED,2026-08-12,2026-08-12 18:30:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+INDOUS,RESULT_FILED,2026-08-12,2026-08-12 15:43:27+05:30,https://www.nseindia.com/api/integrated-filing-results
+INNOVISION,RESULT_FILED,2026-08-12,2026-08-12 18:35:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+IRCON,RESULT_FILED,2026-08-12,2026-08-12 17:44:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+IRCTC,RESULT_FILED,2026-08-12,2026-08-12 20:43:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+JYOTHYLAB,RESULT_FILED,2026-08-12,2026-08-12 16:59:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+KIRIINDUS,RESULT_FILED,2026-08-12,2026-08-12 13:49:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+KRISHNADEF,RESULT_FILED,2026-08-12,2026-08-12 20:20:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+KRN,RESULT_FILED,2026-08-12,2026-08-12 18:14:20+05:30,https://www.nseindia.com/api/integrated-filing-results
+LENSKART,RESULT_FILED,2026-08-12,2026-08-12 16:59:01+05:30,https://www.nseindia.com/api/integrated-filing-results
+MANINFRA,RESULT_FILED,2026-08-12,2026-08-12 18:31:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+MARKSANS,RESULT_FILED,2026-08-12,2026-08-12 14:46:17+05:30,https://www.nseindia.com/api/integrated-filing-results
+MFML,RESULT_FILED,2026-08-12,2026-08-12 18:46:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+MIDHANI,RESULT_FILED,2026-08-12,2026-08-12 16:22:32+05:30,https://www.nseindia.com/api/integrated-filing-results
+MIDWESTLTD,RESULT_FILED,2026-08-12,2026-08-12 15:04:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+MONEYBOXX,RESULT_FILED,2026-08-12,2026-08-12 19:20:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+MOTISONS,RESULT_FILED,2026-08-12,2026-08-12 17:12:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+NATCAPSUQ,RESULT_FILED,2026-08-12,2026-08-12 19:00:29+05:30,https://www.nseindia.com/api/integrated-filing-results
+NIMBSPROJ,RESULT_FILED,2026-08-12,2026-08-12 21:33:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+NITCO,RESULT_FILED,2026-08-12,2026-08-12 18:52:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+ONEPOINT,RESULT_FILED,2026-08-12,2026-08-12 17:15:45+05:30,https://www.nseindia.com/api/integrated-filing-results
+ORIENTTECH,RESULT_FILED,2026-08-12,2026-08-12 20:09:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+PANAMAPET,RESULT_FILED,2026-08-12,2026-08-12 11:33:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+PATELRMART,RESULT_FILED,2026-08-12,2026-08-12 12:41:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+PENIND,RESULT_FILED,2026-08-12,2026-08-12 20:54:08+05:30,https://www.nseindia.com/api/integrated-filing-results
+PETRONET,RESULT_FILED,2026-08-12,2026-08-12 20:40:16+05:30,https://www.nseindia.com/api/integrated-filing-results
+PROSTARM,RESULT_FILED,2026-08-12,2026-08-12 18:58:18+05:30,https://www.nseindia.com/api/integrated-filing-results
+RELIGARE,RESULT_FILED,2026-08-12,2026-08-12 20:31:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+RHETAN,RESULT_FILED,2026-08-12,2026-08-12 18:04:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+RICOAUTO,RESULT_FILED,2026-08-12,2026-08-12 15:12:54+05:30,https://www.nseindia.com/api/integrated-filing-results
+RMC,RESULT_FILED,2026-08-12,2026-08-12 17:29:03+05:30,https://www.nseindia.com/api/integrated-filing-results
+RSL,RESULT_FILED,2026-08-12,2026-08-12 16:34:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+SAHLIBHFI,RESULT_FILED,2026-08-12,2026-08-12 20:38:11+05:30,https://www.nseindia.com/api/integrated-filing-results
+SANSERA,RESULT_FILED,2026-08-12,2026-08-12 20:02:06+05:30,https://www.nseindia.com/api/integrated-filing-results
+SBC,RESULT_FILED,2026-08-12,2026-08-12 18:26:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+SCODATUBES,RESULT_FILED,2026-08-12,2026-08-12 17:43:07+05:30,https://www.nseindia.com/api/integrated-filing-results
+SHRINGARMS,RESULT_FILED,2026-08-12,2026-08-12 17:41:26+05:30,https://www.nseindia.com/api/integrated-filing-results
+SINGERIND,RESULT_FILED,2026-08-12,2026-08-12 18:54:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+SRTL,RESULT_FILED,2026-08-12,2026-08-12 16:17:36+05:30,https://www.nseindia.com/api/integrated-filing-results
+SUDARSCHEM,RESULT_FILED,2026-08-12,2026-08-12 20:38:12+05:30,https://www.nseindia.com/api/integrated-filing-results
+SUNTV,RESULT_FILED,2026-08-12,2026-08-12 16:58:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+SURAKSHA,RESULT_FILED,2026-08-12,2026-08-12 18:18:19+05:30,https://www.nseindia.com/api/integrated-filing-results
+TITAGARH,RESULT_FILED,2026-08-12,2026-08-12 19:56:01+05:30,https://www.nseindia.com/api/integrated-filing-results
+TMCV,RESULT_FILED,2026-08-12,2026-08-12 16:19:02+05:30,https://www.nseindia.com/api/integrated-filing-results
+TOLINS,RESULT_FILED,2026-08-12,2026-08-12 19:01:30+05:30,https://www.nseindia.com/api/integrated-filing-results
+VADILALIND,RESULT_FILED,2026-08-12,2026-08-12 17:33:09+05:30,https://www.nseindia.com/api/integrated-filing-results
+VIPIND,RESULT_FILED,2026-08-12,2026-08-12 19:05:24+05:30,https://www.nseindia.com/api/integrated-filing-results
+VOEPL,RESULT_FILED,2026-08-12,2026-08-12 18:58:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+WABAG,RESULT_FILED,2026-08-12,2026-08-12 20:20:13+05:30,https://www.nseindia.com/api/integrated-filing-results
+WSTCSTPAPR,RESULT_FILED,2026-08-12,2026-08-12 18:28:15+05:30,https://www.nseindia.com/api/integrated-filing-results
+YATRA,RESULT_FILED,2026-08-12,2026-08-12 22:59:45+05:30,https://www.nseindia.com/api/integrated-filing-results
+ABINFRA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+ABREL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+AEPL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+AGIIL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+AMAGI,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+AMBER,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+APEX,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+ASIANENE,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+AVANTIFEED,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+AWFIS,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+AXISCADES,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+BAJAJHIND,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+BELLACASA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+BRIGADE,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+CENTUM,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+CESC,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+DENTA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+DSSL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+ELGIEQUIP,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+ENDURANCE,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+ENGINERSIN,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+FINKURVE,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+FINOPB,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+FIRSTCRY,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+GEMAROMA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+GENUSPOWER,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+GICRE,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+GLOBALE,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+GODREJIND,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+GVPIL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+HALDER,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+HONASA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+IGL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+INDIGOPNTS,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+INGERRAND,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+INNOVANA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+IPCALAB,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+ITI,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+JSWCEMENT,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+JUBLFOOD,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+KERNEX,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+KNRCON,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+KRBL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+KSCL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+LGEINDIA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+MANORAMA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+MARSONS,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+MAXHEALTH,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+MERCURYEV,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+MFSL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+MINDACORP,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+MSTCLTD,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+OLECTRA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+PAGEIND,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+PANACEABIO,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+PRAJIND,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+PREMEXPLN,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+RCF,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+RELAXO,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+SAMMAANCAP,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+SEAMECLTD,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+SHANTIGOLD,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+SOLARINDS,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+STYLEBAAZA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+SUPRIYA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+SURAKSHA,RESULT_FILED,2026-08-13,2026-08-13 09:22:14+05:30,https://www.nseindia.com/api/integrated-filing-results
+SWANCORP,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+TEGA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+TMPV,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+TRAVELFOOD,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+UNIECOM,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+UTLSOLAR,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+V2RETAIL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+VERANDA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+VMSTMT,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+WELSPUNLIV,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+XTGLOBAL,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+ZOTA,RESULTS_DUE,2026-08-13,,https://www.nseindia.com/api/corporate-board-meetings
+3MINDIA,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+AASTHA,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+AGL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+ALGOQUANT,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+ALKEM,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+ALPINETEX,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+ANNAPURNA,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+ANURAS,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+ASHOKLEY,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+BCG,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+BCPL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+BDL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+BELRISE,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+BONLON,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+CHOLAHLDNG,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+CIFL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+COCHINSHIP,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+CSM,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+EASEMYTRIP,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+EUROBOND,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+FACT,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+FISCHER,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+GENESYS,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+GICL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+GKSL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+GMRP&UI,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+GYFTR,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+HARDWYN,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+ISHANCH,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+IZMO,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+JAYKAY,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+JKIPL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+JWL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+KITEX,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+KMEW,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+KNAGRI,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+KWIL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+LEMERITE,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+MAMATA,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+MARINE,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+MARKOLINES,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+MCLOUD,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+NATCOPHARM,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+NAVA,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+NIBE,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+NMDC,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+NSLNISP,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+ORCHPHARMA,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+PARACABLES,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+PATANJALI,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+PRIMO,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+PTCIL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+PWL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+QMSMEDI,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+RELTD,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+RISHABH,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+RNBDENIMS,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+RUBICON,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+RUDRA,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+SAATVIKGL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+SCHNEIDER,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+SHREEJISPG,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+SOLARWORLD,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+SOLEX,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+SRD,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+SSDL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+TIINDIA,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+TURTLEMINT,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+VOLTAS,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+WCIL,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+ZAGGLE,RESULTS_DUE,2026-08-14,,https://www.nseindia.com/api/corporate-board-meetings
+INDOMIM,RESULTS_DUE,2026-08-17,,https://www.nseindia.com/api/corporate-board-meetings
+LCL,RESULTS_DUE,2026-08-19,,https://www.nseindia.com/api/corporate-board-meetings
+XTRANET,RESULTS_DUE,2026-08-19,,https://www.nseindia.com/api/corporate-board-meetings

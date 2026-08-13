@@ -1,6 +1,11 @@
 .worktrees/
 .venv/
 outputs/
+!outputs/
+outputs/*
+!outputs/latest.json
+!outputs/20260813-122049/
+!outputs/20260813-122049/**
 outputs-smoke/
 .pytest_cache/
 .ruff_cache/
