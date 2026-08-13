@@ -40,7 +40,11 @@ def fetch_startup_prices(
 ) -> StartupPriceSnapshot:
     """Fetch and normalize one quote row for every selected symbol."""
     fetched_at = now or datetime.now(tz=INDIA_TZ)
-    quotes, _ = quote_loader(universe, fetched_at, config or ScanConfig())
+    quotes, _ = quote_loader(
+        universe,
+        now=fetched_at,
+        config=config or ScanConfig(),
+    )
     rows = []
     for item in universe.itertuples(index=False):
         record = quotes.get(

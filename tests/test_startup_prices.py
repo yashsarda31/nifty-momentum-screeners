@@ -42,6 +42,26 @@ def test_startup_snapshot_retains_unavailable_symbols():
     assert snapshot.table.loc[1, "quote_reason"] == "provider failure"
 
 
+def test_startup_snapshot_passes_timestamp_and_config_by_keyword():
+    universe = pd.DataFrame(
+        {"symbol": ["AAA"], "yahoo_symbol": ["AAA.NS"]}
+    )
+    received = {}
+
+    def loader(symbols, downloader=None, now=None, config=None):
+        received.update(
+            {"symbols": symbols, "downloader": downloader, "now": now, "config": config}
+        )
+        return {}, {"AAA": "quote unavailable"}
+
+    fetch_startup_prices(universe, now=NOW, quote_loader=loader)
+
+    assert received["symbols"] is universe
+    assert received["downloader"] is None
+    assert received["now"] == NOW
+    assert received["config"] is not None
+
+
 def test_attach_startup_prices_preserves_daily_close_and_calculates_change():
     frame = pd.DataFrame(
         {"symbol": ["AAA", "MISS"], "latest_close": [100.0, 90.0]}
