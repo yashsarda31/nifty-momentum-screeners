@@ -85,6 +85,10 @@ def test_tight_gap_volume_and_inside_bar_features_are_auditable():
     row = build_one(frame)
 
     assert row["gap_pct"] == pytest.approx(3.0)
+    assert row["previous_close"] == pytest.approx(prior_close)
+    assert row["scan_date"] == "2026-08-13"
+    assert row["prior_20_high"] == pytest.approx(frame["High"].iloc[-21:-1].max())
+    assert row["daily_close_position"] >= 0.5
     assert bool(row["daily_inside_bar"])
     assert row["volume_ratio_20d"] > 1.5
     assert row["three_close_band_pct"] >= 0
