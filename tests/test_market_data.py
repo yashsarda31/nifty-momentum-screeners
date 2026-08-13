@@ -6,6 +6,7 @@ import pandas as pd
 import pytest
 
 from nifty_vcp.market_data import (
+    collect_benchmark_history,
     collect_daily_histories,
     collect_latest_quotes,
     split_yahoo_download,
@@ -38,7 +39,7 @@ def price_frame(periods=280, end="2026-08-11"):
         (lambda f: f.assign(Close=0.0), "prices must be positive"),
         (lambda f: f.assign(Volume=-1), "volume must be nonnegative"),
         (lambda f: f.assign(High=f["Low"] - 1), "High must be at least Low"),
-        (lambda f: f.iloc[:100], "at least 273"),
+        (lambda f: f.iloc[:14], "at least 15"),
     ],
 )
 def test_validate_history_rejects_bad_frames(bad, message):
@@ -87,7 +88,7 @@ def test_collect_daily_uses_design_options_and_excludes_stale_symbol():
     assert list(histories) == ["AAA"]
     assert "stale latest bar" in exclusions["BBB"]
     assert calls[0][1] == {
-        "period": "15mo",
+        "period": "2y",
         "interval": "1d",
         "auto_adjust": True,
         "repair": True,
@@ -162,3 +163,35 @@ def test_quotes_classify_live_delayed_closed_and_unavailable():
         jitter=lambda: 0.0,
     )
     assert closed["AAA"].status == QuoteStatus.LAST_AVAILABLE
+
+
+def test_collect_daily_retains_fifteen_session_ipo():
+    universe = pd.DataFrame({"symbol": ["IPO"], "yahoo_symbol": ["IPO.NS"]})
+
+    histories, exclusions = collect_daily_histories(
+        universe,
+        lambda tickers, **kwargs: price_frame(periods=15),
+        datetime(2026, 8, 12, 16, 0, tzinfo=TZ),
+        ScanConfig(max_retries=1),
+        sleep=lambda _seconds: None,
+        jitter=lambda: 0.0,
+    )
+
+    assert list(histories) == ["IPO"]
+    assert exclusions == {}
+
+
+def test_collect_benchmark_requests_nifty_daily_history():
+    calls = []
+
+    def downloader(tickers, **kwargs):
+        calls.append((tickers, kwargs))
+        return price_frame(periods=280)
+
+    result = collect_benchmark_history(
+        datetime(2026, 8, 12, 16, 0, tzinfo=TZ), ScanConfig(), downloader
+    )
+
+    assert len(result) == 280
+    assert calls[0][0] == ["^NSEI"]
+    assert calls[0][1]["period"] == "2y"

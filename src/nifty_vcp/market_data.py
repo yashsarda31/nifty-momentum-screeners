@@ -23,7 +23,7 @@ from nifty_vcp.sessions import INDIA_TZ, drop_unfinished_daily_bar, market_state
 REQUIRED_OHLCV = ("Open", "High", "Low", "Close", "Volume")
 
 
-def validate_history(frame: pd.DataFrame, minimum_sessions: int = 273) -> None:
+def validate_history(frame: pd.DataFrame, minimum_sessions: int = 15) -> None:
     missing = [column for column in REQUIRED_OHLCV if column not in frame.columns]
     if missing:
         raise ValueError(f"missing columns: {', '.join(missing)}")
@@ -135,7 +135,7 @@ def collect_daily_histories(
     raw_frames: dict[str, pd.DataFrame] = {}
     exclusions: dict[str, str] = {}
     kwargs = {
-        "period": "15mo",
+        "period": "2y",
         "interval": "1d",
         "auto_adjust": True,
         "repair": True,
@@ -156,7 +156,7 @@ def collect_daily_histories(
         symbol = yahoo_to_symbol[yahoo_symbol]
         try:
             completed = drop_unfinished_daily_bar(frame, now)
-            validate_history(completed)
+            validate_history(completed, config.minimum_history_sessions)
             accepted[symbol] = completed.loc[:, REQUIRED_OHLCV].astype(float)
         except ValueError as exc:
             exclusions[symbol] = str(exc)
@@ -173,6 +173,34 @@ def collect_daily_histories(
             )
             accepted.pop(symbol)
     return dict(sorted(accepted.items())), exclusions
+
+
+def collect_benchmark_history(
+    now: datetime,
+    config: ScanConfig | None = None,
+    downloader: Callable[..., pd.DataFrame] = yahoo_download,
+    *,
+    sleep: Callable[[float], None] = time.sleep,
+    jitter: Callable[[], float] = random.random,
+) -> pd.DataFrame:
+    config = config or ScanConfig()
+    kwargs = {
+        "period": "2y",
+        "interval": "1d",
+        "auto_adjust": True,
+        "repair": True,
+        "progress": False,
+        "threads": True,
+        "timeout": config.request_timeout,
+    }
+    frames, errors = _download_with_isolation(
+        ["^NSEI"], downloader, kwargs, config, sleep, jitter
+    )
+    if "^NSEI" not in frames:
+        raise ValueError(errors.get("^NSEI", "Nifty 50 benchmark unavailable"))
+    completed = drop_unfinished_daily_bar(frames["^NSEI"], now)
+    validate_history(completed, minimum_sessions=253)
+    return completed.loc[:, REQUIRED_OHLCV].astype(float)
 
 
 def _quote_timestamp(timestamp, now: datetime) -> datetime:
