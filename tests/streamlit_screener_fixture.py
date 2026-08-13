@@ -14,6 +14,10 @@ features = pd.DataFrame(
         "scan_date": ["2026-08-13"],
         "history_sessions": [280],
         "gap_pct": [4.0],
+        "latest_price": [105.0],
+        "price_change_pct": [5.0],
+        "quote_status": ["LIVE"],
+        "quote_timestamp": ["2026-08-14T10:00:00+05:30"],
     }
 )
 events = pd.DataFrame(columns=["symbol", "event_type", "event_date", "broadcast_at"])

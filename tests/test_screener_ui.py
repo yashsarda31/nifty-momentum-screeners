@@ -38,6 +38,17 @@ def test_gap_category_threshold_controls_are_interactive():
     assert not at.exception
 
 
+def test_rendered_screener_table_shows_startup_quote_fields():
+    at = AppTest.from_file("streamlit_screener_fixture.py").run()
+    at.button(key="screen_gap_screeners").click().run()
+
+    assert not at.exception
+    rendered = at.dataframe[0].value
+    assert rendered.iloc[0]["latest_price"] == 105.0
+    assert rendered.iloc[0]["price_change_pct"] == 5.0
+    assert rendered.iloc[0]["quote_status"] == "LIVE"
+
+
 def test_threshold_filter_recalculates_from_stored_features():
     features = pd.DataFrame(
         {

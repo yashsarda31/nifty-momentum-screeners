@@ -44,6 +44,14 @@ A full scan downloads roughly two years of daily data for the exchange list and 
 
 Open the local URL printed by Streamlit. The dashboard reads the latest completed artifact bundle from `outputs/latest.json`. Its **Run Live Scan** button executes the same pipeline in-process.
 
+On the first render of each browser session, the dashboard requests the latest
+available one-minute Yahoo price for every stock in the stored selected universe.
+The snapshot lives only in Streamlit session state: widget reruns reuse it, while
+a manual browser-page refresh starts a new session and fetches again. Startup
+quotes are not cached across sessions and are not written into the timestamped
+scan bundle. Tables show the quote timestamp and `LIVE`, `DELAYED`,
+`LAST AVAILABLE`, or `UNAVAILABLE` status beside the completed daily close.
+
 The separate **Screeners** tab includes:
 
 - Horizontal resistance; NR7, three tight closes, and ATR contraction.
@@ -72,7 +80,13 @@ Stocks are cross-sectionally percentile-ranked from 1 through 99. RS 80 or highe
 
 ### Live breakout
 
-The scanner obtains one-minute Yahoo observations only for high-RS stocks. A breakout requires a valid `LIVE` observation strictly above the highest daily high from the previous 55 completed sessions. Equality is not a breakout. Delayed, missing, and closed-market observations cannot confirm a live breakout.
+The batch scanner obtains one-minute Yahoo observations for high-RS stocks. The
+dashboard's startup snapshot covers the full selected universe and rechecks the
+stored high-RS setups in memory. A breakout requires a valid `LIVE` observation
+strictly above the highest daily high from the previous 55 completed sessions.
+Equality is not a breakout. Delayed, missing, and closed-market observations
+cannot confirm a live breakout. All other technical screens continue to use
+completed daily candles rather than unfinished intraday data.
 
 ### Five VCP stars
 
