@@ -266,6 +266,14 @@ def collect_latest_quotes(
             )
             exclusions[symbol] = reason
             continue
+        price = float(close.iloc[-1])
+        if not math.isfinite(price) or price <= 0:
+            reason = "quote price must be finite and positive"
+            quotes[symbol] = QuoteRecord(
+                symbol, None, None, QuoteStatus.UNAVAILABLE, None, reason
+            )
+            exclusions[symbol] = reason
+            continue
         timestamp = _quote_timestamp(close.index[-1], now)
         age = max(0.0, (now - timestamp).total_seconds() / 60.0)
         if state != MarketState.OPEN:
@@ -278,6 +286,6 @@ def collect_latest_quotes(
             status = QuoteStatus.LIVE
             reason = ""
         quotes[symbol] = QuoteRecord(
-            symbol, float(close.iloc[-1]), timestamp, status, age, reason
+            symbol, price, timestamp, status, age, reason
         )
     return quotes, exclusions

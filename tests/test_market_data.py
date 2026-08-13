@@ -165,6 +165,29 @@ def test_quotes_classify_live_delayed_closed_and_unavailable():
     assert closed["AAA"].status == QuoteStatus.LAST_AVAILABLE
 
 
+@pytest.mark.parametrize("invalid_price", [0.0, -1.0, np.inf])
+def test_quotes_reject_non_positive_or_non_finite_prices(invalid_price):
+    symbols = pd.DataFrame(
+        {"symbol": ["BAD"], "yahoo_symbol": ["BAD.NS"]}
+    )
+    now = datetime(2026, 8, 12, 10, 0, tzinfo=TZ)
+
+    quotes, exclusions = collect_latest_quotes(
+        symbols,
+        lambda tickers, **kwargs: pd.DataFrame(
+            {"Close": [invalid_price]}, index=pd.DatetimeIndex([now])
+        ),
+        now,
+        ScanConfig(max_retries=1),
+        sleep=lambda _seconds: None,
+        jitter=lambda: 0.0,
+    )
+
+    assert quotes["BAD"].status == QuoteStatus.UNAVAILABLE
+    assert quotes["BAD"].price is None
+    assert exclusions["BAD"] == "quote price must be finite and positive"
+
+
 def test_collect_daily_retains_fifteen_session_ipo():
     universe = pd.DataFrame({"symbol": ["IPO"], "yahoo_symbol": ["IPO.NS"]})
 
