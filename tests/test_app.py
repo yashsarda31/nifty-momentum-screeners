@@ -1,14 +1,44 @@
 import json
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pandas as pd
+import pytest
 
 from app import (
+    apply_startup_prices,
     build_price_figure,
     build_vcp_evidence,
+    get_session_startup_prices,
     load_latest_run,
     render_vcp_stars,
     status_badge,
 )
+from nifty_vcp.models import QuoteRecord, QuoteStatus
+from nifty_vcp.startup_prices import StartupPriceSnapshot
+
+TZ = ZoneInfo("Asia/Kolkata")
+NOW = datetime(2026, 8, 14, 10, 0, tzinfo=TZ)
+
+
+def startup_snapshot(
+    price: float = 101.0, status: QuoteStatus = QuoteStatus.LIVE
+) -> StartupPriceSnapshot:
+    record = QuoteRecord("AAA", price, NOW, status, 0.0, "")
+    return StartupPriceSnapshot(
+        NOW,
+        {"AAA": record},
+        pd.DataFrame(
+            {
+                "symbol": ["AAA"],
+                "latest_price": [price],
+                "quote_timestamp": [NOW.isoformat()],
+                "quote_status": [status.value],
+                "quote_age_minutes": [0.0],
+                "quote_reason": [""],
+            }
+        ),
+    )
 
 
 def test_missing_latest_returns_none(tmp_path):
@@ -116,3 +146,112 @@ def test_vcp_evidence_values_are_arrow_safe_strings():
         pd.Series({"vcp_stars": 4, "vcp_trend_template": True})
     )
     assert evidence["value"].map(type).eq(str).all()
+
+
+def test_startup_prices_fetch_once_per_session_and_refetch_for_new_session():
+    calls = []
+    universe = pd.DataFrame(
+        {"symbol": ["AAA"], "yahoo_symbol": ["AAA.NS"]}
+    )
+
+    def fetcher(selected):
+        calls.append(selected["symbol"].tolist())
+        return startup_snapshot()
+
+    first_session = {}
+    first = get_session_startup_prices(first_session, "run-1", universe, fetcher)
+    second = get_session_startup_prices(first_session, "run-1", universe, fetcher)
+    refreshed = get_session_startup_prices({}, "run-1", universe, fetcher)
+
+    assert first is second
+    assert refreshed is not None
+    assert calls == [["AAA"], ["AAA"]]
+
+
+def test_startup_prices_refetch_when_scan_bundle_changes():
+    calls = []
+    universe = pd.DataFrame(
+        {"symbol": ["AAA"], "yahoo_symbol": ["AAA.NS"]}
+    )
+
+    def fetcher(selected):
+        calls.append(selected["symbol"].tolist())
+        return startup_snapshot()
+
+    session = {}
+    get_session_startup_prices(session, "run-1", universe, fetcher)
+    get_session_startup_prices(session, "run-2", universe, fetcher)
+
+    assert len(calls) == 2
+
+
+def test_apply_startup_prices_updates_tables_and_live_breakouts_in_memory():
+    dates = pd.bdate_range("2026-05-22", periods=60)
+    history = pd.DataFrame(
+        {
+            "symbol": "AAA",
+            "date": dates,
+            "Open": 99.0,
+            "High": 100.0,
+            "Low": 98.0,
+            "Close": 99.0,
+            "Volume": 1_000_000.0,
+        }
+    )
+    bundle = {
+        "manifest": {"thresholds": {"pivot_sessions": 55}},
+        "rankings": pd.DataFrame(
+            {"symbol": ["AAA"], "latest_close": [100.0]}
+        ),
+        "setups": pd.DataFrame(
+            {"symbol": ["AAA"], "latest_close": [100.0], "pivot_55": [100.0]}
+        ),
+        "features": pd.DataFrame(
+            {"symbol": ["AAA"], "latest_close": [100.0]}
+        ),
+        "breakouts": pd.DataFrame(),
+        "chart_history": history,
+    }
+
+    updated = apply_startup_prices(bundle, startup_snapshot())
+
+    assert "latest_price" not in bundle["rankings"]
+    assert updated["rankings"].iloc[0]["latest_close"] == 100.0
+    assert updated["rankings"].iloc[0]["latest_price"] == 101.0
+    assert updated["rankings"].iloc[0]["price_change_pct"] == pytest.approx(1.0)
+    assert updated["features"].iloc[0]["quote_status"] == "LIVE"
+    assert bool(updated["setups"].iloc[0]["is_breakout"])
+    assert updated["breakouts"]["symbol"].tolist() == ["AAA"]
+    assert updated["startup_prices"].fetched_at == NOW
+
+
+def test_apply_startup_prices_does_not_confirm_delayed_breakout():
+    dates = pd.bdate_range("2026-05-22", periods=60)
+    bundle = {
+        "manifest": {"thresholds": {"pivot_sessions": 55}},
+        "rankings": pd.DataFrame(
+            {"symbol": ["AAA"], "latest_close": [100.0]}
+        ),
+        "setups": pd.DataFrame(
+            {"symbol": ["AAA"], "latest_close": [100.0]}
+        ),
+        "features": pd.DataFrame(
+            {"symbol": ["AAA"], "latest_close": [100.0]}
+        ),
+        "breakouts": pd.DataFrame(),
+        "chart_history": pd.DataFrame(
+            {
+                "symbol": "AAA",
+                "date": dates,
+                "High": 100.0,
+                "Close": 99.0,
+            }
+        ),
+    }
+
+    updated = apply_startup_prices(
+        bundle, startup_snapshot(101.0, QuoteStatus.DELAYED)
+    )
+
+    assert not bool(updated["setups"].iloc[0]["is_breakout"])
+    assert updated["breakouts"].empty

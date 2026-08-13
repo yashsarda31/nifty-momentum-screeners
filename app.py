@@ -4,18 +4,27 @@ from __future__ import annotations
 
 import html
 import json
+from collections.abc import Callable, MutableMapping
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from plotly.subplots import make_subplots
 
+from nifty_vcp.breakouts import classify_high_rs_breakouts
 from nifty_vcp.models import ScanConfig
 from nifty_vcp.pipeline import run_scan
+from nifty_vcp.startup_prices import (
+    StartupPriceSnapshot,
+    attach_startup_prices,
+    fetch_startup_prices,
+)
 from screener_ui import render_screeners
 
 OUTPUT_ROOT = Path("outputs")
+STARTUP_PRICES_KEY = "startup_prices"
 
 
 def load_latest_run(output_root: str | Path = OUTPUT_ROOT) -> dict | None:
@@ -55,6 +64,80 @@ def load_latest_run(output_root: str | Path = OUTPUT_ROOT) -> dict | None:
         earnings.attrs["status"] = manifest.get("earnings_status", "COMPLETE")
         bundle["screeners_available"] = True
     return bundle
+
+
+def get_session_startup_prices(
+    session_state: MutableMapping[str, Any],
+    run_key: str,
+    universe: pd.DataFrame,
+    fetcher: Callable[[pd.DataFrame], StartupPriceSnapshot] = fetch_startup_prices,
+) -> StartupPriceSnapshot:
+    """Fetch once for a browser session and again when its scan bundle changes."""
+    stored = session_state.get(STARTUP_PRICES_KEY)
+    if stored is None or stored["run_key"] != run_key:
+        stored = {"run_key": run_key, "snapshot": fetcher(universe)}
+        session_state[STARTUP_PRICES_KEY] = stored
+    return stored["snapshot"]
+
+
+def _stored_histories(bundle: dict) -> dict[str, pd.DataFrame]:
+    history = bundle.get("chart_history", pd.DataFrame())
+    required = {"symbol", "date", "High"}
+    if history.empty or not required <= set(history.columns):
+        return {}
+    histories = {}
+    for symbol, frame in history.groupby("symbol", sort=False):
+        data = frame.sort_values("date").copy()
+        data["date"] = pd.to_datetime(data["date"])
+        histories[str(symbol)] = data.set_index("date").drop(columns="symbol")
+    return histories
+
+
+def apply_startup_prices(
+    bundle: dict, snapshot: StartupPriceSnapshot
+) -> dict:
+    """Enrich an in-memory bundle and reclassify live breakouts."""
+    updated = dict(bundle)
+    setups = bundle.get("setups", pd.DataFrame()).copy()
+    histories = _stored_histories(bundle)
+    classifiable = setups[
+        setups.get("symbol", pd.Series(dtype=str)).astype(str).isin(histories)
+    ]
+    if classifiable.empty:
+        refreshed_setups = setups
+    else:
+        refreshed = classify_high_rs_breakouts(
+            classifiable,
+            histories,
+            snapshot.quotes,
+            int(bundle.get("manifest", {}).get("thresholds", {}).get("pivot_sessions", 55)),
+        )
+        missing = setups[
+            ~setups.get("symbol", pd.Series(dtype=str)).astype(str).isin(histories)
+        ]
+        refreshed_setups = pd.concat([refreshed, missing], ignore_index=True)
+
+    tables = {
+        "rankings": bundle.get("rankings", pd.DataFrame()),
+        "setups": refreshed_setups,
+        "features": bundle.get("features", pd.DataFrame()),
+    }
+    for name, frame in tables.items():
+        if not frame.empty and "symbol" in frame:
+            updated[name] = attach_startup_prices(
+                frame, snapshot.table, "latest_close"
+            )
+        else:
+            updated[name] = frame.copy()
+    setups_with_quotes = updated["setups"]
+    if "is_breakout" in setups_with_quotes:
+        updated["breakouts"] = setups_with_quotes[
+            setups_with_quotes["is_breakout"].fillna(False).astype(bool)
+        ].copy()
+    else:
+        updated["breakouts"] = setups_with_quotes.iloc[0:0].copy()
+    updated["startup_prices"] = snapshot
+    return updated
 
 
 def render_vcp_stars(value: float) -> str:
@@ -207,6 +290,14 @@ def main() -> None:
     if bundle is None:
         st.info("No scan yet. Use Run Live Scan to create the first local result.")
         return
+    if bundle.get("screeners_available", False):
+        with st.spinner("Fetching the latest Yahoo prices..."):
+            snapshot = get_session_startup_prices(
+                st.session_state,
+                str(bundle["path"]),
+                bundle["selected_universe"],
+            )
+        bundle = apply_startup_prices(bundle, snapshot)
     manifest = bundle["manifest"]
     status = str(manifest.get("status", "UNKNOWN"))
     st.markdown(
