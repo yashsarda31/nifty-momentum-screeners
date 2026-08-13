@@ -7,3 +7,4 @@ outputs-smoke/
 __pycache__/
 *.egg-info/
 .streamlit/secrets.toml
+/custom_screeners.json
