@@ -431,7 +431,14 @@ def evaluate_screener(
             if name in feature
         }
         evidence["thresholds"] = applied
-        if slug in EARNINGS_SCREENERS and events_status != "COMPLETE":
+        benchmark_incomplete = (
+            slug == "rs_high_before_price_high"
+            and feature.get("benchmark_status", "COMPLETE") != "COMPLETE"
+        )
+        if benchmark_incomplete:
+            state = ScreenerState.INCOMPLETE
+            reason = "Nifty 50 benchmark history was unavailable."
+        elif slug in EARNINGS_SCREENERS and events_status != "COMPLETE":
             state = ScreenerState.INCOMPLETE
             reason = "Official NSE earnings events were unavailable."
         elif missing:

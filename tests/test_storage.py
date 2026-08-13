@@ -13,6 +13,10 @@ def artifacts():
         "live_breakouts.csv": pd.DataFrame(columns=["symbol", "live_price"]),
         "exclusions.csv": pd.DataFrame(columns=["symbol", "stage", "reason"]),
         "chart_history.csv.gz": pd.DataFrame(columns=["symbol", "date", "Close"]),
+        "selected_universe.csv": pd.DataFrame(columns=["symbol", "liquidity_rank"]),
+        "screener_features.csv": pd.DataFrame(columns=["symbol", "nr7"]),
+        "screener_matches.csv": pd.DataFrame(columns=["symbol", "screener"]),
+        "earnings_events.csv": pd.DataFrame(columns=["symbol", "event_type"]),
     }
 
 

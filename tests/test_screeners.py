@@ -151,6 +151,15 @@ def test_earnings_provider_failure_is_incomplete_not_no_match():
     assert result.iloc[0]["state"] == "SCAN INCOMPLETE"
 
 
+def test_benchmark_provider_failure_is_incomplete_not_no_match():
+    features = matching_features()
+    features["benchmark_status"] = "SCAN INCOMPLETE"
+    result = evaluate_screener(
+        "rs_high_before_price_high", features, matching_events(), {}
+    )
+    assert set(result["state"]) == {"SCAN INCOMPLETE"}
+
+
 def test_multiple_scans_lists_reasons_and_count():
     matches = evaluate_all_screeners(matching_features(), matching_events())
     result = multiple_scan_matches(matches, ["nr7", "gap_up"], 2)
