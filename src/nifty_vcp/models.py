@@ -29,6 +29,13 @@ class QuoteStatus(StrEnum):
     UNAVAILABLE = "UNAVAILABLE"
 
 
+class ScreenerState(StrEnum):
+    MATCH = "MATCH"
+    NO_MATCH = "NO MATCH"
+    NOT_ELIGIBLE = "NOT ELIGIBLE"
+    INCOMPLETE = "SCAN INCOMPLETE"
+
+
 @dataclass(frozen=True)
 class ScanConfig:
     high_rs_threshold: int = 80
@@ -41,6 +48,11 @@ class ScanConfig:
     request_timeout: float = 20.0
     max_retries: int = 3
     max_symbols: int | None = None
+    liquidity_count: int = 1_000
+    liquidity_sessions: int = 60
+    liquidity_min_observations: int = 40
+    recent_ipo_days: int = 730
+    minimum_history_sessions: int = 15
 
     def __post_init__(self) -> None:
         if not 0 < self.coverage_threshold <= 1:
@@ -53,6 +65,18 @@ class ScanConfig:
             raise ValueError("momentum sessions and weights must align")
         if not math.isclose(sum(self.momentum_weights), 1.0):
             raise ValueError("momentum weights must sum to 1")
+        if self.liquidity_count < 1:
+            raise ValueError("liquidity_count must be positive")
+        if self.liquidity_sessions < 1:
+            raise ValueError("liquidity_sessions must be positive")
+        if not 1 <= self.liquidity_min_observations <= self.liquidity_sessions:
+            raise ValueError(
+                "liquidity_min_observations must be between 1 and liquidity_sessions"
+            )
+        if self.recent_ipo_days < 1:
+            raise ValueError("recent_ipo_days must be positive")
+        if self.minimum_history_sessions < 15:
+            raise ValueError("minimum_history_sessions must be at least 15")
 
 
 @dataclass(frozen=True)
