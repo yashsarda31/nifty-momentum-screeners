@@ -98,7 +98,9 @@ def select_scan_universe(
     result = universe.copy()
     result["median_traded_value_60d"] = result["symbol"].map(liquidity)
     result["liquidity_rank"] = result["symbol"].map(ranks).astype("Int64")
-    result["top_1000_liquid"] = result["liquidity_rank"].le(config.liquidity_count)
+    result["top_1000_liquid"] = (
+        result["liquidity_rank"].le(config.liquidity_count).fillna(False).astype(bool)
+    )
     as_of_date = pd.Timestamp(as_of)
     if as_of_date.tzinfo is not None:
         as_of_date = as_of_date.tz_localize(None)

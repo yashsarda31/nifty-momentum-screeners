@@ -29,6 +29,7 @@ def test_gap_category_threshold_controls_are_interactive():
     at = AppTest.from_file("streamlit_screener_fixture.py").run()
     at.button(key="screen_gap_screeners").click().run()
     assert not at.exception
+    assert any(heading.value == "Gap screeners" for heading in at.header)
     at.number_input(key="threshold_gap_up_minimum_gap_pct").set_value(4.1).run()
     assert not at.exception
 

@@ -161,6 +161,20 @@ def test_rankings_and_vcp_evidence_are_merged_by_symbol():
     assert result.iloc[0]["vcp_stars"] == 4
 
 
+def test_selected_symbol_without_provider_history_is_retained_as_incomplete():
+    result = build_feature_matrix(
+        {},
+        universe("MISSING", "2026-08-01"),
+        benchmark(),
+        pd.DataFrame(),
+        pd.DataFrame(),
+        pd.Timestamp("2026-08-13"),
+    )
+    assert list(result["symbol"]) == ["MISSING"]
+    assert result.iloc[0]["history_sessions"] == 0
+    assert result.iloc[0]["history_status"] == "SCAN INCOMPLETE"
+
+
 def test_history_evidence_has_stable_symbol_date_and_ohlcv_schema():
     frame = price_frame(15)
     evidence = history_evidence({"AAA": frame})

@@ -92,6 +92,7 @@ def test_selection_adds_recent_ipo_outside_liquidity_cutoff():
     assert set(selected.index) == {"A", "IPO"}
     assert bool(selected.loc["A", "top_1000_liquid"])
     assert bool(selected.loc["IPO", "recent_ipo_overlay"])
+    assert not bool(selected.loc["IPO", "top_1000_liquid"])
     assert pd.isna(selected.loc["IPO", "liquidity_rank"])
 
 

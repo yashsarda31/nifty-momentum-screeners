@@ -350,8 +350,18 @@ def build_feature_matrix(
         if symbol in metadata.index
     ]
     if not rows:
-        return pd.DataFrame(columns=["symbol", "history_sessions", "price_date"])
-    result = pd.DataFrame(rows)
+        result = pd.DataFrame(columns=["symbol", "history_sessions", "price_date"])
+    else:
+        result = pd.DataFrame(rows)
+        result["history_status"] = "COMPLETE"
+    missing_symbols = universe.loc[~universe["symbol"].isin(histories)].copy()
+    if not missing_symbols.empty:
+        missing_rows = missing_symbols.copy()
+        missing_rows["history_sessions"] = 0
+        missing_rows["price_date"] = pd.NA
+        missing_rows["scan_date"] = pd.Timestamp(as_of).date().isoformat()
+        missing_rows["history_status"] = "SCAN INCOMPLETE"
+        result = pd.concat([result, missing_rows], ignore_index=True, sort=False)
     result = _merge_extra(result, rankings)
     result = _merge_extra(result, setups)
     return result.sort_values("symbol", ignore_index=True)

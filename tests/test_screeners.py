@@ -160,6 +160,18 @@ def test_benchmark_provider_failure_is_incomplete_not_no_match():
     assert set(result["state"]) == {"SCAN INCOMPLETE"}
 
 
+def test_missing_provider_history_is_incomplete_for_technical_presets():
+    features = pd.DataFrame(
+        {
+            "symbol": ["MISSING"],
+            "history_sessions": [0],
+            "history_status": ["SCAN INCOMPLETE"],
+        }
+    )
+    result = evaluate_screener("ipo_base", features, matching_events(), {})
+    assert result.iloc[0]["state"] == "SCAN INCOMPLETE"
+
+
 def test_multiple_scans_lists_reasons_and_count():
     matches = evaluate_all_screeners(matching_features(), matching_events())
     result = multiple_scan_matches(matches, ["nr7", "gap_up"], 2)

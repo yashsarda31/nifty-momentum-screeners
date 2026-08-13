@@ -435,7 +435,11 @@ def evaluate_screener(
             slug == "rs_high_before_price_high"
             and feature.get("benchmark_status", "COMPLETE") != "COMPLETE"
         )
-        if benchmark_incomplete:
+        history_incomplete = feature.get("history_status", "COMPLETE") != "COMPLETE"
+        if history_incomplete:
+            state = ScreenerState.INCOMPLETE
+            reason = "Daily price history was unavailable from the provider."
+        elif benchmark_incomplete:
             state = ScreenerState.INCOMPLETE
             reason = "Nifty 50 benchmark history was unavailable."
         elif slug in EARNINGS_SCREENERS and events_status != "COMPLETE":

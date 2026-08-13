@@ -1,4 +1,4 @@
-"""Command-line entry point for the Nifty Total Market scanner."""
+"""Command-line entry point for the broad NSE equity scanner."""
 
 from __future__ import annotations
 

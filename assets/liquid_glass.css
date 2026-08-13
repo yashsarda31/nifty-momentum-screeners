@@ -82,15 +82,6 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--cyan) !impo
 [data-testid="stDataFrame"], [data-testid="stPlotlyChart"] { border-radius: 22px; overflow: hidden; }
 .star-rating { color: #ffe38b; letter-spacing: .08em; font-weight: 800; }
 .footnote { color: var(--muted); font-size: .82rem; }
-.screener-shell { margin-top: .35rem; }
-.screener-menu, .screener-results {
-  padding: .85rem;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  background: linear-gradient(145deg, rgba(255,255,255,.07), var(--glass));
-}
-.screener-menu .menu-spacer { height: .28rem; }
-.screener-results { min-height: 32rem; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
@@ -99,6 +90,5 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--cyan) !impo
 @media (max-width: 760px) {
   .hero { padding: 1.15rem; border-radius: 22px; }
   .hero h1 { font-size: 2.35rem; }
-  .screener-menu, .screener-results { padding: .6rem; border-radius: 18px; }
 }
 

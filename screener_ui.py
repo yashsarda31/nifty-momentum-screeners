@@ -50,6 +50,10 @@ def _key(label: str) -> str:
     )
 
 
+def _select_menu(item: str) -> None:
+    st.session_state["screener_menu"] = item
+
+
 def _category_slugs(category: str) -> list[str]:
     return [
         slug
@@ -286,10 +290,8 @@ def render_screeners(
     bundle: dict, custom_store_path: Path = Path("custom_screeners.json")
 ) -> None:
     """Render the separate screener workspace using only stored scan artifacts."""
-    st.markdown('<div class="screener-shell">', unsafe_allow_html=True)
     if not bundle.get("screeners_available", False):
         st.info("Screeners require a new expanded scan. Existing results remain readable.")
-        st.markdown("</div>", unsafe_allow_html=True)
         return
     st.caption(
         "Completed daily bars only. Missing history is shown as NOT ELIGIBLE; "
@@ -297,16 +299,16 @@ def render_screeners(
     )
     menu, content = st.columns([0.28, 0.72], gap="large")
     active = st.session_state.get("screener_menu", "Horizontal resistance")
-    with menu:
-        st.markdown('<div class="screener-menu">', unsafe_allow_html=True)
+    with menu, st.container(border=True):
         for item in MENU_ITEMS:
-            if st.button(item, key=_key(item), width="stretch"):
-                st.session_state["screener_menu"] = item
-                active = item
-            st.markdown("<div class='menu-spacer'></div>", unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-    with content:
-        st.markdown('<div class="screener-results">', unsafe_allow_html=True)
+            st.button(
+                item,
+                key=_key(item),
+                width="stretch",
+                on_click=_select_menu,
+                args=(item,),
+            )
+    with content, st.container(border=True):
         st.header(active)
         if active == "Create/load screener":
             _render_custom(bundle, custom_store_path)
@@ -314,5 +316,3 @@ def render_screeners(
             _render_multiple(bundle)
         else:
             _render_preset(active, bundle)
-        st.markdown("</div>", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
