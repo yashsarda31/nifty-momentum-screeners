@@ -5,6 +5,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 import pytest
 
+import app as dashboard_app
 from app import (
     apply_startup_prices,
     build_price_figure,
@@ -147,6 +148,47 @@ def test_vcp_evidence_values_are_arrow_safe_strings():
         pd.Series({"vcp_stars": 4, "vcp_trend_template": True})
     )
     assert evidence["value"].map(type).eq(str).all()
+
+
+def test_rs_leaders_table_shows_sortable_vcp_rating_out_of_five(monkeypatch):
+    captured = {}
+
+    def capture_dataframe(data, **kwargs):
+        captured["data"] = data
+        captured["kwargs"] = kwargs
+
+    monkeypatch.setattr(dashboard_app.st, "dataframe", capture_dataframe)
+    renderer = getattr(dashboard_app, "render_rs_leaders_table", None)
+    assert callable(renderer)
+
+    renderer(
+        pd.DataFrame(
+            {
+                "company_name": ["One Limited", "Two Limited"],
+                "vcp_stars": ["2", "5"],
+                "symbol": ["ONE", "TWO"],
+                "rs_rating": [90, 95],
+                "latest_close": [100.0, 200.0],
+            }
+        )
+    )
+
+    table = captured["data"]
+    assert table.columns[:4].tolist() == [
+        "symbol",
+        "company_name",
+        "rs_rating",
+        "vcp_stars",
+    ]
+    assert table.sort_values("vcp_stars", ascending=False)["symbol"].tolist() == [
+        "TWO",
+        "ONE",
+    ]
+    config = captured["kwargs"]["column_config"]["vcp_stars"]
+    assert config["label"] == "VCP rating"
+    assert config["type_config"]["format"] == "%d / 5"
+    assert config["type_config"]["min_value"] == 0
+    assert config["type_config"]["max_value"] == 5
 
 
 def test_startup_prices_fetch_once_per_session_and_refetch_for_new_session():

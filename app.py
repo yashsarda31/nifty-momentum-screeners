@@ -178,6 +178,33 @@ def render_vcp_stars(value: float) -> str:
     return f"{'★' * stars}{'☆' * (5 - stars)} ({stars} of 5)"
 
 
+def render_rs_leaders_table(leaders: pd.DataFrame) -> None:
+    table = leaders.copy()
+    table["vcp_stars"] = pd.to_numeric(table["vcp_stars"], errors="coerce").astype(
+        "Int64"
+    )
+    priority_columns = [
+        column
+        for column in ("symbol", "company_name", "rs_rating", "vcp_stars")
+        if column in table
+    ]
+    table = table[[*priority_columns, *(c for c in table if c not in priority_columns)]]
+    st.dataframe(
+        table,
+        width="stretch",
+        hide_index=True,
+        column_config={
+            "vcp_stars": st.column_config.NumberColumn(
+                "VCP rating",
+                help="Rating out of 5. Click the column header to sort.",
+                format="%d / 5",
+                min_value=0,
+                max_value=5,
+            )
+        },
+    )
+
+
 def status_badge(status: str) -> str:
     safe = html.escape(status)
     css_class = "incomplete" if "INCOMPLETE" in status.upper() else "complete"
@@ -369,7 +396,7 @@ def main() -> None:
                     lambda row: row.str.contains(search, case=False).any(), axis=1
                 )
             ]
-        st.dataframe(leaders, width="stretch", hide_index=True)
+        render_rs_leaders_table(leaders)
     with tabs[2]:
         st.dataframe(bundle["rankings"], width="stretch", hide_index=True)
     with tabs[3]:
