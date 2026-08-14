@@ -178,31 +178,61 @@ def render_vcp_stars(value: float) -> str:
     return f"{'★' * stars}{'☆' * (5 - stars)} ({stars} of 5)"
 
 
+def render_stock_table(frame: pd.DataFrame) -> None:
+    priority_columns = [
+        column
+        for column in (
+            "symbol",
+            "company_name",
+            "latest_price",
+            "quote_timestamp",
+            "quote_status",
+            "price_change_pct",
+            "rs_rating",
+            "vcp_stars",
+            "latest_close",
+            "price_date",
+        )
+        if column in frame
+    ]
+    table = frame[
+        [*priority_columns, *(column for column in frame if column not in priority_columns)]
+    ]
+    column_config = {
+        "latest_price": st.column_config.NumberColumn(
+            "Latest Yahoo price", format="₹ %.2f"
+        ),
+        "quote_timestamp": st.column_config.DatetimeColumn(
+            "Yahoo quote time", format="DD MMM, HH:mm:ss"
+        ),
+        "quote_status": "Quote status",
+        "price_change_pct": st.column_config.NumberColumn(
+            "Change vs scan close", format="%.2f%%"
+        ),
+        "vcp_stars": st.column_config.NumberColumn(
+            "VCP rating",
+            help="Rating out of 5. Click the column header to sort.",
+            format="%d / 5",
+            min_value=0,
+            max_value=5,
+        ),
+        "latest_close": st.column_config.NumberColumn("Scan close", format="₹ %.2f"),
+        "price_date": "Completed candle date",
+    }
+    st.dataframe(
+        table,
+        width="stretch",
+        hide_index=True,
+        column_config={name: value for name, value in column_config.items() if name in table},
+    )
+
+
 def render_rs_leaders_table(leaders: pd.DataFrame) -> None:
     table = leaders.copy()
     table["vcp_stars"] = pd.to_numeric(table["vcp_stars"], errors="coerce").astype(
         "Int64"
     )
-    priority_columns = [
-        column
-        for column in ("symbol", "company_name", "rs_rating", "vcp_stars")
-        if column in table
-    ]
-    table = table[[*priority_columns, *(c for c in table if c not in priority_columns)]]
-    st.dataframe(
-        table,
-        width="stretch",
-        hide_index=True,
-        column_config={
-            "vcp_stars": st.column_config.NumberColumn(
-                "VCP rating",
-                help="Rating out of 5. Click the column header to sort.",
-                format="%d / 5",
-                min_value=0,
-                max_value=5,
-            )
-        },
-    )
+    render_stock_table(table)
 
 
 def status_badge(status: str) -> str:
@@ -385,7 +415,7 @@ def main() -> None:
         if bundle["breakouts"].empty:
             st.info(manifest.get("outcome", "No breakout result available."))
         else:
-            st.dataframe(bundle["breakouts"], width="stretch", hide_index=True)
+            render_stock_table(bundle["breakouts"])
         _stock_detail(bundle)
     with tabs[1]:
         search = st.text_input("Search high-RS stocks", key="leader_search")
@@ -398,7 +428,7 @@ def main() -> None:
             ]
         render_rs_leaders_table(leaders)
     with tabs[2]:
-        st.dataframe(bundle["rankings"], width="stretch", hide_index=True)
+        render_stock_table(bundle["rankings"])
     with tabs[3]:
         st.json(manifest)
         st.dataframe(bundle["exclusions"], width="stretch", hide_index=True)

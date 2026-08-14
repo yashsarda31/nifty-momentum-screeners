@@ -191,6 +191,47 @@ def test_rs_leaders_table_shows_sortable_vcp_rating_out_of_five(monkeypatch):
     assert config["type_config"]["max_value"] == 5
 
 
+def test_stock_table_prioritizes_and_labels_session_fresh_yahoo_quote(monkeypatch):
+    captured = {}
+
+    def capture_dataframe(data, **kwargs):
+        captured["data"] = data
+        captured["kwargs"] = kwargs
+
+    monkeypatch.setattr(dashboard_app.st, "dataframe", capture_dataframe)
+    renderer = getattr(dashboard_app, "render_stock_table", None)
+    assert callable(renderer)
+
+    renderer(
+        pd.DataFrame(
+            {
+                "price_date": ["2026-08-12"],
+                "latest_close": [100.0],
+                "symbol": ["AAA"],
+                "latest_price": [105.0],
+                "quote_timestamp": ["2026-08-14T15:15:00+05:30"],
+                "quote_status": ["LAST AVAILABLE"],
+                "price_change_pct": [5.0],
+            }
+        )
+    )
+
+    assert captured["data"].columns[:7].tolist() == [
+        "symbol",
+        "latest_price",
+        "quote_timestamp",
+        "quote_status",
+        "price_change_pct",
+        "latest_close",
+        "price_date",
+    ]
+    config = captured["kwargs"]["column_config"]
+    assert config["latest_price"]["label"] == "Latest Yahoo price"
+    assert config["quote_timestamp"]["label"] == "Yahoo quote time"
+    assert config["latest_close"]["label"] == "Scan close"
+    assert config["price_date"] == "Completed candle date"
+
+
 def test_startup_prices_fetch_once_per_session_and_refetch_for_new_session():
     calls = []
     universe = pd.DataFrame(

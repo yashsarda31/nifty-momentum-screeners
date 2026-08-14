@@ -89,11 +89,11 @@ def result_display_columns(results: pd.DataFrame) -> list[str]:
             "company_name",
             "state",
             "reason",
-            "price_date",
             "latest_price",
-            "price_change_pct",
-            "quote_status",
             "quote_timestamp",
+            "quote_status",
+            "price_change_pct",
+            "price_date",
             "liquidity_rank",
             "matched_screeners",
             "match_count",
@@ -180,14 +180,15 @@ def _render_results(results: pd.DataFrame, bundle: dict) -> None:
         width="stretch",
         column_config={
             "latest_price": st.column_config.NumberColumn(
-                "Latest price", format="₹ %.2f"
+                "Latest Yahoo price", format="₹ %.2f"
             ),
             "price_change_pct": st.column_config.NumberColumn(
                 "Change", format="%.2f%%"
             ),
             "quote_timestamp": st.column_config.DatetimeColumn(
-                "Quote time", format="DD MMM, HH:mm:ss"
+                "Yahoo quote time", format="DD MMM, HH:mm:ss"
             ),
+            "price_date": "Completed candle date",
         },
     )
     symbol = selected_result_symbol(event, display)

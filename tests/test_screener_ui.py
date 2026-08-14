@@ -88,9 +88,9 @@ def test_result_display_columns_include_startup_prices_when_present():
     assert result_display_columns(results) == [
         "symbol",
         "state",
-        "price_date",
         "latest_price",
-        "price_change_pct",
-        "quote_status",
         "quote_timestamp",
+        "quote_status",
+        "price_change_pct",
+        "price_date",
     ]
