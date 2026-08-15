@@ -49,16 +49,19 @@ def test_rendered_screener_table_shows_startup_quote_fields():
     assert rendered.iloc[0]["quote_status"] == "LIVE"
 
 
-def test_screener_workspace_includes_tradingview_top_25_export():
+def test_screener_workspace_exports_current_screen_matches_not_top_25():
     at = AppTest.from_file("streamlit_screener_fixture.py").run()
+    at.button(key="screen_gap_screeners").click().run()
 
     assert not at.exception
     assert any(
-        subheader.value == "TradingView Top 25" for subheader in at.subheader
+        subheader.value == "Export screen results to TradingView"
+        for subheader in at.subheader
     )
     assert any(code.value == "NSE:AAA" for code in at.code)
+    assert all("TOP25ONLY" not in code.value for code in at.code)
     assert any(
-        element.label == "Download TradingView watchlist"
+        element.label == "Download screen results"
         for element in at.get("download_button")
     )
 

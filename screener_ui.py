@@ -26,7 +26,7 @@ from nifty_vcp.screeners import (
     evaluate_screener,
     multiple_scan_matches,
 )
-from watchlist_ui import render_tradingview_export
+from watchlist_ui import render_screen_results_export
 
 MENU_ITEMS = (
     "Create/load screener",
@@ -205,20 +205,22 @@ def _parse_rule_value(value: Any) -> float | str:
         return text
 
 
-def _render_custom(bundle: dict, store_path: Path) -> None:
+def _render_custom(bundle: dict, store_path: Path) -> pd.DataFrame:
     features = bundle["features"]
+    results = pd.DataFrame()
     try:
         store = load_store(store_path)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         st.error(f"Custom screener store could not be loaded: {exc}")
-        return
+        return results
 
     st.subheader("Create or load a screener")
     if store:
         selected_name = st.selectbox(
             "Saved screener", list(store), key="saved_custom_screener"
         )
-        _render_results(evaluate_custom(store[selected_name], features), bundle)
+        results = evaluate_custom(store[selected_name], features)
+        _render_results(results, bundle)
         rename_to = st.text_input("Rename to", key="custom_rename_to")
         action_columns = st.columns(2)
         if action_columns[0].button("Rename", key="rename_custom", width="stretch"):
@@ -239,7 +241,7 @@ def _render_custom(bundle: dict, store_path: Path) -> None:
         if name not in {"symbol", "company_name", "price_date", "scan_date"}
     ]
     if not fields:
-        return
+        return results
     with st.form("create_custom_screener"):
         name = st.text_input("Screener name", key="custom_name")
         rules = st.data_editor(
@@ -273,9 +275,10 @@ def _render_custom(bundle: dict, store_path: Path) -> None:
             st.rerun()
         except (FileExistsError, TypeError, ValueError, OSError) as exc:
             st.error(str(exc))
+    return results
 
 
-def _render_multiple(bundle: dict) -> None:
+def _render_multiple(bundle: dict) -> pd.DataFrame:
     options = {definition.label: slug for slug, definition in SCREENER_CATALOG.items()}
     with st.form("multiple_scans"):
         labels = st.multiselect("Preset screeners", list(options), key="multiple_presets")
@@ -285,17 +288,18 @@ def _render_multiple(bundle: dict) -> None:
         submitted = st.form_submit_button("Run multiple scans", width="stretch")
     if not submitted:
         st.caption("Choose two or more presets and the minimum number of matches.")
-        return
+        return pd.DataFrame()
     if not labels:
         st.warning("Select at least one preset.")
-        return
+        return pd.DataFrame()
     slugs = [options[label] for label in labels]
     all_results = evaluate_all_screeners(bundle["features"], bundle["earnings"])
     results = multiple_scan_matches(all_results, slugs, int(minimum))
     _render_results(results, bundle)
+    return results
 
 
-def _render_preset(category: str, bundle: dict) -> None:
+def _render_preset(category: str, bundle: dict) -> pd.DataFrame:
     slugs = _category_slugs(category)
     labels = {SCREENER_CATALOG[slug].label: slug for slug in slugs}
     label = st.selectbox("Screener", list(labels), key="screener_preset")
@@ -306,6 +310,7 @@ def _render_preset(category: str, bundle: dict) -> None:
         slug, bundle["features"], bundle["earnings"], thresholds
     )
     _render_results(results, bundle)
+    return results
 
 
 def render_screeners(
@@ -321,6 +326,7 @@ def render_screeners(
     )
     menu, content = st.columns([0.28, 0.72], gap="large")
     active = st.session_state.get("screener_menu", "Horizontal resistance")
+    screen_results = pd.DataFrame()
     with menu, st.container(border=True):
         for item in MENU_ITEMS:
             st.button(
@@ -333,13 +339,10 @@ def render_screeners(
     with content, st.container(border=True):
         st.header(active)
         if active == "Create/load screener":
-            _render_custom(bundle, custom_store_path)
+            screen_results = _render_custom(bundle, custom_store_path)
         elif active == "Multiple scans":
-            _render_multiple(bundle)
+            screen_results = _render_multiple(bundle)
         else:
-            _render_preset(active, bundle)
+            screen_results = _render_preset(active, bundle)
     st.divider()
-    render_tradingview_export(
-        bundle.get("features", pd.DataFrame()),
-        bundle.get("selected_universe", pd.DataFrame()),
-    )
+    render_screen_results_export(screen_results)

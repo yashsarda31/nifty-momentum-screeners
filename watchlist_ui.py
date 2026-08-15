@@ -6,9 +6,34 @@ import pandas as pd
 import streamlit as st
 
 from nifty_vcp.watchlist import (
+    build_screen_results_watchlist,
     build_tradingview_watchlist,
     format_tradingview_watchlist,
 )
+
+
+def render_screen_results_export(results: pd.DataFrame) -> None:
+    """Render a TradingView export for the current screener's matches."""
+    st.subheader("Export screen results to TradingView")
+    watchlist = build_screen_results_watchlist(results)
+    st.caption(
+        "Exports every MATCH from the current screener in its current order. "
+        "This does not use the ranked TV Top 25 list or its liquidity filter."
+    )
+    if watchlist.empty:
+        st.info("No matching names are available to export from this screen.")
+        return
+
+    tradingview_text = format_tradingview_watchlist(watchlist)
+    st.code(tradingview_text, language=None, wrap_lines=True)
+    st.download_button(
+        label="Download screen results",
+        data=tradingview_text,
+        file_name="screener_results_tradingview.txt",
+        mime="text/plain",
+        icon=":material/download:",
+        on_click="ignore",
+    )
 
 
 def render_tradingview_export(

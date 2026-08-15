@@ -1,6 +1,7 @@
 import pandas as pd
 
 from nifty_vcp.watchlist import (
+    build_screen_results_watchlist,
     build_tradingview_watchlist,
     format_tradingview_watchlist,
 )
@@ -110,3 +111,16 @@ def test_watchlist_uses_selected_universe_when_feature_liquidity_is_blank():
 
     assert result["symbol"].tolist() == ["AAA"]
     assert result.iloc[0]["median_traded_value_60d"] == 150_000_000
+
+
+def test_screen_results_watchlist_exports_only_matches_without_top_25_filters():
+    results = pd.DataFrame(
+        {
+            "symbol": ["match", "TOP25ONLY", "MATCH", None],
+            "state": ["MATCH", "NO MATCH", "MATCH", "MATCH"],
+        }
+    )
+
+    watchlist = build_screen_results_watchlist(results)
+
+    assert watchlist["tradingview_symbol"].tolist() == ["NSE:MATCH"]

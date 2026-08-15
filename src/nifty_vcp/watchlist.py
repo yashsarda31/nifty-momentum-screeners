@@ -14,6 +14,27 @@ WATCHLIST_COLUMNS = [
     "median_traded_value_60d",
 ]
 
+SCREEN_RESULTS_WATCHLIST_COLUMNS = ["symbol", "tradingview_symbol"]
+
+
+def build_screen_results_watchlist(results: pd.DataFrame) -> pd.DataFrame:
+    """Return TradingView symbols for the matches in the current screen."""
+    if results.empty or "symbol" not in results:
+        return pd.DataFrame(columns=SCREEN_RESULTS_WATCHLIST_COLUMNS)
+
+    matched = results.copy()
+    if "state" in matched:
+        matched = matched.loc[
+            matched["state"].astype(str).str.strip().str.upper().eq("MATCH")
+        ].copy()
+    matched = matched.loc[matched["symbol"].notna()].copy()
+    matched["symbol"] = matched["symbol"].astype(str).str.strip().str.upper()
+    matched = matched.loc[
+        matched["symbol"].ne("") & matched["symbol"].ne("NAN")
+    ].drop_duplicates("symbol", keep="first")
+    matched["tradingview_symbol"] = "NSE:" + matched["symbol"]
+    return matched[SCREEN_RESULTS_WATCHLIST_COLUMNS].reset_index(drop=True)
+
 
 def build_tradingview_watchlist(
     features: pd.DataFrame,
