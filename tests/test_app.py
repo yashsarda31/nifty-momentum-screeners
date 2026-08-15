@@ -192,6 +192,54 @@ def test_rs_leaders_table_shows_sortable_vcp_rating_out_of_five(monkeypatch):
     assert config["type_config"]["max_value"] == 5
 
 
+def test_tradingview_export_renders_copy_text_table_and_download(monkeypatch):
+    captured = {}
+    monkeypatch.setattr(dashboard_app.st, "subheader", lambda *args, **kwargs: None)
+    monkeypatch.setattr(dashboard_app.st, "caption", lambda *args, **kwargs: None)
+    monkeypatch.setattr(
+        dashboard_app.st, "number_input", lambda *args, **kwargs: 10.0
+    )
+    monkeypatch.setattr(
+        dashboard_app.st,
+        "dataframe",
+        lambda data, **kwargs: captured.update(table=data, dataframe_kwargs=kwargs),
+    )
+    monkeypatch.setattr(
+        dashboard_app.st,
+        "code",
+        lambda body, **kwargs: captured.update(copy_text=body, code_kwargs=kwargs),
+    )
+    monkeypatch.setattr(
+        dashboard_app.st,
+        "download_button",
+        lambda **kwargs: captured.update(download=kwargs),
+    )
+    renderer = getattr(dashboard_app, "render_tradingview_export", None)
+    assert callable(renderer)
+
+    renderer(
+        pd.DataFrame(
+            {
+                "symbol": ["AAA", "BBB"],
+                "company_name": ["A Limited", "B Limited"],
+                "rs_rating": [99, 98],
+                "vcp_stars": [5, 4],
+                "median_traded_value_60d": [200_000_000, 150_000_000],
+                "top_1000_liquid": [True, True],
+                "is_high_rs": [True, True],
+                "history_status": ["COMPLETE", "COMPLETE"],
+            }
+        )
+    )
+
+    assert captured["table"]["symbol"].tolist() == ["AAA", "BBB"]
+    assert captured["copy_text"] == "NSE:AAA,NSE:BBB"
+    assert captured["code_kwargs"]["language"] is None
+    assert captured["download"]["data"] == "NSE:AAA,NSE:BBB"
+    assert captured["download"]["file_name"] == "nifty_top25_tradingview.txt"
+    assert captured["download"]["on_click"] == "ignore"
+
+
 def test_stock_table_prioritizes_and_labels_session_fresh_yahoo_quote(monkeypatch):
     captured = {}
 
