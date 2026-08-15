@@ -49,6 +49,20 @@ def test_rendered_screener_table_shows_startup_quote_fields():
     assert rendered.iloc[0]["quote_status"] == "LIVE"
 
 
+def test_screener_workspace_includes_tradingview_top_25_export():
+    at = AppTest.from_file("streamlit_screener_fixture.py").run()
+
+    assert not at.exception
+    assert any(
+        subheader.value == "TradingView Top 25" for subheader in at.subheader
+    )
+    assert any(code.value == "NSE:AAA" for code in at.code)
+    assert any(
+        element.label == "Download TradingView watchlist"
+        for element in at.get("download_button")
+    )
+
+
 def test_threshold_filter_recalculates_from_stored_features():
     features = pd.DataFrame(
         {

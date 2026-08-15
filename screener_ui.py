@@ -26,6 +26,7 @@ from nifty_vcp.screeners import (
     evaluate_screener,
     multiple_scan_matches,
 )
+from watchlist_ui import render_tradingview_export
 
 MENU_ITEMS = (
     "Create/load screener",
@@ -337,3 +338,8 @@ def render_screeners(
             _render_multiple(bundle)
         else:
             _render_preset(active, bundle)
+    st.divider()
+    render_tradingview_export(
+        bundle.get("features", pd.DataFrame()),
+        bundle.get("selected_universe", pd.DataFrame()),
+    )

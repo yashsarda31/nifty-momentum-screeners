@@ -18,6 +18,12 @@ features = pd.DataFrame(
         "price_change_pct": [5.0],
         "quote_status": ["LIVE"],
         "quote_timestamp": ["2026-08-14T10:00:00+05:30"],
+        "rs_rating": [99],
+        "vcp_stars": [5],
+        "median_traded_value_60d": [150_000_000],
+        "top_1000_liquid": [True],
+        "is_high_rs": [True],
+        "history_status": ["COMPLETE"],
     }
 )
 events = pd.DataFrame(columns=["symbol", "event_type", "event_date", "broadcast_at"])
