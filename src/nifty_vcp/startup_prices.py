@@ -9,7 +9,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-from nifty_vcp.market_data import collect_latest_quotes
+from nifty_vcp.market_data import collect_startup_quotes
 from nifty_vcp.models import QuoteRecord, QuoteStatus, ScanConfig
 from nifty_vcp.sessions import INDIA_TZ
 
@@ -36,7 +36,7 @@ def fetch_startup_prices(
     universe: pd.DataFrame,
     now: datetime | None = None,
     config: ScanConfig | None = None,
-    quote_loader: Callable = collect_latest_quotes,
+    quote_loader: Callable = collect_startup_quotes,
 ) -> StartupPriceSnapshot:
     """Fetch and normalize one quote row for every selected symbol."""
     fetched_at = now or datetime.now(tz=INDIA_TZ)

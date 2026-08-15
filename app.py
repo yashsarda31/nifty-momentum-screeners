@@ -25,15 +25,18 @@ from screener_ui import render_screeners
 
 OUTPUT_ROOT = Path("outputs")
 STARTUP_PRICES_KEY = "startup_prices"
+ENRICHED_BUNDLE_KEY = "enriched_scan_bundle"
 
 
-def load_latest_run(output_root: str | Path = OUTPUT_ROOT) -> dict | None:
-    root = Path(output_root)
-    pointer = root / "latest.json"
-    if not pointer.exists():
-        return None
-    latest = json.loads(pointer.read_text(encoding="utf-8"))
-    run_path = root / latest["run_directory"]
+@st.cache_data(max_entries=2, show_spinner=False)
+def _load_run_bundle(
+    output_root: str,
+    run_directory: str,
+    pointer_version: int,
+) -> dict:
+    """Load one immutable published run; pointer_version invalidates the cache."""
+    del pointer_version
+    run_path = Path(output_root) / run_directory
     manifest = json.loads((run_path / "run_manifest.json").read_text(encoding="utf-8"))
     chart_history = pd.read_csv(run_path / "chart_history.csv.gz", parse_dates=["date"])
     bundle = {
@@ -66,6 +69,19 @@ def load_latest_run(output_root: str | Path = OUTPUT_ROOT) -> dict | None:
     return bundle
 
 
+def load_latest_run(output_root: str | Path = OUTPUT_ROOT) -> dict | None:
+    root = Path(output_root)
+    pointer = root / "latest.json"
+    if not pointer.exists():
+        return None
+    latest = json.loads(pointer.read_text(encoding="utf-8"))
+    return _load_run_bundle(
+        str(root.resolve()),
+        str(latest["run_directory"]),
+        pointer.stat().st_mtime_ns,
+    )
+
+
 def get_session_startup_prices(
     session_state: MutableMapping[str, Any],
     run_key: str,
@@ -80,11 +96,16 @@ def get_session_startup_prices(
     return stored["snapshot"]
 
 
-def _stored_histories(bundle: dict) -> dict[str, pd.DataFrame]:
+def _stored_histories(
+    bundle: dict,
+    symbols: set[str] | None = None,
+) -> dict[str, pd.DataFrame]:
     history = bundle.get("chart_history", pd.DataFrame())
     required = {"symbol", "date", "High"}
     if history.empty or not required <= set(history.columns):
         return {}
+    if symbols is not None:
+        history = history.loc[history["symbol"].astype(str).isin(symbols)]
     histories = {}
     for symbol, frame in history.groupby("symbol", sort=False):
         data = frame.sort_values("date").copy()
@@ -99,7 +120,8 @@ def apply_startup_prices(
     """Enrich an in-memory bundle and reclassify live breakouts."""
     updated = dict(bundle)
     setups = bundle.get("setups", pd.DataFrame()).copy()
-    histories = _stored_histories(bundle)
+    setup_symbols = set(setups.get("symbol", pd.Series(dtype=str)).astype(str))
+    histories = _stored_histories(bundle, setup_symbols)
     classifiable = setups[
         setups.get("symbol", pd.Series(dtype=str)).astype(str).isin(histories)
     ]
@@ -138,6 +160,30 @@ def apply_startup_prices(
         updated["breakouts"] = setups_with_quotes.iloc[0:0].copy()
     updated["startup_prices"] = snapshot
     return updated
+
+
+def get_session_enriched_bundle(
+    session_state: MutableMapping[str, Any],
+    run_key: str,
+    bundle: dict,
+    snapshot: StartupPriceSnapshot,
+    enricher: Callable[[dict, StartupPriceSnapshot], dict] = apply_startup_prices,
+) -> dict:
+    """Apply a session's quote snapshot once instead of on every widget rerun."""
+    snapshot_key = snapshot.fetched_at.isoformat()
+    stored = session_state.get(ENRICHED_BUNDLE_KEY)
+    if (
+        stored is None
+        or stored["run_key"] != run_key
+        or stored["snapshot_key"] != snapshot_key
+    ):
+        stored = {
+            "run_key": run_key,
+            "snapshot_key": snapshot_key,
+            "bundle": enricher(bundle, snapshot),
+        }
+        session_state[ENRICHED_BUNDLE_KEY] = stored
+    return stored["bundle"]
 
 
 def startup_price_summary(snapshot: StartupPriceSnapshot) -> dict:
@@ -373,6 +419,7 @@ def main() -> None:
         if st.button("Run Live Scan", type="primary", width="stretch"):
             with st.spinner("Scanning the official universe…"):
                 run_scan(ScanConfig(), output_root=OUTPUT_ROOT)
+            _load_run_bundle.clear()
             st.rerun()
         st.caption("Yahoo Finance may be delayed. Research use only; no orders are placed.")
 
@@ -387,7 +434,12 @@ def main() -> None:
                 str(bundle["path"]),
                 bundle["selected_universe"],
             )
-        bundle = apply_startup_prices(bundle, snapshot)
+        bundle = get_session_enriched_bundle(
+            st.session_state,
+            str(bundle["path"]),
+            bundle,
+            snapshot,
+        )
     manifest = bundle["manifest"]
     status = str(manifest.get("status", "UNKNOWN"))
     st.markdown(
@@ -411,44 +463,50 @@ def main() -> None:
         key="main_tabs",
         on_change="rerun",
     )
-    with tabs[0]:
-        if bundle["breakouts"].empty:
-            st.info(manifest.get("outcome", "No breakout result available."))
-        else:
-            render_stock_table(bundle["breakouts"])
-        _stock_detail(bundle)
-    with tabs[1]:
-        search = st.text_input("Search high-RS stocks", key="leader_search")
-        leaders = bundle["setups"]
-        if search:
-            leaders = leaders[
-                leaders.astype(str).apply(
-                    lambda row: row.str.contains(search, case=False).any(), axis=1
-                )
-            ]
-        render_rs_leaders_table(leaders)
-    with tabs[2]:
-        render_stock_table(bundle["rankings"])
-    with tabs[3]:
-        st.json(manifest)
-        st.dataframe(bundle["exclusions"], width="stretch", hide_index=True)
-    with tabs[4]:
-        st.markdown(
-            """
-            **Relative strength:** 40% of 63-session return plus 20% each of
-            126-, 189-, and 252-session returns, percentile-ranked 1–99.
+    if tabs[0].open:
+        with tabs[0]:
+            if bundle["breakouts"].empty:
+                st.info(manifest.get("outcome", "No breakout result available."))
+            else:
+                render_stock_table(bundle["breakouts"])
+            _stock_detail(bundle)
+    if tabs[1].open:
+        with tabs[1]:
+            search = st.text_input("Search high-RS stocks", key="leader_search")
+            leaders = bundle["setups"]
+            if search:
+                leaders = leaders[
+                    leaders.astype(str).apply(
+                        lambda row: row.str.contains(search, case=False).any(), axis=1
+                    )
+                ]
+            render_rs_leaders_table(leaders)
+    if tabs[2].open:
+        with tabs[2]:
+            render_stock_table(bundle["rankings"])
+    if tabs[3].open:
+        with tabs[3]:
+            st.json(manifest)
+            st.dataframe(bundle["exclusions"], width="stretch", hide_index=True)
+    if tabs[4].open:
+        with tabs[4]:
+            st.markdown(
+                """
+                **Relative strength:** 40% of 63-session return plus 20% each of
+                126-, 189-, and 252-session returns, percentile-ranked 1–99.
 
-            **Breakout:** latest valid one-minute price strictly above the highest
-            completed-session high from the prior 55 sessions. Delayed or closed-market
-            observations cannot confirm a live breakout.
+                **Breakout:** latest valid one-minute price strictly above the highest
+                completed-session high from the prior 55 sessions. Delayed or closed-market
+                observations cannot confirm a live breakout.
 
-            **VCP stars:** trend template, 52-week position, contracting price ranges,
-            contracting ATR%, and pivot readiness with volume dry-up. This is a
-            transparent Minervini-inspired approximation, not an official proprietary score.
-            """
-        )
-    with tabs[5]:
-        render_screeners(bundle)
+                **VCP stars:** trend template, 52-week position, contracting price ranges,
+                contracting ATR%, and pivot readiness with volume dry-up. This is a
+                transparent Minervini-inspired approximation, not an official proprietary score.
+                """
+            )
+    if tabs[5].open:
+        with tabs[5]:
+            render_screeners(bundle)
 
 
 if __name__ == "__main__":

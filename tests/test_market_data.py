@@ -9,10 +9,11 @@ from nifty_vcp.market_data import (
     collect_benchmark_history,
     collect_daily_histories,
     collect_latest_quotes,
+    collect_startup_quotes,
     split_yahoo_download,
     validate_history,
 )
-from nifty_vcp.models import QuoteStatus, ScanConfig
+from nifty_vcp.models import QuoteRecord, QuoteStatus, ScanConfig
 
 TZ = ZoneInfo("Asia/Kolkata")
 
@@ -163,6 +164,73 @@ def test_quotes_classify_live_delayed_closed_and_unavailable():
         jitter=lambda: 0.0,
     )
     assert closed["AAA"].status == QuoteStatus.LAST_AVAILABLE
+
+
+def test_startup_quotes_use_compact_batches_and_fallback_only_for_missing():
+    now = datetime(2026, 8, 12, 10, 0, tzinfo=TZ)
+    symbols = pd.DataFrame(
+        {
+            "symbol": [f"S{i:02d}" for i in range(21)],
+            "yahoo_symbol": [f"S{i:02d}.NS" for i in range(21)],
+        }
+    )
+    batches = []
+    fallback_symbols = []
+
+    def downloader(tickers, timeout):
+        batches.append(tickers)
+        assert timeout == 20.0
+        return {
+            ticker: {
+                "regularMarketPrice": 100.0,
+                "regularMarketTime": int(now.timestamp()),
+            }
+            for ticker in tickers
+            if ticker != "S20.NS"
+        }
+
+    def fallback_loader(selected, now, config):
+        fallback_symbols.extend(selected["symbol"].tolist())
+        return {
+            "S20": QuoteRecord("S20", 99.0, now, QuoteStatus.LIVE, 0.0, "")
+        }, {}
+
+    quotes, exclusions = collect_startup_quotes(
+        symbols,
+        downloader,
+        now,
+        fallback_loader=fallback_loader,
+        max_workers=1,
+    )
+
+    assert [len(batch) for batch in batches] == [20, 1]
+    assert fallback_symbols == ["S20"]
+    assert quotes["S00"].status == QuoteStatus.LIVE
+    assert quotes["S20"].price == 99.0
+    assert exclusions == {}
+
+
+def test_startup_quotes_preserve_closed_market_status():
+    now = datetime(2026, 8, 12, 16, 0, tzinfo=TZ)
+    symbols = pd.DataFrame(
+        {"symbol": ["AAA"], "yahoo_symbol": ["AAA.NS"]}
+    )
+
+    quotes, exclusions = collect_startup_quotes(
+        symbols,
+        lambda tickers, timeout: {
+            "AAA.NS": {
+                "regularMarketPrice": 101.0,
+                "regularMarketTime": int(now.timestamp()),
+            }
+        },
+        now,
+        max_workers=1,
+    )
+
+    assert quotes["AAA"].status == QuoteStatus.LAST_AVAILABLE
+    assert quotes["AAA"].reason == "market closed; latest observation only"
+    assert exclusions == {}
 
 
 @pytest.mark.parametrize("invalid_price", [0.0, -1.0, np.inf])

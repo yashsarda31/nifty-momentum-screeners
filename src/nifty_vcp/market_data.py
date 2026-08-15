@@ -6,10 +6,12 @@ import math
 import random
 import time
 from collections.abc import Callable, Iterable
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 
 import numpy as np
 import pandas as pd
+import requests
 import yfinance as yf
 
 from nifty_vcp.models import (
@@ -21,6 +23,9 @@ from nifty_vcp.models import (
 from nifty_vcp.sessions import INDIA_TZ, drop_unfinished_daily_bar, market_state
 
 REQUIRED_OHLCV = ("Open", "High", "Low", "Close", "Volume")
+YAHOO_SPARK_URL = "https://query2.finance.yahoo.com/v7/finance/spark"
+YAHOO_SPARK_BATCH_SIZE = 20
+YAHOO_USER_AGENT = "Mozilla/5.0"
 
 
 def validate_history(frame: pd.DataFrame, minimum_sessions: int = 15) -> None:
@@ -210,6 +215,134 @@ def _quote_timestamp(timestamp, now: datetime) -> datetime:
     else:
         parsed = parsed.tz_convert(INDIA_TZ)
     return parsed.to_pydatetime()
+
+
+def yahoo_spark_download(
+    tickers: list[str],
+    timeout: float,
+) -> dict[str, dict]:
+    """Fetch compact current-price metadata for at most 20 Yahoo symbols."""
+    response = requests.get(
+        YAHOO_SPARK_URL,
+        params={
+            "symbols": ",".join(tickers),
+            "range": "1d",
+            "interval": "1d",
+        },
+        headers={"User-Agent": YAHOO_USER_AGENT},
+        timeout=timeout,
+    )
+    response.raise_for_status()
+    spark = response.json().get("spark", {})
+    if spark.get("error"):
+        raise RuntimeError(str(spark["error"]))
+    output = {}
+    for item in spark.get("result") or []:
+        responses = item.get("response") or []
+        if responses and isinstance(responses[0].get("meta"), dict):
+            output[str(item.get("symbol", ""))] = responses[0]["meta"]
+    return output
+
+
+def _quote_from_spark_meta(
+    symbol: str,
+    meta: dict,
+    now: datetime,
+    state: MarketState,
+) -> QuoteRecord:
+    price = float(meta["regularMarketPrice"])
+    if not math.isfinite(price) or price <= 0:
+        raise ValueError("quote price must be finite and positive")
+    timestamp = datetime.fromtimestamp(float(meta["regularMarketTime"]), tz=INDIA_TZ)
+    age = max(0.0, (now - timestamp).total_seconds() / 60.0)
+    if state != MarketState.OPEN:
+        status = QuoteStatus.LAST_AVAILABLE
+        reason = "market closed; latest observation only"
+    elif age > 15.0:
+        status = QuoteStatus.DELAYED
+        reason = f"quote is {age:.1f} minutes old"
+    else:
+        status = QuoteStatus.LIVE
+        reason = ""
+    return QuoteRecord(symbol, price, timestamp, status, age, reason)
+
+
+def collect_startup_quotes(
+    symbols: pd.DataFrame,
+    downloader: Callable[[list[str], float], dict[str, dict]] = yahoo_spark_download,
+    now: datetime | None = None,
+    config: ScanConfig | None = None,
+    *,
+    fallback_loader: Callable | None = None,
+    max_workers: int = 4,
+) -> tuple[dict[str, QuoteRecord], dict[str, str]]:
+    """Fetch session-start prices in compact batches, falling back to yfinance."""
+    config = config or ScanConfig()
+    now = now or datetime.now(tz=INDIA_TZ)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=INDIA_TZ)
+    else:
+        now = now.astimezone(INDIA_TZ)
+    fallback_loader = fallback_loader or collect_latest_quotes
+    yahoo_to_symbol = dict(zip(symbols["yahoo_symbol"], symbols["symbol"], strict=True))
+    batches = list(_chunks(list(yahoo_to_symbol), YAHOO_SPARK_BATCH_SIZE))
+    metadata: dict[str, dict] = {}
+    failed_tickers: set[str] = set()
+
+    def fetch(batch: list[str]) -> tuple[list[str], dict[str, dict]]:
+        return batch, downloader(batch, config.request_timeout)
+
+    with ThreadPoolExecutor(max_workers=max(1, min(max_workers, len(batches)))) as pool:
+        futures = {pool.submit(fetch, batch): batch for batch in batches}
+        for future in as_completed(futures):
+            batch = futures[future]
+            try:
+                _, result = future.result()
+                metadata.update(result)
+                failed_tickers.update(ticker for ticker in batch if ticker not in result)
+            except Exception:  # noqa: BLE001 - fall back on any compact-endpoint failure
+                failed_tickers.update(batch)
+
+    quotes: dict[str, QuoteRecord] = {}
+    exclusions: dict[str, str] = {}
+    state = market_state(now)
+    for yahoo_symbol, symbol in yahoo_to_symbol.items():
+        meta = metadata.get(yahoo_symbol)
+        if meta is None:
+            continue
+        try:
+            quotes[symbol] = _quote_from_spark_meta(symbol, meta, now, state)
+        except (KeyError, TypeError, ValueError, OverflowError):
+            failed_tickers.add(yahoo_symbol)
+
+    if failed_tickers:
+        fallback_symbols = symbols.loc[
+            symbols["yahoo_symbol"].astype(str).isin(failed_tickers)
+        ]
+        try:
+            fallback_quotes, fallback_exclusions = fallback_loader(
+                fallback_symbols,
+                now=now,
+                config=config,
+            )
+            quotes.update(fallback_quotes)
+            exclusions.update(fallback_exclusions)
+        except Exception as exc:  # noqa: BLE001 - retain explicit unavailable states
+            reason = str(exc) or type(exc).__name__
+            for symbol in fallback_symbols["symbol"].astype(str):
+                quotes[symbol] = QuoteRecord(
+                    symbol, None, None, QuoteStatus.UNAVAILABLE, None, reason
+                )
+                exclusions[symbol] = reason
+
+    for symbol in symbols["symbol"].astype(str):
+        if symbol not in quotes:
+            reason = "quote unavailable"
+            quotes[symbol] = QuoteRecord(
+                symbol, None, None, QuoteStatus.UNAVAILABLE, None, reason
+            )
+            exclusions[symbol] = reason
+    return quotes, exclusions
 
 
 def collect_latest_quotes(

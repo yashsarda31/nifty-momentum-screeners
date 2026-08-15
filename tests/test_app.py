@@ -10,6 +10,7 @@ from app import (
     apply_startup_prices,
     build_price_figure,
     build_vcp_evidence,
+    get_session_enriched_bundle,
     get_session_startup_prices,
     load_latest_run,
     render_vcp_stars,
@@ -267,6 +268,31 @@ def test_startup_prices_refetch_when_scan_bundle_changes():
     get_session_startup_prices(session, "run-2", universe, fetcher)
 
     assert len(calls) == 2
+
+
+def test_quote_enrichment_runs_once_per_session_and_scan_bundle():
+    calls = []
+    session = {}
+    snapshot = startup_snapshot()
+
+    def enricher(bundle, received_snapshot):
+        calls.append((bundle["run"], received_snapshot.fetched_at))
+        return {**bundle, "enriched": True}
+
+    first = get_session_enriched_bundle(
+        session, "run-1", {"run": 1}, snapshot, enricher
+    )
+    second = get_session_enriched_bundle(
+        session, "run-1", {"run": 1}, snapshot, enricher
+    )
+    refreshed = get_session_enriched_bundle(
+        session, "run-2", {"run": 2}, snapshot, enricher
+    )
+
+    assert first is second
+    assert first["enriched"] is True
+    assert refreshed["run"] == 2
+    assert [run for run, _ in calls] == [1, 2]
 
 
 def test_apply_startup_prices_updates_tables_and_live_breakouts_in_memory():
