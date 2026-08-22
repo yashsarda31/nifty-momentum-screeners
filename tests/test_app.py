@@ -7,6 +7,8 @@ import pytest
 
 import app as dashboard_app
 from app import (
+    ENRICHED_BUNDLE_KEY,
+    STARTUP_PRICES_KEY,
     apply_startup_prices,
     build_price_figure,
     build_vcp_evidence,
@@ -17,11 +19,69 @@ from app import (
     startup_price_summary,
     status_badge,
 )
+from nifty_vcp.dashboard_support import (
+    clear_startup_price_state,
+    scan_freshness,
+)
 from nifty_vcp.models import QuoteRecord, QuoteStatus
 from nifty_vcp.startup_prices import StartupPriceSnapshot
 
 TZ = ZoneInfo("Asia/Kolkata")
 NOW = datetime(2026, 8, 14, 10, 0, tzinfo=TZ)
+
+
+def test_scan_freshness_marks_older_calendar_date_stale():
+    freshness = scan_freshness(
+        {"finished_at": "2026-08-20T16:00:00+05:30"},
+        datetime(2026, 8, 22, 9, 0, tzinfo=TZ),
+    )
+
+    assert freshness.finished_at.isoformat() == "2026-08-20T16:00:00+05:30"
+    assert freshness.age_days == 2
+    assert freshness.is_stale is True
+    assert freshness.label == "2 days old"
+
+
+def test_scan_freshness_labels_same_day_current():
+    freshness = scan_freshness(
+        {"finished_at": "2026-08-22T08:00:00+05:30"},
+        datetime(2026, 8, 22, 9, 0, tzinfo=TZ),
+    )
+
+    assert freshness.age_days == 0
+    assert freshness.is_stale is False
+    assert freshness.label == "today"
+
+
+def test_scan_freshness_handles_missing_or_invalid_timestamp():
+    missing = scan_freshness({}, datetime(2026, 8, 22, 9, 0, tzinfo=TZ))
+    invalid = scan_freshness(
+        {"finished_at": "not-a-date"},
+        datetime(2026, 8, 22, 9, 0, tzinfo=TZ),
+    )
+
+    assert missing.finished_at is None
+    assert missing.label == "scan time unavailable"
+    assert invalid.finished_at is None
+    assert invalid.is_stale is True
+
+
+def test_clear_startup_price_state_preserves_unrelated_session_values():
+    session = {
+        STARTUP_PRICES_KEY: object(),
+        ENRICHED_BUNDLE_KEY: object(),
+        "screener_menu": "VCP",
+    }
+
+    clear_startup_price_state(
+        session,
+        STARTUP_PRICES_KEY,
+        ENRICHED_BUNDLE_KEY,
+    )
+
+    assert STARTUP_PRICES_KEY not in session
+    assert ENRICHED_BUNDLE_KEY not in session
+    assert session["screener_menu"] == "VCP"
 
 
 def startup_snapshot(
