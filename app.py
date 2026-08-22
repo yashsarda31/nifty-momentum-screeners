@@ -5,6 +5,7 @@ from __future__ import annotations
 import html
 import json
 from collections.abc import Callable, MutableMapping
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -14,8 +15,14 @@ import streamlit as st
 from plotly.subplots import make_subplots
 
 from nifty_vcp.breakouts import classify_high_rs_breakouts
-from nifty_vcp.models import ScanConfig
+from nifty_vcp.dashboard_support import (
+    clear_startup_price_state,
+    scan_freshness,
+    scan_health_summary,
+)
+from nifty_vcp.models import RunStatus, ScanConfig
 from nifty_vcp.pipeline import run_scan
+from nifty_vcp.sessions import INDIA_TZ
 from nifty_vcp.startup_prices import (
     StartupPriceSnapshot,
     attach_startup_prices,
@@ -247,6 +254,16 @@ def get_session_enriched_bundle(
     return stored["bundle"]
 
 
+def refresh_session_prices() -> None:
+    """Discard this browser session's quote snapshot and fetch it on rerun."""
+    clear_startup_price_state(
+        st.session_state,
+        STARTUP_PRICES_KEY,
+        ENRICHED_BUNDLE_KEY,
+    )
+    st.rerun()
+
+
 def startup_price_summary(snapshot: StartupPriceSnapshot) -> dict:
     """Summarize usable startup quote coverage for display."""
     table = snapshot.table
@@ -434,6 +451,54 @@ def _metric_cards(manifest: dict) -> None:
     )
 
 
+def _render_scan_health(bundle: dict) -> None:
+    manifest = bundle["manifest"]
+    summary = scan_health_summary(manifest, bundle["exclusions"])
+    if summary["status"] == RunStatus.INCOMPLETE.value:
+        st.warning(
+            "This scan is incomplete. Do not interpret missing matches as no signal."
+        )
+
+    columns = st.columns(2)
+    columns[0].metric(
+        "Historical coverage", f"{summary['historical_coverage']:.0%}"
+    )
+    columns[1].metric(
+        "High-RS quote coverage", f"{summary['quote_coverage']:.0%}"
+    )
+    timing = "Duration unavailable"
+    if summary["elapsed_seconds"] is not None:
+        timing = f"{summary['elapsed_seconds'] / 60:.1f} minutes"
+    st.caption(
+        f"Started {summary['started_at'] or 'unknown'} · "
+        f"Finished {summary['finished_at'] or 'unknown'} · "
+        f"Market {summary['market_state']} · {timing}"
+    )
+
+    st.subheader("Provider status")
+    st.dataframe(
+        pd.DataFrame(
+            {
+                "Provider": summary["providers"].keys(),
+                "Status": summary["providers"].values(),
+            }
+        ),
+        hide_index=True,
+        width="stretch",
+    )
+    st.subheader("Exclusions by reason")
+    if summary["exclusion_groups"].empty:
+        st.info("No exclusions were recorded.")
+    else:
+        st.dataframe(
+            summary["exclusion_groups"], hide_index=True, width="stretch"
+        )
+    with st.expander("Full run manifest"):
+        st.json(manifest)
+    with st.expander("All exclusion rows"):
+        st.dataframe(bundle["exclusions"], hide_index=True, width="stretch")
+
+
 def _stock_detail(bundle: dict) -> None:
     setups = bundle["setups"]
     if setups.empty:
@@ -475,20 +540,57 @@ def main() -> None:
         """,
         unsafe_allow_html=True,
     )
+    feedback = st.session_state.pop("scan_feedback", None)
+    if feedback:
+        message = f"{feedback['outcome']} · Saved to {feedback['output_path']}"
+        if feedback["status"] == RunStatus.COMPLETE.value:
+            st.success(message)
+        else:
+            st.warning(message)
+
     with st.sidebar:
         st.subheader("Scanner control")
         if st.button("Run Live Scan", type="primary", width="stretch"):
-            with st.spinner("Scanning the official universe…"):
-                run_scan(ScanConfig(), output_root=OUTPUT_ROOT)
-            _load_run_bundle.clear()
-            st.rerun()
+            try:
+                with st.spinner("Scanning the official universe…"):
+                    summary = run_scan(ScanConfig(), output_root=OUTPUT_ROOT)
+            except Exception as exc:  # noqa: BLE001 - keep the dashboard usable
+                st.error(f"The scan could not be published: {exc}")
+            else:
+                st.session_state["scan_feedback"] = {
+                    "status": summary.status.value,
+                    "outcome": summary.outcome,
+                    "output_path": str(summary.output_path),
+                }
+                clear_startup_price_state(
+                    st.session_state,
+                    STARTUP_PRICES_KEY,
+                    ENRICHED_BUNDLE_KEY,
+                )
+                _load_run_bundle.clear()
+                st.rerun()
         st.caption("Yahoo Finance may be delayed. Research use only; no orders are placed.")
 
-    bundle = load_latest_run(OUTPUT_ROOT)
+    try:
+        bundle = load_latest_run(OUTPUT_ROOT)
+    except RunBundleError as exc:
+        st.error(
+            f"The latest stored scan cannot be read: {exc}. "
+            "Run Live Scan to publish a new diagnostic bundle."
+        )
+        return
     if bundle is None:
         st.info("No scan yet. Use Run Live Scan to create the first local result.")
         return
     if bundle.get("screeners_available", False):
+        with st.sidebar:
+            if st.button(
+                "Refresh Yahoo prices",
+                icon=":material/refresh:",
+                width="stretch",
+                help="Fetch again for this browser session without running a full scan.",
+            ):
+                refresh_session_prices()
         with st.spinner("Fetching the latest Yahoo prices..."):
             snapshot = get_session_startup_prices(
                 st.session_state,
@@ -503,12 +605,19 @@ def main() -> None:
         )
     manifest = bundle["manifest"]
     status = str(manifest.get("status", "UNKNOWN"))
+    freshness = scan_freshness(manifest, datetime.now(tz=INDIA_TZ))
     st.markdown(
         status_badge(status)
         + f" <span class='footnote'>As of {html.escape(str(manifest.get('finished_at', 'unknown')))} · "
         + f"Market {html.escape(str(manifest.get('market_state', 'unknown')))}</span>",
         unsafe_allow_html=True,
     )
+    st.caption(f"Stored daily scan: {freshness.label}")
+    if freshness.is_stale:
+        st.warning(
+            "Stored daily scan results are stale. Newer Yahoo prices do not refresh "
+            "the completed-candle screener signals; run a new live scan before acting."
+        )
     if "startup_prices" in bundle:
         _startup_price_status(bundle["startup_prices"])
     _metric_cards(manifest)
@@ -548,8 +657,7 @@ def main() -> None:
             render_stock_table(bundle["rankings"])
     if tabs[3].open:
         with tabs[3]:
-            st.json(manifest)
-            st.dataframe(bundle["exclusions"], width="stretch", hide_index=True)
+            _render_scan_health(bundle)
     if tabs[4].open:
         with tabs[4]:
             st.markdown(

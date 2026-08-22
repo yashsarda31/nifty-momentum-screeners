@@ -4,6 +4,7 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 import pytest
+from streamlit.testing.v1 import AppTest
 
 import app as dashboard_app
 from app import (
@@ -23,6 +24,7 @@ from app import (
 from nifty_vcp.dashboard_support import (
     clear_startup_price_state,
     scan_freshness,
+    scan_health_summary,
 )
 from nifty_vcp.models import QuoteRecord, QuoteStatus
 from nifty_vcp.startup_prices import StartupPriceSnapshot
@@ -83,6 +85,60 @@ def test_clear_startup_price_state_preserves_unrelated_session_values():
     assert STARTUP_PRICES_KEY not in session
     assert ENRICHED_BUNDLE_KEY not in session
     assert session["screener_menu"] == "VCP"
+
+
+def test_scan_health_summary_groups_exclusions_and_provider_status():
+    summary = scan_health_summary(
+        {
+            "status": "SCAN INCOMPLETE",
+            "universe_count": 10,
+            "valid_history_count": 8,
+            "high_rs_count": 4,
+            "valid_quote_count": 3,
+            "benchmark_status": "COMPLETE",
+            "earnings_status": "SCAN INCOMPLETE",
+            "started_at": "2026-08-22T08:00:00+05:30",
+            "finished_at": "2026-08-22T08:03:30+05:30",
+            "market_state": "OPEN",
+        },
+        pd.DataFrame(
+            {
+                "stage": ["history", "history", "quote"],
+                "reason": ["stale", "stale", "missing"],
+            }
+        ),
+    )
+
+    assert summary["historical_coverage"] == pytest.approx(0.8)
+    assert summary["quote_coverage"] == pytest.approx(0.75)
+    assert summary["providers"] == {
+        "Benchmark": "COMPLETE",
+        "Earnings": "SCAN INCOMPLETE",
+    }
+    assert summary["elapsed_seconds"] == 210.0
+    assert summary["market_state"] == "OPEN"
+    assert summary["exclusion_groups"].to_dict("records") == [
+        {"stage": "history", "reason": "stale", "count": 2},
+        {"stage": "quote", "reason": "missing", "count": 1},
+    ]
+
+
+def test_refresh_price_action_clears_only_quote_state(monkeypatch):
+    session = {
+        STARTUP_PRICES_KEY: object(),
+        ENRICHED_BUNDLE_KEY: object(),
+        "leader_search": "TCS",
+    }
+    reruns = []
+    monkeypatch.setattr(dashboard_app.st, "session_state", session)
+    monkeypatch.setattr(dashboard_app.st, "rerun", lambda: reruns.append(True))
+
+    dashboard_app.refresh_session_prices()
+
+    assert STARTUP_PRICES_KEY not in session
+    assert ENRICHED_BUNDLE_KEY not in session
+    assert session["leader_search"] == "TCS"
+    assert reruns == [True]
 
 
 def startup_snapshot(
@@ -182,6 +238,46 @@ def test_partial_schema_two_bundle_reports_why_screeners_are_unavailable(tmp_pat
 
     assert bundle["screeners_available"] is False
     assert "screener_features.csv" in bundle["screeners_unavailable_reason"]
+
+
+def test_dashboard_shows_controlled_error_for_broken_latest_pointer(tmp_path):
+    (tmp_path / "latest.json").write_text("{broken", encoding="utf-8")
+    script = f"""
+from pathlib import Path
+import app
+app.OUTPUT_ROOT = Path(r"{tmp_path}")
+app.main()
+"""
+
+    at = AppTest.from_string(script).run()
+
+    assert not at.exception
+    assert any("latest stored scan cannot be read" in error.value for error in at.error)
+
+
+def test_dashboard_warns_when_persisted_daily_scan_is_stale(tmp_path):
+    run = write_schema_one_bundle(tmp_path)
+    (run / "run_manifest.json").write_text(
+        json.dumps(
+            {
+                "status": "COMPLETE",
+                "outcome": "NO BREAKOUTS",
+                "finished_at": "2026-08-01T16:00:00+05:30",
+            }
+        ),
+        encoding="utf-8",
+    )
+    script = f"""
+from pathlib import Path
+import app
+app.OUTPUT_ROOT = Path(r"{tmp_path}")
+app.main()
+"""
+
+    at = AppTest.from_string(script).run()
+
+    assert not at.exception
+    assert any("Stored daily scan results are stale" in item.value for item in at.warning)
 
 
 def test_schema_two_bundle_loads_screener_tables(tmp_path):
