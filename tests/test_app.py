@@ -9,6 +9,7 @@ import app as dashboard_app
 from app import (
     ENRICHED_BUNDLE_KEY,
     STARTUP_PRICES_KEY,
+    RunBundleError,
     apply_startup_prices,
     build_price_figure,
     build_vcp_evidence,
@@ -108,30 +109,79 @@ def test_missing_latest_returns_none(tmp_path):
     assert load_latest_run(tmp_path) is None
 
 
-def test_latest_bundle_loads_manifest_and_stable_tables(tmp_path):
-    run = tmp_path / "run-1"
+def write_schema_one_bundle(tmp_path, name="run-1"):
+    run = tmp_path / name
     run.mkdir()
     (tmp_path / "latest.json").write_text(
-        json.dumps({"run_directory": "run-1"}), encoding="utf-8"
+        json.dumps({"run_directory": name}), encoding="utf-8"
     )
     (run / "run_manifest.json").write_text(
         json.dumps({"status": "COMPLETE"}), encoding="utf-8"
     )
-    for name in [
+    for filename in (
         "all_rankings.csv",
         "high_rs_setups.csv",
         "live_breakouts.csv",
         "exclusions.csv",
-    ]:
-        pd.DataFrame({"symbol": ["AAA"]}).to_csv(run / name, index=False)
+    ):
+        pd.DataFrame({"symbol": ["AAA"]}).to_csv(run / filename, index=False)
     pd.DataFrame(
         {"symbol": ["AAA"], "date": ["2026-08-11"], "Close": [100.0]}
     ).to_csv(run / "chart_history.csv.gz", index=False, compression="gzip")
+    return run
+
+
+def test_latest_bundle_loads_manifest_and_stable_tables(tmp_path):
+    write_schema_one_bundle(tmp_path)
     bundle = load_latest_run(tmp_path)
     assert bundle["manifest"]["status"] == "COMPLETE"
     assert bundle["rankings"].iloc[0]["symbol"] == "AAA"
     assert str(bundle["chart_history"]["date"].dtype).startswith("datetime64")
     assert bundle["screeners_available"] is False
+
+
+def test_latest_pointer_cannot_escape_output_root(tmp_path):
+    (tmp_path / "latest.json").write_text(
+        json.dumps({"run_directory": "../outside"}), encoding="utf-8"
+    )
+
+    with pytest.raises(RunBundleError, match="outside the output root"):
+        load_latest_run(tmp_path)
+
+
+def test_malformed_latest_pointer_has_controlled_error(tmp_path):
+    (tmp_path / "latest.json").write_text("{broken", encoding="utf-8")
+
+    with pytest.raises(RunBundleError, match="latest.json"):
+        load_latest_run(tmp_path)
+
+
+def test_missing_required_artifact_has_controlled_error(tmp_path):
+    run = tmp_path / "run-missing"
+    run.mkdir()
+    (tmp_path / "latest.json").write_text(
+        json.dumps({"run_directory": "run-missing"}), encoding="utf-8"
+    )
+    (run / "run_manifest.json").write_text(
+        json.dumps({"status": "COMPLETE"}), encoding="utf-8"
+    )
+
+    with pytest.raises(RunBundleError, match="all_rankings.csv"):
+        load_latest_run(tmp_path)
+
+
+def test_partial_schema_two_bundle_reports_why_screeners_are_unavailable(tmp_path):
+    run = write_schema_one_bundle(tmp_path, "run-partial")
+    manifest = {"status": "COMPLETE", "schema_version": 2}
+    (run / "run_manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    pd.DataFrame({"symbol": ["AAA"]}).to_csv(
+        run / "selected_universe.csv", index=False
+    )
+
+    bundle = load_latest_run(tmp_path)
+
+    assert bundle["screeners_available"] is False
+    assert "screener_features.csv" in bundle["screeners_unavailable_reason"]
 
 
 def test_schema_two_bundle_loads_screener_tables(tmp_path):

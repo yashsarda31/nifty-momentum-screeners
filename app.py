@@ -27,6 +27,33 @@ from watchlist_ui import render_tradingview_export
 OUTPUT_ROOT = Path("outputs")
 STARTUP_PRICES_KEY = "startup_prices"
 ENRICHED_BUNDLE_KEY = "enriched_scan_bundle"
+REQUIRED_RUN_FILES = (
+    "run_manifest.json",
+    "all_rankings.csv",
+    "high_rs_setups.csv",
+    "live_breakouts.csv",
+    "exclusions.csv",
+    "chart_history.csv.gz",
+)
+
+
+class RunBundleError(RuntimeError):
+    """A published scan bundle cannot be loaded safely."""
+
+
+def _validated_run_path(root: Path, run_directory: object) -> Path:
+    if not isinstance(run_directory, str) or not run_directory.strip():
+        raise RunBundleError("latest.json has no valid run_directory")
+    resolved_root = root.resolve()
+    candidate = (resolved_root / run_directory).resolve()
+    if not candidate.is_relative_to(resolved_root):
+        raise RunBundleError("latest.json points outside the output root")
+    missing = [name for name in REQUIRED_RUN_FILES if not (candidate / name).is_file()]
+    if missing:
+        raise RunBundleError(
+            f"Published run {candidate.name} is missing {', '.join(missing)}"
+        )
+    return candidate
 
 
 @st.cache_data(max_entries=2, show_spinner=False)
@@ -38,36 +65,61 @@ def _load_run_bundle(
     """Load one immutable published run; pointer_version invalidates the cache."""
     del pointer_version
     run_path = Path(output_root) / run_directory
-    manifest = json.loads((run_path / "run_manifest.json").read_text(encoding="utf-8"))
-    chart_history = pd.read_csv(run_path / "chart_history.csv.gz", parse_dates=["date"])
-    bundle = {
-        "path": run_path,
-        "manifest": manifest,
-        "rankings": pd.read_csv(run_path / "all_rankings.csv"),
-        "setups": pd.read_csv(run_path / "high_rs_setups.csv"),
-        "breakouts": pd.read_csv(run_path / "live_breakouts.csv"),
-        "exclusions": pd.read_csv(run_path / "exclusions.csv"),
-        "chart_history": chart_history,
-        "screeners_available": False,
-    }
-    screener_files = {
-        "selected_universe": "selected_universe.csv",
-        "features": "screener_features.csv",
-        "matches": "screener_matches.csv",
-        "earnings": "earnings_events.csv",
-    }
-    if manifest.get("schema_version", 1) >= 2 and all(
-        (run_path / filename).exists() for filename in screener_files.values()
-    ):
-        for key, filename in screener_files.items():
-            bundle[key] = pd.read_csv(run_path / filename)
-        earnings = bundle["earnings"]
-        for column in ("event_date", "broadcast_at"):
-            if column in earnings:
-                earnings[column] = pd.to_datetime(earnings[column], errors="coerce")
-        earnings.attrs["status"] = manifest.get("earnings_status", "COMPLETE")
-        bundle["screeners_available"] = True
-    return bundle
+    try:
+        manifest = json.loads(
+            (run_path / "run_manifest.json").read_text(encoding="utf-8")
+        )
+        chart_history = pd.read_csv(
+            run_path / "chart_history.csv.gz", parse_dates=["date"]
+        )
+        bundle = {
+            "path": run_path,
+            "manifest": manifest,
+            "rankings": pd.read_csv(run_path / "all_rankings.csv"),
+            "setups": pd.read_csv(run_path / "high_rs_setups.csv"),
+            "breakouts": pd.read_csv(run_path / "live_breakouts.csv"),
+            "exclusions": pd.read_csv(run_path / "exclusions.csv"),
+            "chart_history": chart_history,
+            "screeners_available": False,
+            "screeners_unavailable_reason": "This run predates expanded screeners.",
+        }
+        screener_files = {
+            "selected_universe": "selected_universe.csv",
+            "features": "screener_features.csv",
+            "matches": "screener_matches.csv",
+            "earnings": "earnings_events.csv",
+        }
+        if manifest.get("schema_version", 1) >= 2:
+            missing = [
+                filename
+                for filename in screener_files.values()
+                if not (run_path / filename).is_file()
+            ]
+            if missing:
+                bundle["screeners_unavailable_reason"] = (
+                    "This run is missing " + ", ".join(missing) + "."
+                )
+            else:
+                for key, filename in screener_files.items():
+                    bundle[key] = pd.read_csv(run_path / filename)
+                earnings = bundle["earnings"]
+                for column in ("event_date", "broadcast_at"):
+                    if column in earnings:
+                        earnings[column] = pd.to_datetime(
+                            earnings[column], errors="coerce"
+                        )
+                earnings.attrs["status"] = manifest.get(
+                    "earnings_status", "COMPLETE"
+                )
+                bundle["screeners_available"] = True
+                bundle["screeners_unavailable_reason"] = ""
+        return bundle
+    except RunBundleError:
+        raise
+    except (OSError, ValueError, KeyError, pd.errors.ParserError) as exc:
+        raise RunBundleError(
+            f"Published run {run_directory} could not be read: {exc}"
+        ) from exc
 
 
 def load_latest_run(output_root: str | Path = OUTPUT_ROOT) -> dict | None:
@@ -75,12 +127,20 @@ def load_latest_run(output_root: str | Path = OUTPUT_ROOT) -> dict | None:
     pointer = root / "latest.json"
     if not pointer.exists():
         return None
-    latest = json.loads(pointer.read_text(encoding="utf-8"))
-    return _load_run_bundle(
-        str(root.resolve()),
-        str(latest["run_directory"]),
-        pointer.stat().st_mtime_ns,
-    )
+    try:
+        latest = json.loads(pointer.read_text(encoding="utf-8"))
+        if not isinstance(latest, dict):
+            raise RunBundleError("latest.json must contain a JSON object")
+        run_path = _validated_run_path(root, latest.get("run_directory"))
+        return _load_run_bundle(
+            str(root.resolve()),
+            run_path.name,
+            pointer.stat().st_mtime_ns,
+        )
+    except RunBundleError:
+        raise
+    except (OSError, ValueError, KeyError, pd.errors.ParserError) as exc:
+        raise RunBundleError(f"Could not read {pointer}: {exc}") from exc
 
 
 def get_session_startup_prices(
