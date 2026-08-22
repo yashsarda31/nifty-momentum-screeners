@@ -3,9 +3,38 @@ from streamlit.testing.v1 import AppTest
 
 from screener_ui import (
     filter_preset_results,
+    filter_result_view,
     result_display_columns,
     selected_result_symbol,
 )
+
+
+def test_result_view_defaults_to_matches_and_searches_symbol_or_company():
+    results = pd.DataFrame(
+        {
+            "symbol": ["AAA", "BBB", "CCC"],
+            "company_name": ["Alpha Ltd", "Beta Industries", "Gamma Ltd"],
+            "state": ["MATCH", "MATCH", "SCAN INCOMPLETE"],
+        }
+    )
+
+    assert filter_result_view(results, "", "MATCH")["symbol"].tolist() == [
+        "AAA",
+        "BBB",
+    ]
+    assert filter_result_view(results, "beta", "MATCH")["symbol"].tolist() == [
+        "BBB"
+    ]
+    assert filter_result_view(results, "CCC", "All states")["symbol"].tolist() == [
+        "CCC"
+    ]
+
+
+def test_result_view_handles_missing_company_and_empty_results():
+    results = pd.DataFrame({"symbol": ["AAA"], "state": ["NOT ELIGIBLE"]})
+
+    assert filter_result_view(results, "", "MATCH").empty
+    assert filter_result_view(results.iloc[0:0], "", "All states").empty
 
 
 def test_all_reference_categories_render():
@@ -64,6 +93,21 @@ def test_screener_workspace_exports_current_screen_matches_not_top_25():
         element.label == "Download screen results"
         for element in at.get("download_button")
     )
+
+
+def test_screener_workspace_filters_visible_rows_before_export():
+    at = AppTest.from_file("streamlit_screener_fixture.py").run()
+    at.button(key="screen_gap_screeners").click().run()
+
+    assert at.selectbox(key="screener_result_state").value == "MATCH"
+    assert at.dataframe[0].value["symbol"].tolist() == ["AAA"]
+
+    at.selectbox(key="screener_result_state").select("All states").run()
+    at.text_input(key="screener_result_search").set_value("TOP25").run()
+
+    assert not at.exception
+    assert at.dataframe[0].value["symbol"].tolist() == ["TOP25ONLY"]
+    assert all("TOP25ONLY" not in item.value for item in at.code)
 
 
 def test_threshold_filter_recalculates_from_stored_features():

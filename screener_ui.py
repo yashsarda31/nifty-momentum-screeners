@@ -43,6 +43,13 @@ MENU_ITEMS = (
     "Gap screeners",
     "Inside bar",
 )
+RESULT_STATES = (
+    "MATCH",
+    "All states",
+    "NO MATCH",
+    "NOT ELIGIBLE",
+    "SCAN INCOMPLETE",
+)
 
 
 def _key(label: str) -> str:
@@ -71,6 +78,30 @@ def filter_preset_results(
 ) -> pd.DataFrame:
     """Re-evaluate a preset locally from stored evidence."""
     return evaluate_screener(slug, features, events, thresholds)
+
+
+def filter_result_view(
+    results: pd.DataFrame,
+    query: str,
+    state: str,
+) -> pd.DataFrame:
+    """Filter stored results without recomputing any market-data evidence."""
+    visible = results.copy()
+    if visible.empty:
+        return visible
+    if state != "All states" and "state" in visible:
+        visible = visible.loc[visible["state"].astype(str).eq(state)]
+    needle = query.strip()
+    if needle:
+        symbol = visible.get("symbol", pd.Series("", index=visible.index)).astype(str)
+        company = visible.get(
+            "company_name", pd.Series("", index=visible.index)
+        ).astype(str)
+        mask = symbol.str.contains(
+            needle, case=False, regex=False
+        ) | company.str.contains(needle, case=False, regex=False)
+        visible = visible.loc[mask]
+    return visible.copy()
 
 
 def selected_result_symbol(event: Mapping, frame: pd.DataFrame) -> str | None:
@@ -165,13 +196,34 @@ def _stock_detail(symbol: str, results: pd.DataFrame, bundle: dict) -> None:
     )
 
 
-def _render_results(results: pd.DataFrame, bundle: dict) -> None:
+def _render_results(results: pd.DataFrame, bundle: dict) -> pd.DataFrame:
     if results.empty:
         st.info("No eligible symbols are stored in this scan.")
-        return
+        return results
     _result_metrics(results)
-    display_columns = result_display_columns(results)
-    display = results.loc[:, display_columns].copy()
+    if "state" in results and results["state"].astype(str).eq(
+        "SCAN INCOMPLETE"
+    ).any():
+        st.warning(
+            "Some rows are SCAN INCOMPLETE. Review them before treating missing "
+            "matches as no signal."
+        )
+    filters = st.container(horizontal=True)
+    query = filters.text_input(
+        "Search symbol or company",
+        key="screener_result_search",
+    )
+    state = filters.selectbox(
+        "Result state",
+        RESULT_STATES,
+        key="screener_result_state",
+    )
+    visible = filter_result_view(results, query, state)
+    if visible.empty:
+        st.info("No rows match these filters.")
+        return visible
+    display_columns = result_display_columns(visible)
+    display = visible.loc[:, display_columns].copy()
     event = st.dataframe(
         display,
         key="screener_results",
@@ -194,7 +246,8 @@ def _render_results(results: pd.DataFrame, bundle: dict) -> None:
     )
     symbol = selected_result_symbol(event, display)
     if symbol:
-        _stock_detail(symbol, results, bundle)
+        _stock_detail(symbol, visible, bundle)
+    return visible
 
 
 def _parse_rule_value(value: Any) -> float | str:
@@ -220,7 +273,7 @@ def _render_custom(bundle: dict, store_path: Path) -> pd.DataFrame:
             "Saved screener", list(store), key="saved_custom_screener"
         )
         results = evaluate_custom(store[selected_name], features)
-        _render_results(results, bundle)
+        results = _render_results(results, bundle)
         rename_to = st.text_input("Rename to", key="custom_rename_to")
         action_columns = st.columns(2)
         if action_columns[0].button("Rename", key="rename_custom", width="stretch"):
@@ -295,8 +348,7 @@ def _render_multiple(bundle: dict) -> pd.DataFrame:
     slugs = [options[label] for label in labels]
     all_results = evaluate_all_screeners(bundle["features"], bundle["earnings"])
     results = multiple_scan_matches(all_results, slugs, int(minimum))
-    _render_results(results, bundle)
-    return results
+    return _render_results(results, bundle)
 
 
 def _render_preset(category: str, bundle: dict) -> pd.DataFrame:
@@ -309,8 +361,7 @@ def _render_preset(category: str, bundle: dict) -> pd.DataFrame:
     results = filter_preset_results(
         slug, bundle["features"], bundle["earnings"], thresholds
     )
-    _render_results(results, bundle)
-    return results
+    return _render_results(results, bundle)
 
 
 def render_screeners(
@@ -318,7 +369,13 @@ def render_screeners(
 ) -> None:
     """Render the separate screener workspace using only stored scan artifacts."""
     if not bundle.get("screeners_available", False):
-        st.info("Screeners require a new expanded scan. Existing results remain readable.")
+        reason = bundle.get(
+            "screeners_unavailable_reason", "Run a new expanded scan."
+        )
+        st.info(
+            "Screeners require a new expanded scan. "
+            f"Existing results remain readable. {reason}"
+        )
         return
     st.caption(
         "Completed daily bars only. Missing history is shown as NOT ELIGIBLE; "
