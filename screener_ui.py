@@ -50,6 +50,7 @@ RESULT_STATES = (
     "NOT ELIGIBLE",
     "SCAN INCOMPLETE",
 )
+MULTIPLE_RESULTS_KEY = "multiple_scan_results"
 
 
 def _key(label: str) -> str:
@@ -339,15 +340,20 @@ def _render_multiple(bundle: dict) -> pd.DataFrame:
             "Minimum matches", min_value=1, value=2, step=1, key="minimum_matches"
         )
         submitted = st.form_submit_button("Run multiple scans", width="stretch")
-    if not submitted:
-        st.caption("Choose two or more presets and the minimum number of matches.")
-        return pd.DataFrame()
-    if not labels:
-        st.warning("Select at least one preset.")
-        return pd.DataFrame()
-    slugs = [options[label] for label in labels]
-    all_results = evaluate_all_screeners(bundle["features"], bundle["earnings"])
-    results = multiple_scan_matches(all_results, slugs, int(minimum))
+    if submitted:
+        if not labels:
+            st.session_state.pop(MULTIPLE_RESULTS_KEY, None)
+            st.warning("Select at least one preset.")
+            return pd.DataFrame()
+        slugs = [options[label] for label in labels]
+        all_results = evaluate_all_screeners(bundle["features"], bundle["earnings"])
+        results = multiple_scan_matches(all_results, slugs, int(minimum))
+        st.session_state[MULTIPLE_RESULTS_KEY] = results
+    else:
+        results = st.session_state.get(MULTIPLE_RESULTS_KEY)
+        if not isinstance(results, pd.DataFrame):
+            st.caption("Choose one or more presets and the minimum number of matches.")
+            return pd.DataFrame()
     return _render_results(results, bundle)
 
 

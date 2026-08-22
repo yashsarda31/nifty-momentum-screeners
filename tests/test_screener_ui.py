@@ -110,6 +110,23 @@ def test_screener_workspace_filters_visible_rows_before_export():
     assert all("TOP25ONLY" not in item.value for item in at.code)
 
 
+def test_multiple_scan_results_survive_filter_widget_reruns():
+    at = AppTest.from_file("streamlit_screener_fixture.py").run()
+    at.button(key="screen_multiple_scans").click().run()
+    at.multiselect(key="multiple_presets").set_value(["Gap up"]).run()
+    at.number_input(key="minimum_matches").set_value(1).run()
+    next(
+        button for button in at.button if button.label == "Run multiple scans"
+    ).click().run()
+
+    assert at.selectbox(key="screener_result_state").value == "MATCH"
+    at.text_input(key="screener_result_search").set_value("AAA").run()
+
+    assert not at.exception
+    assert at.selectbox(key="screener_result_state").value == "MATCH"
+    assert at.dataframe[0].value["symbol"].tolist() == ["AAA"]
+
+
 def test_threshold_filter_recalculates_from_stored_features():
     features = pd.DataFrame(
         {
