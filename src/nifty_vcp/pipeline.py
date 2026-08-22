@@ -45,6 +45,30 @@ class PipelineDependencies:
     publisher: Callable
 
 
+class PipelineStageError(RuntimeError):
+    """Wrap a pipeline dependency failure with its user-facing stage."""
+
+    def __init__(self, stage: str, cause: Exception) -> None:
+        super().__init__(str(cause))
+        self.stage = stage
+        self.cause = cause
+
+
+class PipelinePublishError(RuntimeError):
+    """Preserve publication failures without relabeling the scan outcome."""
+
+    def __init__(self, cause: Exception) -> None:
+        super().__init__(str(cause))
+        self.cause = cause
+
+
+def _run_stage(stage: str, operation: Callable, *args):
+    try:
+        return operation(*args)
+    except Exception as exc:
+        raise PipelineStageError(stage, exc) from exc
+
+
 def default_dependencies() -> PipelineDependencies:
     return PipelineDependencies(
         universe_loader=lambda timeout: fetch_universe(timeout=timeout),
@@ -106,7 +130,12 @@ def _exclusion_frame(
     return pd.DataFrame(rows, columns=["symbol", "stage", "reason"])
 
 
-def _fatal_manifest(started: datetime, finished: datetime, exc: Exception) -> dict:
+def _fatal_manifest(
+    started: datetime,
+    finished: datetime,
+    exc: Exception,
+    stage: str,
+) -> dict:
     return {
         "schema_version": 2,
         "started_at": started.isoformat(),
@@ -124,46 +153,34 @@ def _fatal_manifest(started: datetime, finished: datetime, exc: Exception) -> di
         "valid_quote_count": 0,
         "quote_coverage": 0.0,
         "breakout_count": 0,
+        "failure_stage": stage,
         "fatal_error": str(exc),
     }
 
 
-def run_scan(
-    config: ScanConfig | None = None,
-    dependencies: PipelineDependencies | None = None,
-    now: datetime | None = None,
+def _run_scan(
+    config: ScanConfig,
+    dependencies: PipelineDependencies,
+    started: datetime,
     output_root: str | Path = "outputs",
 ) -> ScanSummary:
-    config = config or ScanConfig()
-    dependencies = dependencies or default_dependencies()
-    started = now or datetime.now(tz=INDIA_TZ)
-    if started.tzinfo is None:
-        started = started.replace(tzinfo=INDIA_TZ)
-    try:
-        universe = dependencies.universe_loader(config.request_timeout)
-    except Exception as exc:  # noqa: BLE001 - publish provider diagnostic
-        finished = datetime.now(tz=INDIA_TZ)
-        manifest = _fatal_manifest(started, finished, exc)
-        output_path = dependencies.publisher(output_root, _empty_artifacts(), manifest)
-        return ScanSummary(
-            RunStatus.INCOMPLETE,
-            RunStatus.INCOMPLETE.value,
-            0,
-            0,
-            0,
-            0,
-            0,
-            started,
-            finished,
-            output_path,
-        )
+    universe = _run_stage(
+        "universe", dependencies.universe_loader, config.request_timeout
+    )
 
     if config.max_symbols is not None:
         universe = universe.head(config.max_symbols).copy()
     source_universe_count = len(universe)
-    histories, history_exclusions = dependencies.daily_loader(universe, started, config)
-    selected_universe = dependencies.universe_selector(
-        universe, histories, started, config
+    histories, history_exclusions = _run_stage(
+        "daily history", dependencies.daily_loader, universe, started, config
+    )
+    selected_universe = _run_stage(
+        "universe selection",
+        dependencies.universe_selector,
+        universe,
+        histories,
+        started,
+        config,
     )
     selected_symbols = list(selected_universe["symbol"])
     selected_histories = {
@@ -179,20 +196,35 @@ def run_scan(
     momentum_universe = selected_universe[
         selected_universe["symbol"].isin(momentum_histories)
     ]
-    rankings = dependencies.ranker(momentum_histories, momentum_universe, config)
+    rankings = _run_stage(
+        "relative-strength ranking",
+        dependencies.ranker,
+        momentum_histories,
+        momentum_universe,
+        config,
+    )
     vcp_histories = {
         symbol: frame for symbol, frame in momentum_histories.items() if len(frame) >= 273
     }
     vcp_rankings = rankings[rankings["symbol"].isin(vcp_histories)].copy()
-    setups = dependencies.scorer(vcp_histories, vcp_rankings, config)
+    setups = _run_stage(
+        "VCP scoring", dependencies.scorer, vcp_histories, vcp_rankings, config
+    )
 
     high_rs_symbols = list(setups["symbol"]) if "symbol" in setups else []
     quote_universe = selected_universe[
         selected_universe["symbol"].isin(high_rs_symbols)
     ].copy()
-    quotes, quote_exclusions = dependencies.quote_loader(quote_universe, started, config)
-    classified = dependencies.classifier(
-        setups, selected_histories, quotes, config.pivot_sessions
+    quotes, quote_exclusions = _run_stage(
+        "latest quotes", dependencies.quote_loader, quote_universe, started, config
+    )
+    classified = _run_stage(
+        "breakout classification",
+        dependencies.classifier,
+        setups,
+        selected_histories,
+        quotes,
+        config.pivot_sessions,
     )
     if "is_breakout" in classified:
         breakouts = classified[classified["is_breakout"]].copy()
@@ -205,11 +237,17 @@ def run_scan(
     except Exception:  # noqa: BLE001 - affects only benchmark-dependent screener
         benchmark = pd.DataFrame(columns=["Close"])
         benchmark_status = RunStatus.INCOMPLETE.value
-    events, earnings_status = dependencies.earnings_loader(
-        set(selected_symbols), started, config.request_timeout
+    events, earnings_status = _run_stage(
+        "earnings events",
+        dependencies.earnings_loader,
+        set(selected_symbols),
+        started,
+        config.request_timeout,
     )
     events.attrs["status"] = earnings_status
-    features = dependencies.feature_builder(
+    features = _run_stage(
+        "feature matrix",
+        dependencies.feature_builder,
         selected_histories,
         selected_universe,
         benchmark,
@@ -220,7 +258,9 @@ def run_scan(
     features["benchmark_status"] = benchmark_status
     if benchmark_status != "COMPLETE" and "rs_line_eligibility" in features:
         features["rs_line_eligibility"] = RunStatus.INCOMPLETE.value
-    matches = dependencies.screener_runner(features, events)
+    matches = _run_stage(
+        "screener evaluation", dependencies.screener_runner, features, events
+    )
 
     valid_history_count = len(histories)
     historical_coverage = (
@@ -292,7 +332,10 @@ def run_scan(
         "screener_matches.csv": matches,
         "earnings_events.csv": events,
     }
-    output_path = dependencies.publisher(output_root, artifacts, manifest)
+    try:
+        output_path = dependencies.publisher(output_root, artifacts, manifest)
+    except Exception as exc:
+        raise PipelinePublishError(exc) from exc
     return ScanSummary(
         status,
         outcome,
@@ -301,6 +344,53 @@ def run_scan(
         high_rs_count,
         valid_quote_count,
         breakout_count,
+        started,
+        finished,
+        output_path,
+    )
+
+
+def run_scan(
+    config: ScanConfig | None = None,
+    dependencies: PipelineDependencies | None = None,
+    now: datetime | None = None,
+    output_root: str | Path = "outputs",
+) -> ScanSummary:
+    """Run the scanner and publish explicit diagnostics for stage failures."""
+    resolved_config = config or ScanConfig()
+    resolved_dependencies = dependencies or default_dependencies()
+    started = now or datetime.now(tz=INDIA_TZ)
+    if started.tzinfo is None:
+        started = started.replace(tzinfo=INDIA_TZ)
+    try:
+        return _run_scan(
+            resolved_config,
+            resolved_dependencies,
+            started,
+            output_root,
+        )
+    except PipelinePublishError as exc:
+        raise exc.cause from exc
+    except PipelineStageError as exc:
+        stage = exc.stage
+        cause = exc.cause
+    except Exception as exc:  # noqa: BLE001 - publish an honest incomplete run
+        stage = "pipeline processing"
+        cause = exc
+
+    finished = datetime.now(tz=INDIA_TZ)
+    manifest = _fatal_manifest(started, finished, cause, stage)
+    output_path = resolved_dependencies.publisher(
+        output_root, _empty_artifacts(), manifest
+    )
+    return ScanSummary(
+        RunStatus.INCOMPLETE,
+        RunStatus.INCOMPLETE.value,
+        0,
+        0,
+        0,
+        0,
+        0,
         started,
         finished,
         output_path,

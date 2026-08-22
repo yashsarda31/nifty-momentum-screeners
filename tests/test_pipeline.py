@@ -1,8 +1,10 @@
+from dataclasses import replace
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import pandas as pd
+import pytest
 
 from nifty_vcp.models import QuoteRecord, QuoteStatus, RunStatus, ScanConfig
 from nifty_vcp.pipeline import PipelineDependencies, run_scan
@@ -186,3 +188,31 @@ def test_schema_two_bundle_contains_expanded_screener_artifacts(tmp_path):
     assert set(published["artifacts"]["chart_history.csv.gz"]["symbol"]) == {
         f"S{index}" for index in range(10)
     }
+
+
+def test_daily_history_failure_publishes_incomplete_stage_diagnostic(tmp_path):
+    dependencies, published = make_dependencies()
+
+    def fail_daily(*_args):
+        raise RuntimeError("Yahoo daily unavailable")
+
+    dependencies = replace(dependencies, daily_loader=fail_daily)
+
+    summary = run_scan(ScanConfig(), dependencies, output_root=tmp_path)
+
+    assert summary.status == RunStatus.INCOMPLETE
+    assert summary.outcome == "SCAN INCOMPLETE"
+    assert published["manifest"]["failure_stage"] == "daily history"
+    assert published["manifest"]["fatal_error"] == "Yahoo daily unavailable"
+
+
+def test_publisher_failure_is_not_hidden(tmp_path):
+    dependencies, _ = make_dependencies()
+
+    def fail_publish(*_args):
+        raise OSError("disk full")
+
+    dependencies = replace(dependencies, publisher=fail_publish)
+
+    with pytest.raises(OSError, match="disk full"):
+        run_scan(ScanConfig(), dependencies, output_root=tmp_path)
