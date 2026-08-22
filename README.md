@@ -52,6 +52,15 @@ quotes are not cached across sessions and are not written into the timestamped
 scan bundle. Tables show the quote timestamp and `LIVE`, `DELAYED`,
 `LAST AVAILABLE`, or `UNAVAILABLE` status beside the completed daily close.
 
+The dashboard labels the age of the persisted daily scan and warns prominently
+when it is more than one calendar day old. Newer Yahoo prices do not make stored
+daily screener signals current.
+
+Use **Refresh Yahoo prices** to discard only the current browser session's quote
+snapshot and fetch it again. This does not run the full scanner or write prices to
+disk. Provider or pipeline failures are shown as **SCAN INCOMPLETE**, never as a
+zero-signal result.
+
 The separate **Screeners** tab includes:
 
 - Horizontal resistance; NR7, three tight closes, and ATR contraction.

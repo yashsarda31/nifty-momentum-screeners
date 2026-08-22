@@ -1,5 +1,7 @@
 import json
+import tomllib
 from datetime import datetime
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import pandas as pd
@@ -43,6 +45,17 @@ def test_scan_freshness_marks_older_calendar_date_stale():
     assert freshness.age_days == 2
     assert freshness.is_stale is True
     assert freshness.label == "2 days old"
+
+
+def test_native_dark_theme_keeps_dashboard_and_sidebar_text_readable():
+    config = tomllib.loads(
+        Path(".streamlit/config.toml").read_text(encoding="utf-8")
+    )
+
+    assert config["theme"]["base"] == "dark"
+    assert config["theme"]["textColor"] == "#F7F9FF"
+    assert config["theme"]["backgroundColor"] == "#070914"
+    assert config["theme"]["sidebar"]["textColor"] == "#F7F9FF"
 
 
 def test_scan_freshness_labels_same_day_current():
