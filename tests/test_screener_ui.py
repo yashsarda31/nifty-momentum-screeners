@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 from streamlit.testing.v1 import AppTest
 
@@ -38,7 +40,9 @@ def test_result_view_handles_missing_company_and_empty_results():
 
 
 def test_all_reference_categories_render():
-    at = AppTest.from_file("streamlit_screener_fixture.py").run()
+    at = AppTest.from_file(
+        Path(__file__).parent / "streamlit_screener_fixture.py"
+    ).run()
     assert not at.exception
     labels = {button.label for button in at.button}
     assert {
@@ -59,7 +63,9 @@ def test_all_reference_categories_render():
 
 
 def test_gap_category_threshold_controls_are_interactive():
-    at = AppTest.from_file("streamlit_screener_fixture.py").run()
+    at = AppTest.from_file(
+        Path(__file__).parent / "streamlit_screener_fixture.py"
+    ).run()
     at.button(key="screen_gap_screeners").click().run()
     assert not at.exception
     assert any(heading.value == "Gap screeners" for heading in at.header)
@@ -68,7 +74,9 @@ def test_gap_category_threshold_controls_are_interactive():
 
 
 def test_rendered_screener_table_shows_startup_quote_fields():
-    at = AppTest.from_file("streamlit_screener_fixture.py").run()
+    at = AppTest.from_file(
+        Path(__file__).parent / "streamlit_screener_fixture.py"
+    ).run()
     at.button(key="screen_gap_screeners").click().run()
 
     assert not at.exception
@@ -79,7 +87,9 @@ def test_rendered_screener_table_shows_startup_quote_fields():
 
 
 def test_screener_workspace_exports_current_screen_matches_not_top_25():
-    at = AppTest.from_file("streamlit_screener_fixture.py").run()
+    at = AppTest.from_file(
+        Path(__file__).parent / "streamlit_screener_fixture.py"
+    ).run()
     at.button(key="screen_gap_screeners").click().run()
 
     assert not at.exception
@@ -96,7 +106,9 @@ def test_screener_workspace_exports_current_screen_matches_not_top_25():
 
 
 def test_screener_workspace_filters_visible_rows_before_export():
-    at = AppTest.from_file("streamlit_screener_fixture.py").run()
+    at = AppTest.from_file(
+        Path(__file__).parent / "streamlit_screener_fixture.py"
+    ).run()
     at.button(key="screen_gap_screeners").click().run()
 
     assert at.selectbox(key="screener_result_state").value == "MATCH"
@@ -111,7 +123,9 @@ def test_screener_workspace_filters_visible_rows_before_export():
 
 
 def test_multiple_scan_results_survive_filter_widget_reruns():
-    at = AppTest.from_file("streamlit_screener_fixture.py").run()
+    at = AppTest.from_file(
+        Path(__file__).parent / "streamlit_screener_fixture.py"
+    ).run()
     at.button(key="screen_multiple_scans").click().run()
     at.multiselect(key="multiple_presets").set_value(["Gap up"]).run()
     at.number_input(key="minimum_matches").set_value(1).run()

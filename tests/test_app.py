@@ -262,7 +262,7 @@ app.OUTPUT_ROOT = Path(r"{tmp_path}")
 app.main()
 """
 
-    at = AppTest.from_string(script).run()
+    at = AppTest.from_string(script).run(timeout=30)
 
     assert not at.exception
     assert any("latest stored scan cannot be read" in error.value for error in at.error)
@@ -287,7 +287,7 @@ app.OUTPUT_ROOT = Path(r"{tmp_path}")
 app.main()
 """
 
-    at = AppTest.from_string(script).run()
+    at = AppTest.from_string(script).run(timeout=30)
 
     assert not at.exception
     assert any("Stored daily scan results are stale" in item.value for item in at.warning)

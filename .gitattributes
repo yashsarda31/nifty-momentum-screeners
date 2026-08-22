@@ -1,0 +1,9 @@
+# Force LF line endings in the repo so working trees on Windows and CI stay
+# byte-identical. Prevents an entire-tree "modified" false positive caused by
+# CRLF conversion (git diff -w shows zero content changes).
+* text=auto eol=lf
+*.py text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.css text eol=lf
+*.csv text eol=lf
